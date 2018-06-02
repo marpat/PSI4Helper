@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Values from the last PSI4 input file.</comment>
+<entry key="cores">6</entry>
+<entry key="inp_dir">F:\Computation\PSI4</entry>
+<entry key="psi_multi">1</entry>
+<entry key="memory">8</entry>
+<entry key="Shell#">#!/bin/bash</entry>
+<entry key="Molden2Aim">'/home/mp/Computation/Multiwfn_3.5_bin_Linux'</entry>
+<entry key="file_name">water</entry>
+<entry key="Multiwfn">'/home/mp/Computation/Multiwfn_3.5_bin_Linux'</entry>
+<entry key="psi_charge">0</entry>
+</properties>
