@@ -58,11 +58,13 @@ public class Outputs extends FXMLDocumentController {
         String outputsall = "";
         String xyzout = "";
         String savexyz;
-        String cubes="";
+        String cubes = "";
         String cubeorb;
         String psiprop = "";
-        String psiloc="";
+        String psiloc = "";
         String moloc;
+        String movecube;
+        String cubemove;
 
         // Copy vmd_cube.py file into ./cubes directory
 //        String pat="";
@@ -78,23 +80,37 @@ public class Outputs extends FXMLDocumentController {
 //        //log(source1);
 //        //log(dest1);
 //        copyFile(source1, dest1);
-
         //log("CubeProp:" + CubeProp);
         //log("num_cube:" + num_cube);
+        cubemove = "import os\n"
+                + "import shutil\n\n"
+                + "now = '" + inp_dir +"/'\n"
+                + "moveto = '" + inp_dir + "/cubes/'\n"
+                + "files = []\n"
+                + "for filename in os.listdir():\n"
+                + "    if filename.endswith('.cube'):\n"
+                + "        files.append(filename)\n"
+                + "for f in files:\n"
+                + "    src = now+f\n"
+                + "    dst = moveto+f\n"
+                + "    shutil.move(src,dst)\n"
+                +"print('Moved {} files.'.format(len(files)))";
         
         if (num_cube.length() < 1) {
-                cubeorb = "";
-            } else {
-                cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
-                //copyFile(source1, dest1);
-            }
+            cubeorb = "";
+        } else {
+            cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
+            //copyFile(source1, dest1);
+        }
         if (CubeProp.length() > 0) {
-        cubes = "set cubeprop_tasks [" + CubeProp + "]\n"
+            cubes = "set cubeprop_tasks [" + CubeProp + "]\n"
                     + cubeorb + "\n"
                     //+ "cubeprop_filepath ('./cubes')\n"
                     + "cubeprop(wfn)\n";
+            movecube = cubemove;
         } else {
             cubes = "";
+            movecube = "";
         }
         //log("cubes:"+ cubes);
 
@@ -104,48 +120,49 @@ public class Outputs extends FXMLDocumentController {
                 + "\n"
                 + "print('\\nOptimized geometry was saved in file .xyz')\n"
                 + molname + ".save_xyz_file('" + molname + ".xyz', True)";
-        
-        moloc = "basis_ = wfn.basisset()\n" 
-                +"C_occ = wfn.Ca_subset(\"AO\", \"OCC\") # canonical C_occ coefficients\n"
-                +"LocalP = core.Localizer.build(\"PIPEK_MEZEY\", basis_, C_occ) # Pipek-Mezey Localization\n" 
-                +"LocalB = core.Localizer.build(\"BOYS\", basis_, C_occ) # Boys Localization\n" 
-                +"LocalP.localize()\n"
-                +"LocalB.localize()\n\n"
-                +"P_M_C_occ = LocalP.L # local P_M C_occ coefficients\n"
-                +"B_C_occ = LocalB.L # local Boys C_occ coefficients\n\n"
-                +"print_out(\"1st canonical C_occ.\n"
-                +"wfn.Ca().print_out()\n\n"
-                +"print_out(\"\nPipek-Mezey Localized C_occ.\n"
-                +"P_M_C_occ.print_out()"
-                +"print(\"\nBoys Localized C_occ.\n"
-                +"B_C_occ.print_out()";
-                
+
+        moloc = "basis_ = wfn.basisset()\n"
+                + "C_occ = wfn.Ca_subset(\"AO\", \"OCC\") # canonical C_occ coefficients\n"
+                + "LocalP = core.Localizer.build(\"PIPEK_MEZEY\", basis_, C_occ) # Pipek-Mezey Localization\n"
+                + "LocalB = core.Localizer.build(\"BOYS\", basis_, C_occ) # Boys Localization\n"
+                + "LocalP.localize()\n"
+                + "LocalB.localize()\n\n"
+                + "P_M_C_occ = LocalP.L # local P_M C_occ coefficients\n"
+                + "B_C_occ = LocalB.L # local Boys C_occ coefficients\n\n"
+                + "print_out(\"1st canonical C_occ.\n"
+                + "wfn.Ca().print_out()\n\n"
+                + "print_out(\"\nPipek-Mezey Localized C_occ.\n"
+                + "P_M_C_occ.print_out()"
+                + "print(\"\nBoys Localized C_occ.\n"
+                + "B_C_occ.print_out()";
+
         if (psi_xyz.contains("YES")) {
             xyzout = savexyz;
         } else {
             xyzout = "print_out('Final geometry:')\n"
-                    + "print_out(" + molname + ".save_string_xyz()\")";
+                    + "print_out(\"" + molname + ".save_string_xyz()\")";
         }
-      
+
         if (psi_prop.length() > 0) {
             psiprop = "oeprop(wfn, " + psi_prop + ")";
         } else {
             psiprop = "";
         }
-        
+
         if (psi_local.length() > 0) {
             psiloc = moloc;
         } else {
             psiloc = "";
         }
-        
+
         outputsall = psi_moldenout + "\n"
                 + psi_fchkout + "\n"
                 + psi_gdma + "\n"
                 + cubes + "\n"
-                + psiprop+ "\n"
+                + psiprop + "\n"
                 + psiloc + "\n"
-                + xyzout + "\n";
+                + xyzout + "\n\n"
+                + movecube+"\n";
 
         outputsall = outputsall.replaceAll("(?m)^(null)?,", "");
         outputsall = outputsall.replaceAll("(?m)^[ \t]*\r?r?\n\n", "");

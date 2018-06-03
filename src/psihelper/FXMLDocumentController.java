@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-/*
+ /*
  * FXMLDocumentController.java, part of the PsiHelper project
  * http://chemgplus.blogspot.com/
  */
@@ -229,6 +229,7 @@ public class FXMLDocumentController implements Initializable {
     String psi_point;
     String psi_local;
     String psi_call;
+    String psi_sapt;
     String opt_type = "";
     String psi_print;
     String set_alone = "";
@@ -314,7 +315,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (Exception e) {
             is = null;
         }
-        
+
         try {
             if (is == null) {
                 // Try loading from classpath
@@ -334,7 +335,7 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = props.getProperty("Multiwfn");
         m2aim_path = props.getProperty("Molden2Aim");
         ushell = props.getProperty("Shell#");
-        
+
         InpDir.setText(inp_dir);
         Filename.setText(file_name);
         Memory.setText(memory);
@@ -345,7 +346,7 @@ public class FXMLDocumentController implements Initializable {
         PM2aim.setText(mwfn_path);
         ShShell.setText(ushell);
     }
-    
+
     public void saveParamChangesAsXML() {
         try {
             Properties props = new Properties();
@@ -358,7 +359,7 @@ public class FXMLDocumentController implements Initializable {
             props.setProperty("Multiwfn", "" + PMwfn.getText());
             props.setProperty("Molden2Aim", "" + PM2aim.getText());
             props.setProperty("Shell#", "" + ShShell.getText());
-            
+
             File f = new File("psi_def.xml");
             OutputStream out = new FileOutputStream(f);
             props.storeToXML(out, "Values from the last PSI4 input file.");
@@ -397,14 +398,14 @@ public class FXMLDocumentController implements Initializable {
                 PsiOpt.setSelected(false);
             }
         });
-        
+
         PsiOpt.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
             if (isNowSelected) {
                 PsiSp.setSelected(false);
             }
         });
     }
-    
+
     @FXML // Load Directory
     private void setOnAction(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -419,21 +420,21 @@ public class FXMLDocumentController implements Initializable {
             inp_dir = inp_dir.replace("\\", "/"); //reverse backslashes for Jmol
         }
     }
-    
+
     @FXML // Load example geometries
     private void PsiExamplesAction(ActionEvent event) {
         String molecule = PsiExamples.getValue();
         String[] molgeom = Examples.ExamplesCoord(molecule);
-        
+
         PsiGeom.setText(molgeom[0]);
-        
+
         if (PsiExamples.getValue().length() != 0) {
             //Filename.setText(molecule);
             PsiDescription.setText(molgeom[1]);
             MolName.setText(molgeom[2]);
         }
     }
-    
+
     @FXML //Add more Options
     private void AddOptionsAction(ActionEvent event) {
         // Adding more options into Set directive
@@ -495,7 +496,7 @@ public class FXMLDocumentController implements Initializable {
                 break;
         }
     }
-    
+
     @FXML
     private void SaveLayoutAction(ActionEvent event) {
         file_name = Filename.getText();
@@ -858,25 +859,25 @@ public class FXMLDocumentController implements Initializable {
         } else {
             psi_charge = PsiCharge.getText();
         }
-        
+
         if (PsiMulti.getText().length() == 0) {
             psi_multi = "1";
         } else {
             psi_multi = PsiMulti.getText();
         }
-        
+
         if (Memory.getText().length() == 0) {
             memory = "2";
         } else {
             memory = Memory.getText();
         }
-        
+
         if (Cores.getText().length() == 0) {
             cores = "2";
         } else {
             cores = Cores.getText();
         }
-        
+
         if (PsiDescription.getText().length() == 0) {
             psi_molcomment = "";
         } else {
@@ -901,6 +902,13 @@ public class FXMLDocumentController implements Initializable {
         } else {
             psi_pyapi = "NO";
         }
+        if (PsiTs.isSelected()) {
+            opt_type = "'opt_type' : 'ts'";
+            psi_call = "optimize";
+        } else {
+            opt_type = "";
+            psi_call = "";
+        }
         if (PsiSp.isSelected()) {
             psi_call = "energy";
         }
@@ -910,18 +918,21 @@ public class FXMLDocumentController implements Initializable {
         if (PsiFreq.isSelected()) {
             psi_call = "frequencies";
         }
-        if (PsiTs.isSelected()) {
-            opt_type = "'opt_type' : 'ts'";
-            psi_call = "optimize";
-        }
         if (PsiIrc.isSelected()) {
             opt_type = "'opt_type' : 'irc'";
             set_alone = "set g_convergence gau_verytight";
             //set_main = "irc_direction              backward";
             psi_call = "optimize";
-        }
-        if (!"IRC".equals(opt_type)) {
+        } else {
             set_alone = "";
+        }
+//        if (!"IRC".equals(opt_type)) {
+//            set_alone = "";
+//        }
+        if (PsiSapt.isSelected()) {
+            psi_sapt = "YES";
+        } else {
+            psi_sapt = null;
         }
         if (PsiNocom.isSelected()) {
             ingeo1 = "\nno_com\n";
@@ -1009,7 +1020,7 @@ public class FXMLDocumentController implements Initializable {
                 String[] array = MolName.getText().split(": ");
                 molname = array[1];
                 MolName.setText(molname);
-                
+
             }
             molname = MolName.getText();
         }
@@ -1020,7 +1031,7 @@ public class FXMLDocumentController implements Initializable {
 // <editor-fold defaultstate="collapsed" desc="PsiCubeRange [psi_cuberange] ">
         String cuberange = PsiCubeRange.getText();
         String num_cube = null;
-        
+
         if (cuberange.contains("ALL")) {
             num_cube = "";
         } else {
@@ -1062,7 +1073,7 @@ public class FXMLDocumentController implements Initializable {
             for (int m = 0; m < results.size(); m++) {
                 cuberange_arrA.remove(results.get(m));
             }
-            
+
             String[] num_cube_arr = cuberange_arrA.toArray(new String[cubeCount]); // List to array for later use
             int actCount = num_cube_arr.length;
             // Pass to output
@@ -1101,14 +1112,16 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
-        String ToOutArea = " Input file " + file_name + suff + ".inp was created.";
+
+// <editor-fold defaultstate="collapsed" desc="To AreaOut">
+        String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
-        
+
         if (FileExists.Confirm(inp_dir,
                 file_name,
                 suff, file_ext)
                 == false) {
-            AreaOut.setStyle("-fx-text-fill: #339933;-fx-font-weight:bold");
+            AreaOut.setStyle("-fx-text-fill: #339933;-fx-font-weight:normal");
             AreaOut.setText(ToOutArea);
         } else {
             AreaOut.setText("");
@@ -1118,13 +1131,13 @@ public class FXMLDocumentController implements Initializable {
         if (FileExists.DirExists(inp_dir
                 + File.separator + "cubes") == false) {
             new File(inp_dir + File.separator + "cubes").mkdirs();
-            AreaOut.setText("\n   Directory ./cubes was created.");
+            AreaOut.appendText("\nDirectory ./cubes was created.");
         }
 
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1136,58 +1149,62 @@ public class FXMLDocumentController implements Initializable {
 // <editor-fold defaultstate="collapsed" desc="Errors">
         if (PsiGeom.getText()
                 .length() < 1 && PubChem.getText().length() < 1) {
-//            String message = "Molecular coordinates or PubChem ID are missing.\nEnter either one of them.\n";
-//            String title = "Invalid Entry";
-//            NotificationPane.showMessageDialog(this, message, title, NotificationPane.ERROR_MESSAGE);
-//            PsiGeom.requestFocusInWindow();
-//            return;
-            //new Alert(Alert.AlertType.WARNING, "Molecular coordinates or PubChem ID are missing.\nEnter either one of them.\n").showAndWait();
             new Alert(Alert.AlertType.WARNING, "Molecular coordinates or PubChem ID are missing.\nEnter either one of them.\n", ButtonType.OK).showAndWait().filter(response -> response == ButtonType.OK);
             return;
         }
-        
+
         if (PsiCubeOrb.isSelected()
                 && !PsiCubeRange.getText().contains("ALL") && PsiCubeRange.getText().length() < 1) {
-//            String message = "Enter orbital number to diplay.\nUse the 'CubeOrbitals' box.\n";
-//            String title = "Warning";
-//            JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
-//            PsiGeom.requestFocusInWindow();
-//            return;
             new Alert(Alert.AlertType.ERROR, "Enter orbital number to diplay.\nUse the 'CubeOrbitals' box.\n").showAndWait();
             return;
         }
-        
+
         if (psi_solvent.length()
                 > 1 && psi_point.length() < 1) {
-//            String message = "Choose point group symmetry. C1 was set by default.\n";
-//            String title = "Warning";
-//            JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
-//            PsiGeom.requestFocusInWindow();
-//            return;
             new Alert(Alert.AlertType.ERROR, "Choose point group symmetry. C1 was set by default.\n").showAndWait();
+        }
+        if ("YES".equals(psi_sapt) && !PsiGeom.getText().contains("--")) {
+            new Alert(Alert.AlertType.ERROR, "There must be two molecules defined separated by '--'.\n").showAndWait();
+            return;
+        }
+        if (!"YES".equals(psi_sapt) && PsiGeom.getText().contains("--") && !psi_method.contains("SAPT")) {
+            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
+            return;
+        }
+        if ("YES".equals(psi_sapt) && PsiGeom.getText().contains("--") && !psi_method.contains("SAPT")) {
+            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
+            return;
         }
 // </editor-fold>      
 
 // Confirmation message
 // <editor-fold defaultstate="collapsed" desc="confirmation">       
+        String message;
         if (psi_conf
                 == true) {
-            String message = "PSI4 input file " + file_name + suff + ".inp was created in directory: " + inp_dir;
+            message = "\nPSI4 input file " + file_name + suff + ".inp was created in directory: \n" + inp_dir;
             new Alert(Alert.AlertType.INFORMATION, message).showAndWait();
             //PsiGeom.;
         } else {
-            String message = "PSI4 input file was NOT created. Check directory: " + inp_dir;
+            message = "PSI4 input file was NOT created. Check directory: \n" + inp_dir;
             new Alert(Alert.AlertType.ERROR, message).showAndWait();
             //PsiGeom.requestFocusInWindow();
         }
-        
+        // Create directory 'cubes'
+//        if (FileExists.DirExists(inp_dir + File.separator + "cubes") == false) {
+//            new File(inp_dir + File.separator + "cubes").mkdirs();
+//            String messagecube = "Directory ./cubes was created.\n";
+//            AreaOut.appendText(messagecube);
+//            new Alert(Alert.AlertType.INFORMATION, messagecube).showAndWait();
+//        }
+
     }
 //</editor-fold>
 
     @FXML
     private void ClearAction(ActionEvent event) {
         boolean state = false;
-        
+
         PsiGeom.setText("");
         PubChem.setText("");
         MolName.setText("");
@@ -1198,14 +1215,14 @@ public class FXMLDocumentController implements Initializable {
 //        psi_geom = "";
 //        molname = "";
     }
-    
+
     @FXML
     private void ExitAction(ActionEvent event) throws Exception {
         System.exit(0); //Kills Runtime
         setVisible(false);
         dispose();
     }
-    
+
     @FXML // Load file to process
     private void openOnAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -1219,7 +1236,7 @@ public class FXMLDocumentController implements Initializable {
             inp_file = inp_file.replace("\\", "/");
         }
     }
-    
+
     @FXML
     private void linkMouseClicked(ActionEvent event) {
         if (event.getSource() == link) {
@@ -1234,7 +1251,7 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 //do nothing
             }
-            
+
         }
     }
 
@@ -1242,5 +1259,5 @@ public class FXMLDocumentController implements Initializable {
     public static void log(Object aObject) {
         System.out.println(String.valueOf(aObject));
     }
-    
+
 }

@@ -88,6 +88,7 @@ public class Psi extends FXMLDocumentController {
      * @param mwfn_path
      * @param write47
      * @param writewfx
+     * @param psi_sapt
      * @return
      * @throws java.io.IOException
      */
@@ -136,7 +137,8 @@ public class Psi extends FXMLDocumentController {
             String psi_local,
             String mwfn_path,
             String write47,
-            String writewfx) throws IOException // </editor-fold>
+            String writewfx,
+            String psi_sapt) throws IOException // </editor-fold>
     {
 
 // <editor-fold defaultstate="collapsed" desc="Variables">
@@ -200,11 +202,11 @@ public class Psi extends FXMLDocumentController {
                 + proc
                 + "import numpy as np" + "\n"
                 + "\n";
-        geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, ingeo1, ingeo2, psi_point, psi_solvent);
+        geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, ingeo1, ingeo2, psi_point, psi_solvent, psi_sapt);
 
         // Options section. Create an object first.
         Options geo_main = new Options();
-        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent);
+        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,psi_sapt);
 
         Results calls = new Results();
         run = calls.results(psi_call, psi_method, psi_funct, psi_geom);

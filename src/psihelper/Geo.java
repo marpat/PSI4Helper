@@ -44,6 +44,7 @@ public class Geo extends FXMLDocumentController {
      * @param ingeo2 no_com
      * @param psi_point symmetry group
      * @param psi_solvent
+     * @param psi_sapt
      * @return geoall string
      */
     public static String Geosection(
@@ -54,7 +55,8 @@ public class Geo extends FXMLDocumentController {
             String ingeo1,
             String ingeo2,
             String psi_point,
-            String psi_solvent
+            String psi_solvent,
+            String psi_sapt
             ) {
         /**
          *
@@ -76,6 +78,12 @@ public class Geo extends FXMLDocumentController {
 
         //Conditions
         // Geometry orientation and movement seetings
+        if ("YES".equals(psi_sapt)){
+           ingeo1 = "\nno_com\n";
+           ingeo2 = "\nno_reorient\n";
+           psi_point = "c1";
+        }
+        
         if (ingeo1.length() > 1) {
             nocom = "True";
         }

@@ -21,11 +21,8 @@ public class PsiHelper extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
-        // <editor-fold defaultstate="collapsed" desc="Main code here">
-        
-        // </editor-fold>
-
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("Psihelper.css").toExternalForm());
         stage.getIcons().add(new Image("img/resources/psi4ico.png"));
         stage.setTitle("PSI4 Helper");
         stage.setScene(scene);

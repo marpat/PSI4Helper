@@ -23,9 +23,6 @@
  */
 package psihelper;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-
 /**
  * Options.java (UTF-8)
  *
@@ -52,7 +49,8 @@ public class Options extends FXMLDocumentController {
             String opt_type,
             String set_alone,
             String addoptions,
-            String psi_solvent) {
+            String psi_solvent,
+            String psi_sapt) {
 
 // <editor-fold defaultstate="collapsed" desc="here your description">        
 //         // Creating object of a class   
@@ -89,15 +87,17 @@ public class Options extends FXMLDocumentController {
         // </editor-fold>
 
         //PSI4 opt = new PSI4();
-        
 //// <editor-fold defaultstate="collapsed" desc="Set extra options">
+        if ("YES".equals(psi_sapt)) {
+            addoptions = addoptions + "'guess' : 'sad'\n'";
+        }
         if (addoptions.length() == 0) {
             set_main = "";
         } else {
             addoptions = addoptions.replaceAll(",", "\n");
             set_main = addoptions; //opt.SetOptions.getText();
         }
-        
+
         if (psi_pyapi.contains("YES")) {
         } else {
             psi_bas = psi_bas.replaceAll("'", "").replaceAll(":", "");
@@ -116,33 +116,28 @@ public class Options extends FXMLDocumentController {
 //// </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="psi_solvent">
+        if (psi_solvent.length() > 0) {
+            pcmtrue = "pcm true \n"
+                    + "pcm_scf_type total\n";
+        }
 
-if (psi_solvent.length() > 0){
-    pcmtrue = "pcm true \n"
-            + "pcm_scf_type total\n";
-}
-
-pcm = "pcm = {\n"
-    + "Units = Angstrom\n"
-    + "Medium {\n"
-    + "   SolverType = IEFPCM\n"
-    + "   Solvent = "+ psi_solvent +"\n"
-    + "       }\n"
-    +"Cavity {\n"
-    +"    RadiiSet = UFF\n"
-    +"    Type = GePol\n"
-    +"    Scaling = False\n"
-    +"    Area = 0.3\n"
-    +"    Mode = Implicit\n"
-    +"       }\n"
-    +"}\n";
+        pcm = "pcm = {\n"
+                + "Units = Angstrom\n"
+                + "Medium {\n"
+                + "   SolverType = IEFPCM\n"
+                + "   Solvent = " + psi_solvent + "\n"
+                + "       }\n"
+                + "Cavity {\n"
+                + "    RadiiSet = UFF\n"
+                + "    Type = GePol\n"
+                + "    Scaling = False\n"
+                + "    Area = 0.3\n"
+                + "    Mode = Implicit\n"
+                + "       }\n"
+                + "}\n";
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Checkboxes 2 [set_main]">
-//        if (opt.PsiFreeze.isSelected()) {
-//            psi_freeze = "'freeze_core': 'true'";
-//        }
-//        log(psi_freeze);
 // </editor-fold>
         optionall = "\n\nset {\n"
                 + psi_bas + ",\n"
@@ -159,11 +154,11 @@ pcm = "pcm = {\n"
                 + pcmtrue + "\n"
                 + set_main + "\n"
                 + "}\n\n";
-       
+
         optionall = optionall.replaceAll("(?m)^(null)?,", "");
         optionall = optionall.replaceAll("(?m)^[ \t]*\r?\n", "");
-        
-        if (psi_solvent.length()>0){
+
+        if (psi_solvent.length() > 0) {
             optionall = optionall + "\n" + pcm;
         }
 
@@ -171,7 +166,7 @@ pcm = "pcm = {\n"
         } else {
             optionall = optionall.replaceAll(",", "");
         }
-        
+
         return optionall + "\n";
     }
 }
