@@ -25,10 +25,7 @@ package psihelper;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Outputs.java (UTF-8)

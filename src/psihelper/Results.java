@@ -23,8 +23,6 @@
  */
 package psihelper;
 
-import java.util.List;
-
 /**
  * Results.java (UTF-8)
  *

@@ -39,10 +39,10 @@ public class FileExists {
         File f = new File(f1);
         boolean fexists = f.exists();
 
-        System.out.print("\nprinting file:\n");
-        System.out.print(f+"\n");   
-        System.out.print(fexists+"\n");
-// System.out.println(fexists);
+        //System.out.print("\nprinting file:\n");
+        //System.out.print(f+"\n");   
+        //System.out.print(fexists+"\n");
+       // System.out.println(fexists);
         return fexists;
 
     }

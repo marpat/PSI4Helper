@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +26,7 @@ public class PsiHelper extends Application {
         // </editor-fold>
 
         Scene scene = new Scene(root);
+        stage.getIcons().add(new Image("img/resources/psi4ico.png"));
         stage.setTitle("PSI4 Helper");
         stage.setScene(scene);
         stage.show();
