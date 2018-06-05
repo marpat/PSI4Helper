@@ -309,22 +309,38 @@ public class FXMLDocumentController implements Initializable {
         InputStream is = null;
 
         // First try loading from the current directory
-        try {
-            File f = new File("psi_def.xml");
-            is = new FileInputStream(f);
-        } catch (Exception e) {
-            is = null;
+        File f = new File("psi_def.xml");
+        if (f.isFile() && f.canRead()) {
+            try {
+                // Open the stream.
+                is = new FileInputStream(f);
+                // To read chars from it, use new InputStreamReader
+                // and specify the encoding.
+                try {
+                    props.loadFromXML(is);
+                } finally {
+                    is.close();
+                }
+            } catch (IOException ex) {
+                // Appropriate error handling here.
+            }
         }
 
-        try {
-            if (is == null) {
-                // Try loading from classpath
-                is = getClass().getResourceAsStream("psi_def.xml");
-            }
-            // Try loading properties from the file (if found)
-            props.loadFromXML(is);
-        } catch (Exception e) {
-        }
+//        try {
+//            File f = new File("psi_def.xml");
+//            is = new FileInputStream(f);
+//        } catch (Exception e) {
+//            is = null;
+//        }
+//        try {
+//            if (is == null) {
+//                // Try loading from classpath
+//                is = getClass().getResourceAsStream("psi_def.xml");
+//            }
+//            // Try loading properties from the file (if found)
+//            props.loadFromXML(is);
+//        } catch (Exception e) {
+//        }
         //props.forEach((k, v) -> System.out.println(String.format("key = %s, value = %s", k, v)));
         memory = props.getProperty("memory");
         file_name = props.getProperty("file_name");
@@ -1112,7 +1128,6 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="To AreaOut">
         String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
