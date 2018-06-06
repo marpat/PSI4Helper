@@ -318,12 +318,42 @@ public class FXMLDocumentController implements Initializable {
                 // and specify the encoding.
                 try {
                     props.loadFromXML(is);
+                    // Get properties and set them to fields
+                    memory = props.getProperty("memory");
+                    file_name = props.getProperty("file_name");
+                    inp_dir = props.getProperty("inp_dir");
+                    cores = props.getProperty("cores");
+                    psi_charge = props.getProperty("psi_charge");
+                    psi_multi = props.getProperty("psi_multi");
+                    mwfn_path = props.getProperty("Multiwfn");
+                    m2aim_path = props.getProperty("Molden2Aim");
+                    ushell = props.getProperty("Shell#");
+
+                    InpDir.setText(inp_dir);
+                    Filename.setText(file_name);
+                    Memory.setText(memory);
+                    Cores.setText(cores);
+                    PsiCharge.setText(psi_charge);
+                    PsiMulti.setText(psi_multi);
+                    PMwfn.setText(mwfn_path);
+                    PM2aim.setText(mwfn_path);
+                    ShShell.setText(ushell);
                 } finally {
                     is.close();
                 }
             } catch (IOException ex) {
                 // Appropriate error handling here.
             }
+        } else {
+                    InpDir.setText("set input file directory");
+                    Filename.setText("enter filename");
+                    Memory.setText("2");
+                    Cores.setText("1");
+                    PsiCharge.setText("0");
+                    PsiMulti.setText("1");
+                    PMwfn.setText("set path to Mwfn");
+                    PM2aim.setText("set path to M2aim");
+                    ShShell.setText("set proper shebang");
         }
 
 //        try {
@@ -342,25 +372,25 @@ public class FXMLDocumentController implements Initializable {
 //        } catch (Exception e) {
 //        }
         //props.forEach((k, v) -> System.out.println(String.format("key = %s, value = %s", k, v)));
-        memory = props.getProperty("memory");
-        file_name = props.getProperty("file_name");
-        inp_dir = props.getProperty("inp_dir");
-        cores = props.getProperty("cores");
-        psi_charge = props.getProperty("psi_charge");
-        psi_multi = props.getProperty("psi_multi");
-        mwfn_path = props.getProperty("Multiwfn");
-        m2aim_path = props.getProperty("Molden2Aim");
-        ushell = props.getProperty("Shell#");
-
-        InpDir.setText(inp_dir);
-        Filename.setText(file_name);
-        Memory.setText(memory);
-        Cores.setText(cores);
-        PsiCharge.setText(psi_charge);
-        PsiMulti.setText(psi_multi);
-        PMwfn.setText(mwfn_path);
-        PM2aim.setText(mwfn_path);
-        ShShell.setText(ushell);
+//        memory = props.getProperty("memory");
+//        file_name = props.getProperty("file_name");
+//        inp_dir = props.getProperty("inp_dir");
+//        cores = props.getProperty("cores");
+//        psi_charge = props.getProperty("psi_charge");
+//        psi_multi = props.getProperty("psi_multi");
+//        mwfn_path = props.getProperty("Multiwfn");
+//        m2aim_path = props.getProperty("Molden2Aim");
+//        ushell = props.getProperty("Shell#");
+//
+//        InpDir.setText(inp_dir);
+//        Filename.setText(file_name);
+//        Memory.setText(memory);
+//        Cores.setText(cores);
+//        PsiCharge.setText(psi_charge);
+//        PsiMulti.setText(psi_multi);
+//        PMwfn.setText(mwfn_path);
+//        PM2aim.setText(mwfn_path);
+//        ShShell.setText(ushell);
     }
 
     public void saveParamChangesAsXML() {
