@@ -40,6 +40,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -345,15 +346,15 @@ public class FXMLDocumentController implements Initializable {
                 // Appropriate error handling here.
             }
         } else {
-                    InpDir.setText("set input file directory");
-                    Filename.setText("enter filename");
-                    Memory.setText("2");
-                    Cores.setText("1");
-                    PsiCharge.setText("0");
-                    PsiMulti.setText("1");
-                    PMwfn.setText("set path to Mwfn");
-                    PM2aim.setText("set path to M2aim");
-                    ShShell.setText("set proper shebang");
+            InpDir.setText("Set input file directory");
+            Filename.setText("Enter filename");
+            Memory.setText("2");
+            Cores.setText("1");
+            PsiCharge.setText("0");
+            PsiMulti.setText("1");
+            PMwfn.setText("Set path to Mwfn");
+            PM2aim.setText("Set path to M2aim");
+            ShShell.setText("Set proper shebang");
         }
 
 //        try {
@@ -406,7 +407,11 @@ public class FXMLDocumentController implements Initializable {
             props.setProperty("Molden2Aim", "" + PM2aim.getText());
             props.setProperty("Shell#", "" + ShShell.getText());
 
-            File f = new File("psi_def.xml");
+            String path = PsiHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String decodedPath = URLDecoder.decode(path, "UTF-8");
+            String decodedPath1 = (new File(decodedPath)).getParentFile().getPath();
+            log(decodedPath1);
+            File f = new File(decodedPath1 + File.separator + "psi_def.xml");
             OutputStream out = new FileOutputStream(f);
             props.storeToXML(out, "Values from the last PSI4 input file.");
         } catch (Exception e) {
