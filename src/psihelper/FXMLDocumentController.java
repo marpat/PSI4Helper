@@ -277,7 +277,7 @@ public class FXMLDocumentController implements Initializable {
             "DF", "DIRECT", "PK", "OUT_OF_CORE", "FAST_DF", "CD", "INDEPENDENT"
     );
     ObservableList<String> addoptbox = FXCollections.observableArrayList(
-            "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back"
+            "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mcscf_type conv", "e_convergence 8", "d_converge", "SAPT-typical"
     );
     ObservableList<String> solventbox = FXCollections.observableArrayList(
             "None", "water", "dmso", "acetonitrile", "thf", "dcm", "benzene"
@@ -422,7 +422,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url,
-            ResourceBundle rb) {
+        ResourceBundle rb) {
         PsiExamples.setItems(examplesbox);
         PsiReference.setItems(refbox);
         PsiReference.setValue("RHF");
@@ -543,6 +543,13 @@ public class FXMLDocumentController implements Initializable {
                 break;
             case "irc_direction back":
                 addoptions = SetOptions.getText() + "'irc_direction': 'backward',\n";
+                SetOptions.setText(addoptions);
+                break;
+            case "SAPT-typical":
+                addoptions = "'df_basis_set' : 'aug-cc-pvdz-jkfit',\n"
+                        + "'df_basis_sapt' : 'aug-cc-pvdz-ri',\n"
+                        + "'guess' : 'sad',\n"
+                        + "'freeze_core': 'true',\n";
                 SetOptions.setText(addoptions);
                 break;
         }
@@ -1163,6 +1170,7 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="To AreaOut">
         String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
@@ -1221,8 +1229,8 @@ public class FXMLDocumentController implements Initializable {
             new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
             return;
         }
-        if ("YES".equals(psi_sapt) && PsiGeom.getText().contains("--") && !psi_method.contains("SAPT")) {
-            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
+        if (PsiSapt.isSelected() && !"SAPT-typical".equals(AddOptions.getValue())) {
+            new Alert(Alert.AlertType.WARNING, "Use 'SAPT-typical' choice from *More Options menu.\n").showAndWait();
             return;
         }
 // </editor-fold>      

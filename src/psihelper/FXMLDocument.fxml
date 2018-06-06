@@ -18,17 +18,31 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
                         <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="124.0" prefWidth="375.0" />
-                        <TextField fx:id="PsiDescription" layoutX="22.0" layoutY="39.0" prefHeight="25.0" prefWidth="373.0" />
+                        <TextField fx:id="PsiDescription" layoutX="22.0" layoutY="39.0" prefHeight="25.0" prefWidth="373.0">
+                           <tooltip>
+                              <Tooltip text="Description of the system and run.">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextField>
                         <TextField fx:id="PubChem" layoutX="409.0" layoutY="39.0" prefHeight="25.0" prefWidth="389.0">
                            <tooltip>
-                              <Tooltip text="Also accepts .xyz  file as input" wrapText="true">
+                              <Tooltip text="Leave empty if entering coordinates to the 'System Property' field." wrapText="true">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
                               </Tooltip>
                            </tooltip></TextField>
                         <Separator layoutX="-13.0" layoutY="367.0" prefHeight="3.0" prefWidth="832.0" />
-                        <TextArea fx:id="SetOptions" layoutX="410.0" layoutY="253.0" prefHeight="108.0" prefWidth="386.0" />
+                        <TextArea fx:id="SetOptions" layoutX="410.0" layoutY="253.0" prefHeight="108.0" prefWidth="386.0">
+                           <tooltip>
+                              <Tooltip text="Type in custom options in format of Python dictionary, i.e., 'abc': ' def', ...">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip></TextArea>
                         <TextArea fx:id="AreaOut" layoutX="410.0" layoutY="376.0" prefHeight="151.0" prefWidth="384.0" promptText="  log/message area" />
                         <TextField fx:id="PsiCubeRange" layoutX="237.0" layoutY="396.0" prefHeight="25.0" prefWidth="143.0" />
                         <TextField fx:id="PsiCharge" alignment="CENTER" layoutX="714.0" layoutY="81.0" prefHeight="27.0" prefWidth="28.0" promptText="0">
@@ -48,9 +62,9 @@
                               </Tooltip>
                            </tooltip></TextField>
                         <Label layoutX="22.0" layoutY="14.0" text="Description" />
-                        <Label layoutX="412.0" layoutY="14.0" text="Type .xyz filename, molecule name or PubChem ID" />
+                        <Label layoutX="412.0" layoutY="14.0" text="Type .xyz filename, molecule name, or PubChem ID" />
                         <Label layoutX="20.0" layoutY="74.0" text="System geometry" />
-                        <Label layoutX="408.0" layoutY="234.0" text="Type or set* more options ('set global')" />
+                        <Label layoutX="408.0" layoutY="234.0" text="Type or set *More Options ('set global')" />
                         <Label layoutX="237.0" layoutY="376.0" prefHeight="17.0" prefWidth="143.0" text="Range for CubeOrbitals">
                            <font>
                               <Font size="12.0" />
@@ -61,25 +75,25 @@
                         <ComboBox fx:id="PsiFunct" layoutX="518.0" layoutY="190.0" prefHeight="25.0" prefWidth="131.0" promptText="DFT Functional" />
                         <ComboBox fx:id="ScfType" layoutX="660.0" layoutY="140.0" prefHeight="25.0" prefWidth="132.0" promptText="scf Type" />
                         <ComboBox fx:id="AddOptions" layoutX="659.0" layoutY="190.0" onAction="#AddOptionsAction" prefHeight="25.0" prefWidth="133.0" promptText="*More Options" />
-                        <HBox alignment="CENTER" layoutX="410.0" layoutY="68.0" prefHeight="27.0" prefWidth="265.0" spacing="15.0">
+                        <HBox alignment="CENTER" layoutX="417.0" layoutY="68.0" prefHeight="23.0" prefWidth="291.0" spacing="10.0">
                            <children>
                               <CheckBox fx:id="PsiSp" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" selected="true" text="Single Point">
                                  <font>
                                     <Font size="12.0" />
                                  </font></CheckBox>
-                              <CheckBox fx:id="PsiTs" mnemonicParsing="false" prefHeight="17.0" prefWidth="40.0" text="TS" />
-                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="68.0" text="SAPT">
+                              <CheckBox fx:id="PsiTs" mnemonicParsing="false" prefHeight="17.0" prefWidth="51.0" text="TS" />
+                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT">
                                  <HBox.margin>
                                     <Insets left="5.0" />
                                  </HBox.margin></CheckBox>
                            </children>
                            <padding>
-                              <Insets right="10.0" />
+                              <Insets right="5.0" />
                            </padding>
                         </HBox>
-                        <HBox layoutX="418.0" layoutY="97.0" prefHeight="23.0" prefWidth="291.0" spacing="15.0">
+                        <HBox alignment="CENTER_LEFT" layoutX="428.0" layoutY="94.0" prefHeight="23.0" prefWidth="291.0" spacing="10.0">
                            <children>
-                              <CheckBox fx:id="PsiOpt" mnemonicParsing="false" prefHeight="17.0" prefWidth="108.0" text="Optimize">
+                              <CheckBox fx:id="PsiOpt" mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="Optimize">
                                  <font>
                                     <Font size="12.0" />
                                  </font></CheckBox>
@@ -91,7 +105,7 @@
                               <CheckBox fx:id="PsiFreq" mnemonicParsing="false" prefHeight="18.0" prefWidth="141.0" text="Frequencies" />
                            </children>
                            <padding>
-                              <Insets right="10.0" />
+                              <Insets right="5.0" />
                            </padding>
                         </HBox>
                         <Label layoutX="697.0" layoutY="86.0" text="Q" />
@@ -120,7 +134,7 @@
                               <CheckBox fx:id="Psinoorient" mnemonicParsing="false" text="no_reorient" />
                            </children>
                         </VBox>
-                        <ComboBox fx:id="PsiSolvent" layoutX="20.0" layoutY="230.0" prefHeight="25.0" prefWidth="100.0" promptText="Solvent" />
+                        <ComboBox fx:id="PsiSolvent" layoutX="20.0" layoutY="251.0" prefHeight="25.0" prefWidth="100.0" promptText="Solvent" />
                         <ComboBox fx:id="PsiPrint" layoutX="20.0" layoutY="319.0" prefHeight="25.0" prefWidth="100.0" />
                         <ComboBox fx:id="PsiPoint" layoutX="164.0" layoutY="319.0" prefHeight="25.0" prefWidth="100.0" />
                         <Label layoutX="21.0" layoutY="298.0" text="PRINT Level" />
@@ -159,6 +173,7 @@
                         <Label layoutX="661.0" layoutY="123.0" text="scf Type" />
                         <Label layoutX="413.0" layoutY="173.0" text="Basis set" />
                         <Label layoutX="518.0" layoutY="173.0" text="DFT Functional" />
+                        <Label layoutX="22.0" layoutY="226.0" text="Solvent" />
                      </children>
                   </AnchorPane>
                </content>
@@ -270,7 +285,7 @@
             <Image url="@../img/resources/psi_edu.png" />
          </image>
       </ImageView>
-      <CheckBox fx:id="PsiPyapi" layoutX="21.0" layoutY="26.0" mnemonicParsing="false" text="PyAPI">
+      <CheckBox fx:id="PsiPyapi" layoutX="21.0" layoutY="24.0" mnemonicParsing="false" text="PyAPI">
          <tooltip>
             <Tooltip text="Not implemented yet">
                <font>
@@ -280,17 +295,17 @@
          </tooltip></CheckBox>
       <HBox layoutX="548.0" layoutY="709.0" prefHeight="38.0" prefWidth="254.0" spacing="35.0">
          <children>
-              <Button fx:id="ClearAll" mnemonicParsing="false" onAction="#ClearAction" prefHeight="27.0" prefWidth="64.0" text="Clear">
+              <Button fx:id="ClearAll" mnemonicParsing="false" onAction="#ClearAction" prefHeight="27.0" prefWidth="50.0" text="Clear">
                   <padding>
                       <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                   </padding>
               </Button>
-              <Button fx:id="SaveLayout" mnemonicParsing="false" onAction="#SaveLayoutAction" prefHeight="25.0" prefWidth="52.0" text="Save">
+              <Button fx:id="SaveLayout" mnemonicParsing="false" onAction="#SaveLayoutAction" prefHeight="27.0" prefWidth="50.0" text="Save">
                   <padding>
                       <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                   </padding>
               </Button>
-              <Button fx:id="ExitBn" mnemonicParsing="false" onAction="#ExitAction" prefHeight="25.0" prefWidth="52.0" text="Exit">
+              <Button fx:id="ExitBn" mnemonicParsing="false" onAction="#ExitAction" prefHeight="27.0" prefWidth="50.0" text="Exit">
                   <padding>
                       <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                   </padding>

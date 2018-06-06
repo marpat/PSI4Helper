@@ -89,7 +89,8 @@ public class Options extends FXMLDocumentController {
         //PSI4 opt = new PSI4();
 //// <editor-fold defaultstate="collapsed" desc="Set extra options">
         if ("YES".equals(psi_sapt)) {
-            addoptions = addoptions + "'guess' : 'sad'\n'";
+            //addoptions = addoptions + "'guess' : 'sad'\n'";
+            
         }
         if (addoptions.length() == 0) {
             set_main = "";
