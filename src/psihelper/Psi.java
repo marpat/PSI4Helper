@@ -138,7 +138,8 @@ public class Psi extends FXMLDocumentController {
             String mwfn_path,
             String write47,
             String writewfx,
-            String psi_sapt) throws IOException // </editor-fold>
+            String psi_sapt,
+            String psi_cp) throws IOException // </editor-fold>
     {
 
 // <editor-fold defaultstate="collapsed" desc="Variables">
@@ -209,7 +210,7 @@ public class Psi extends FXMLDocumentController {
         opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,psi_sapt);
 
         Results calls = new Results();
-        run = calls.results(psi_call, psi_method, psi_funct, psi_geom);
+        run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp);
 
         Outputs outp = new Outputs();
         resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local);

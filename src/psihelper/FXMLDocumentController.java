@@ -199,6 +199,8 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox PsiNocom;
     @FXML
     private CheckBox Psinoorient;
+    @FXML
+    private CheckBox PsiCp;
 
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Global variables">
@@ -255,6 +257,7 @@ public class FXMLDocumentController implements Initializable {
     String writewfx;
     String m2aim_path;
     String ushell;
+    String psi_cp;
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
@@ -987,6 +990,11 @@ public class FXMLDocumentController implements Initializable {
 //        if (!"IRC".equals(opt_type)) {
 //            set_alone = "";
 //        }
+        if(PsiCp.isSelected()){
+            psi_cp = "'bsse_type' : 'cp'";
+        } else {
+            psi_cp = null;
+        }
         if (PsiSapt.isSelected()) {
             psi_sapt = "YES";
         } else {
@@ -1195,7 +1203,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt, psi_cp);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

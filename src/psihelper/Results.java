@@ -32,7 +32,7 @@ package psihelper;
  */
 public class Results extends FXMLDocumentController {
 
-    public String results(String psi_call, String psi_method, String psi_func, String psi_geom) {
+    public String results(String psi_call, String psi_method, String psi_func, String psi_geom, String psi_cp) {
 
 // <editor-fold defaultstate="collapsed" desc="Local variables">
         String resultsall = "";
@@ -50,9 +50,9 @@ public class Results extends FXMLDocumentController {
             aux0 = "optimize('"+ methfunc +"')\n";
             aux1 = "dertype=1";
         }
-        if (psi_geom.contains("--")){
+        if (psi_cp != null){
         aux2 = "bsse_type = 'cp'";
-        }
+        } 
 // </editor-fold>
 
     resultsall  = aux0
@@ -61,11 +61,11 @@ public class Results extends FXMLDocumentController {
             + methfunc + "', "
             + "return_wfn=True, "
             + aux1 + ", "
-            + aux2 + ", "
+            + aux2
             + ")\n\n";
 
-    resultsall = resultsall.replaceAll("(?m)^(null)?,", "");
-    resultsall  = resultsall.replaceAll("(?im),\\s,.+(\\))", "$1");
+    resultsall = resultsall.replaceAll("(?m),\\s+?,", ",");
+    resultsall  = resultsall.replaceAll("(?im),\\s\\)", ")");
 
     return resultsall ;
 }

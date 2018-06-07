@@ -82,19 +82,26 @@ public class Outputs extends FXMLDocumentController {
 //        copyFile(source1, dest1);
         //log("CubeProp:" + CubeProp);
         //log("num_cube:" + num_cube);
+        inp_dir =  inp_dir.replace("\\", "/"); // for all platforms
+        
         cubemove = "import os\n"
+                + "from pathlib import Path\n"
                 + "import shutil\n\n"
-                + "now = '" + inp_dir +"/'\n"
-                + "moveto = '" + inp_dir + "/cubes/'\n"
+                + "now = str(Path().absolute())\n"              
+                + "moveto = now + '/cubes/'\n"
                 + "files = []\n"
                 + "for filename in os.listdir():\n"
                 + "    if filename.endswith('.cube'):\n"
                 + "        files.append(filename)\n"
                 + "for f in files:\n"
-                + "    src = now+f\n"
-                + "    dst = moveto+f\n"
-                + "    shutil.move(src,dst)\n"
-                +"print('Moved {} files.'.format(len(files)))";
+                + "    try:\n"
+                + "        src = now+'/'+f\n"
+                + "        dst = moveto+f\n"
+                + "        shutil.move(src,dst)\n"
+                + "    except Exception as e:\n" 
+                + "        print(\"Type error: \" + str(e))\n"
+                + "        pass\n"
+                + "print('Moved {} files to ./cubes directory.'.format(len(files)))";
         
         if (num_cube.length() < 1) {
             cubeorb = "";

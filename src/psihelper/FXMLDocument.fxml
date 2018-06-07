@@ -132,13 +132,22 @@
                            <children>
                               <CheckBox fx:id="PsiNocom" mnemonicParsing="false" text="no_com" />
                               <CheckBox fx:id="Psinoorient" mnemonicParsing="false" text="no_reorient" />
+                              <CheckBox fx:id="PsiCp" mnemonicParsing="false" text="BSSE_cp">
+                                 <tooltip>
+                                    <Tooltip text="Counterpoise correction to BSSE.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip>
+                              </CheckBox>
                            </children>
                         </VBox>
                         <ComboBox fx:id="PsiSolvent" layoutX="20.0" layoutY="251.0" prefHeight="25.0" prefWidth="100.0" promptText="Solvent" />
-                        <ComboBox fx:id="PsiPrint" layoutX="20.0" layoutY="319.0" prefHeight="25.0" prefWidth="100.0" />
-                        <ComboBox fx:id="PsiPoint" layoutX="164.0" layoutY="319.0" prefHeight="25.0" prefWidth="100.0" />
-                        <Label layoutX="21.0" layoutY="298.0" text="PRINT Level" />
-                        <Label layoutX="164.0" layoutY="298.0" text="Point Group" />
+                        <ComboBox fx:id="PsiPrint" layoutX="20.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" />
+                        <ComboBox fx:id="PsiPoint" layoutX="164.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" />
+                        <Label layoutX="33.0" layoutY="313.0" text="PRINT Level" />
+                        <Label layoutX="175.0" layoutY="313.0" text="Point Group" />
                         <VBox layoutX="17.0" layoutY="407.0" prefHeight="112.0" prefWidth="100.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden out" />
@@ -157,7 +166,10 @@
                         </VBox>
                         <VBox layoutX="264.0" layoutY="456.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
                            <children>
-                              <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den" />
+                              <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den">
+                                 <tooltip>
+                                    <Tooltip text="Alpha, beta, total, and spin density cubes will be created." />
+                                 </tooltip></CheckBox>
                               <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb" />
                            </children>
                         </VBox>
@@ -168,12 +180,12 @@
                            </children>
                         </VBox>
                         <Label layoutX="270.0" layoutY="421.0" text="1,2,5-9,-1, ALL" />
-                        <Label layoutX="411.0" layoutY="123.0" text="Reference" />
-                        <Label layoutX="519.0" layoutY="123.0" text="Method/Theory" />
-                        <Label layoutX="661.0" layoutY="123.0" text="scf Type" />
-                        <Label layoutX="413.0" layoutY="173.0" text="Basis set" />
-                        <Label layoutX="518.0" layoutY="173.0" text="DFT Functional" />
-                        <Label layoutX="22.0" layoutY="226.0" text="Solvent" />
+                        <Label layoutX="417.0" layoutY="123.0" text="Reference" />
+                        <Label layoutX="532.0" layoutY="123.0" text="Method/Theory" />
+                        <Label layoutX="670.0" layoutY="123.0" text="scf Type" />
+                        <Label layoutX="421.0" layoutY="173.0" text="Basis set" />
+                        <Label layoutX="534.0" layoutY="173.0" text="DFT Functional" />
+                        <Label layoutX="33.0" layoutY="226.0" text="Solvent" />
                      </children>
                   </AnchorPane>
                </content>
