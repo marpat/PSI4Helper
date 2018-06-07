@@ -259,7 +259,7 @@ public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
-            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water-dimer(Gau)", "Water-dimer(FF_NEDA)", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine"
+            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine"
     );
     ObservableList<String> refbox = FXCollections.observableArrayList(
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"

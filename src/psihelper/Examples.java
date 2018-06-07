@@ -34,6 +34,8 @@ package psihelper;
 
 public class Examples {
 
+    
+
     public static String[] ExamplesCoord(String molecule) {
         String molret = "";
         String comments = "";
@@ -47,10 +49,10 @@ public class Examples {
         String form2;
         String form3;
         String nmf;
-        String waterg;
-        String waterff;
         String waterpsi;
         String eneine_sapt;
+        String HCOHH2O;
+        String waterdim;
 
         hf = "H-F";
         String Hydrogenfluoride = "F\n"
@@ -172,28 +174,31 @@ public class Examples {
                 + "D5      0.0\n"
                 + "D6    180.0\n";
 
-        waterg = "Water dimer in NBO6 manual B.11.3.1, CT-deleted structure\n";
-        String Water_G = "  O \n"
-                + "  H     1   0.9560\n"
-                + "  H     1   0.9560    2    105.2000\n"
-                + "  O     1   rhb       2    a214        3    d3214\n"
-                + "  H     4   0.9560    1    a145        2    d2145\n"
-                + "  H     4   0.9560    5    105.2000    1    d1546\n"
-                + "\n"
-                + "rhb   2.8800\n"
-                + "a214  107.68\n"
-                + "d3214 114.64\n"
-                + "a145  105.20\n"
-                + "d2145 123.52\n"
-                + "d1546   0.0";
+        waterdim = "Water dimer in Psi4 Examples (SAPT5)\n";
+        String Water_G = 
+                "O  -1.551007  -0.114520   0.000000\n"
+                +"H  -1.934259   0.762503   0.000000\n"
+                +"H  -0.599677   0.040712   0.000000\n"
+                +"--\n"
+                +"0 1\n"
+                +"O   1.350625   0.111469   0.000000\n"
+                +"H   1.680398  -0.373741  -0.758561\n"
+                +"H   1.680398  -0.373741   0.758561\n"
+                +"units angstrom";
 
-        waterff = "Water dimer example in NBO6 manual B.11.3.1 and B11.4.1, C1 sym, rhf/4-31g";
-        String Water_FF = "O      8.0      0.00000    0.00000    0.00000\n" 
-                + "H      1.0      0.00000    0.00000    0.95600\n" 
-                + "H      1.0      0.92260    0.00000   -0.25070\n" 
-                + "O      8.0     -1.14400   -2.49410   -0.87470\n" 
-                + "H      1.0     -1.87820   -2.24990   -1.43620\n" 
-                + "H      1.0     -0.76430   -1.66620   -0.58430";
+        HCOHH2O = "Formamide-water dimer";
+        String Water_FF = "H       -0.405941     -0.965812     -0.006924\n" 
+                + "C       -0.816287      0.056585      0.005978\n" 
+                + "O       -0.094892      1.043395      0.024952\n" 
+                + "N       -2.165749      0.106502     -0.002251\n" 
+                + "H       -2.631360      1.003351      0.011407\n" 
+                + "H       -2.723607     -0.732896     -0.016328\n"
+                +"--\n"
+                +"0 1\n"
+                +"H        3.165216      0.006852     -0.001388\n"
+                +"O        2.305025     -0.424934      0.002933\n"
+                +"H        1.641804      0.290328     -0.000982\n"
+                +"units angstrom";
 
         eneine_sapt = "PSI4 SAPT for ethene*ethine";
         String EneIne_sapt = "C   0.000000  -0.667578  -2.124659\n"
@@ -261,15 +266,15 @@ public class Examples {
                 comments = nmf;
                 molnm = "NMF_plane";
                 break;
-            case "Water-dimer(Gau)":
+            case "Water dimer in Psi4 Examples (SAPT5)":
                 molret = Water_G;
-                comments = waterg;
-                molnm = "dim_water";
+                comments = waterdim;
+                molnm = "dimer_water_psi";
                 break;
-            case "Water-dimer(FF_NEDA)":
+            case "Formamide-water dimer":
                 molret = Water_FF;
-                comments = waterff;
-                molnm = "dim_water_NEDA";
+                comments = HCOHH2O;
+                molnm = "dim_water_Formamide";
                 break;
             case "Water PSI4 examples":
                 molret = Water_PSI;
