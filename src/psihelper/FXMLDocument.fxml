@@ -75,17 +75,14 @@
                         <ComboBox fx:id="PsiFunct" layoutX="518.0" layoutY="190.0" prefHeight="25.0" prefWidth="131.0" promptText="DFT Functional" />
                         <ComboBox fx:id="ScfType" layoutX="660.0" layoutY="140.0" prefHeight="25.0" prefWidth="132.0" promptText="scf Type" />
                         <ComboBox fx:id="AddOptions" layoutX="659.0" layoutY="190.0" onAction="#AddOptionsAction" prefHeight="25.0" prefWidth="133.0" promptText="*More Options" />
-                        <HBox alignment="CENTER" layoutX="417.0" layoutY="68.0" prefHeight="23.0" prefWidth="291.0" spacing="10.0">
+                        <HBox alignment="CENTER" layoutX="426.0" layoutY="70.0" prefHeight="23.0" prefWidth="272.0" spacing="10.0">
                            <children>
-                              <CheckBox fx:id="PsiSp" mnemonicParsing="false" prefHeight="17.0" prefWidth="97.0" selected="true" text="Single Point">
+                              <CheckBox fx:id="PsiSp" mnemonicParsing="false" prefHeight="17.0" prefWidth="94.0" selected="true" text="Single Point">
                                  <font>
                                     <Font size="12.0" />
                                  </font></CheckBox>
-                              <CheckBox fx:id="PsiTs" mnemonicParsing="false" prefHeight="17.0" prefWidth="51.0" text="TS" />
-                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin></CheckBox>
+                              <CheckBox fx:id="PsiTs" mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="TS" />
+                              <CheckBox fx:id="PsiGrad" mnemonicParsing="false" prefHeight="17.0" prefWidth="91.0" text="Gradient" />
                            </children>
                            <padding>
                               <Insets right="5.0" />
@@ -97,12 +94,12 @@
                                  <font>
                                     <Font size="12.0" />
                                  </font></CheckBox>
-                              <CheckBox fx:id="PsiIrc" mnemonicParsing="false" prefHeight="18.0" prefWidth="82.0" text="IRC">
+                              <CheckBox fx:id="PsiIrc" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="IRC">
                                  <HBox.margin>
                                     <Insets left="15.0" />
                                  </HBox.margin>
                               </CheckBox>
-                              <CheckBox fx:id="PsiFreq" mnemonicParsing="false" prefHeight="18.0" prefWidth="141.0" text="Frequencies" />
+                              <CheckBox fx:id="PsiFreq" mnemonicParsing="false" prefHeight="18.0" prefWidth="143.0" text="Frequencies" />
                            </children>
                            <padding>
                               <Insets right="5.0" />
@@ -115,13 +112,14 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <VBox layoutX="286.0" layoutY="228.0" prefHeight="118.0" prefWidth="107.0" spacing="8.0">
+                        <VBox layoutX="286.0" layoutY="219.0" prefHeight="147.0" prefWidth="107.0" spacing="8.0">
                            <children>
+                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
                               <CheckBox fx:id="PsiFreeze" mnemonicParsing="false" text="Freeze Core" />
                               <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM" />
                               <CheckBox fx:id="NatOrb" mnemonicParsing="false" text="Nat_Orbitals" />
                               <CheckBox fx:id="PsiPrbasis" mnemonicParsing="false" text="print_basis" />
-                              <CheckBox fx:id="PsiPrmos" mnemonicParsing="false" text="print_mos">
+                              <CheckBox fx:id="PsiPrmos" mnemonicParsing="false" prefHeight="17.0" prefWidth="74.0" text="print_mos">
                                  <padding>
                                     <Insets top="5.0" />
                                  </padding>
@@ -145,9 +143,9 @@
                         </VBox>
                         <ComboBox fx:id="PsiSolvent" layoutX="20.0" layoutY="277.0" prefHeight="25.0" prefWidth="100.0" promptText="Solvent" />
                         <ComboBox fx:id="PsiPrint" layoutX="20.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" promptText="Default" />
-                        <ComboBox fx:id="PsiPoint" layoutX="164.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" promptText="None" />
+                        <ComboBox fx:id="PsiPoint" layoutX="159.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" promptText="None" />
                         <Label layoutX="33.0" layoutY="313.0" text="PRINT Level" />
-                        <Label layoutX="175.0" layoutY="313.0" text="Point Group" />
+                        <Label layoutX="168.0" layoutY="313.0" text="Point Group" />
                         <VBox layoutX="17.0" layoutY="407.0" prefHeight="112.0" prefWidth="100.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden out" />

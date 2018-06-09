@@ -201,6 +201,8 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox Psinoorient;
     @FXML
     private CheckBox PsiCp;
+    @FXML
+    private CheckBox PsiGrad;
 
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Global variables">
@@ -262,7 +264,7 @@ public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
-            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine"
+            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition"
     );
     ObservableList<String> refbox = FXCollections.observableArrayList(
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
@@ -280,7 +282,7 @@ public class FXMLDocumentController implements Initializable {
             "DF", "DIRECT", "PK", "OUT_OF_CORE", "FAST_DF", "CD", "INDEPENDENT"
     );
     ObservableList<String> addoptbox = FXCollections.observableArrayList(
-            "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mcscf_type conv", "e_convergence 8", "d_converge", "SAPT-typical"
+            "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "clean()", "SAPT-typical", "fisapt_do_plot true"
     );
     ObservableList<String> solventbox = FXCollections.observableArrayList(
             "None", "water", "dmso", "acetonitrile", "thf", "dcm", "benzene"
@@ -425,7 +427,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url,
-        ResourceBundle rb) {
+            ResourceBundle rb) {
         PsiExamples.setItems(examplesbox);
         PsiReference.setItems(refbox);
         PsiReference.setValue("RHF");
@@ -450,12 +452,21 @@ public class FXMLDocumentController implements Initializable {
         PsiSp.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
             if (isNowSelected) {
                 PsiOpt.setSelected(false);
+                PsiGrad.setSelected(false);
             }
         });
 
         PsiOpt.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
             if (isNowSelected) {
                 PsiSp.setSelected(false);
+                PsiGrad.setSelected(false);
+            }
+        });
+
+        PsiGrad.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                PsiSp.setSelected(false);
+                PsiOpt.setSelected(false);
             }
         });
     }
@@ -511,6 +522,10 @@ public class FXMLDocumentController implements Initializable {
                 addoptions = SetOptions.getText() + "'mp2_type' : 'conv',\n";
                 SetOptions.setText(addoptions);
                 break;
+            case "mp_type df":
+                addoptions = SetOptions.getText() + "'mp_type' : 'df',\n";
+                SetOptions.setText(addoptions);
+                break;
             case "mcscf_type conv":
                 addoptions = SetOptions.getText() + "'mcscf_type' : 'conv',\n";
                 SetOptions.setText(addoptions);
@@ -548,11 +563,19 @@ public class FXMLDocumentController implements Initializable {
                 addoptions = SetOptions.getText() + "'irc_direction': 'backward',\n";
                 SetOptions.setText(addoptions);
                 break;
+            case "clean()":
+                addoptions = SetOptions.getText() + "'clean()' : '',\n";
+                SetOptions.setText(addoptions);
+                break;
             case "SAPT-typical":
                 addoptions = "'df_basis_set' : 'aug-cc-pvdz-jkfit',\n"
                         + "'df_basis_sapt' : 'aug-cc-pvdz-ri',\n"
                         + "'guess' : 'sad',\n"
                         + "'freeze_core': 'true',\n";
+                SetOptions.setText(addoptions);
+                break;
+            case "fisapt_do_plot true":
+                addoptions = SetOptions.getText() + "'fisapt_do_plot' : 'true',\n";
                 SetOptions.setText(addoptions);
                 break;
         }
@@ -973,6 +996,9 @@ public class FXMLDocumentController implements Initializable {
         if (PsiSp.isSelected()) {
             psi_call = "energy";
         }
+        if (PsiGrad.isSelected()) {
+            psi_call = "gradient";
+        }
         if (PsiOpt.isSelected()) {
             psi_call = "optimize";
         }
@@ -990,7 +1016,7 @@ public class FXMLDocumentController implements Initializable {
 //        if (!"IRC".equals(opt_type)) {
 //            set_alone = "";
 //        }
-        if(PsiCp.isSelected()){
+        if (PsiCp.isSelected()) {
             psi_cp = "'bsse_type' : 'cp'";
         } else {
             psi_cp = null;
@@ -1178,7 +1204,6 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="To AreaOut">
         String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
@@ -1233,10 +1258,10 @@ public class FXMLDocumentController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "There must be two molecules defined separated by '--'.\n").showAndWait();
             return;
         }
-        if (!"YES".equals(psi_sapt) && PsiGeom.getText().contains("--") && !psi_method.contains("SAPT")) {
-            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
-            return;
-        }
+//        if (!"YES".equals(psi_sapt) && PsiGeom.getText().contains("--") && !psi_method.contains("SAPT")) {
+//            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
+//            return;
+//        }
         if (PsiSapt.isSelected() && !"SAPT-typical".equals(AddOptions.getValue())) {
             new Alert(Alert.AlertType.WARNING, "Use 'SAPT-typical' choice from *More Options menu.\n").showAndWait();
             return;

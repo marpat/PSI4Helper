@@ -53,6 +53,7 @@ public class Examples {
         String eneine_sapt;
         String HCOHH2O;
         String waterdim;
+        String azide_acet;
 
         hf = "H-F";
         String Hydrogenfluoride = "F\n"
@@ -215,6 +216,19 @@ public class Examples {
                 + "H   0.000000   0.000000   3.963929\n"
                 + "units angstrom";
 
+        azide_acet = "TS of HN3*acetylene cycloaddition";
+                String Azide_acet = "C  0.0000  0.0000  0.0000\n" 
+                        + "H  0.0000  0.0000  1.0654\n" 
+                        + "C  0.4726  0.0000 -1.1323\n" 
+                        + "H  1.1594  0.0219 -1.9448\n"
+                        + "--\n"
+                        + "0 1\n"
+                        + "N -2.0912 -0.0069 -0.2466\n" 
+                        + "N -2.1297 -0.0165 -1.4073\n" 
+                        + "N -1.3108  0.0935 -2.3599\n" 
+                        + "H -1.6385 -0.3259 -3.2294\n"
+                        + "units angstrom";
+        
         waterpsi = "Water PSI4 examples";
         String Water_PSI = "O\n"
                 + "H     1     1.0\n"
@@ -285,6 +299,11 @@ public class Examples {
                 molret = EneIne_sapt;
                 comments = eneine_sapt;
                 molnm = "C2H4_C2H2";
+                break;
+            case "TS of HN3*acetylene cycloaddition":
+                molret = Azide_acet;
+                comments = azide_acet;
+                molnm = "C2H2_HN3";
                 break;
         }
 
