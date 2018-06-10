@@ -53,7 +53,8 @@ public class Outputs extends FXMLDocumentController {
             String num_cube,
             String CubeProp,
             String psi_prop,
-            String psi_local) throws IOException {
+            String psi_local,
+            String psi_ther) throws IOException {
 
         String outputsall = "";
         String xyzout = "";
@@ -162,7 +163,8 @@ public class Outputs extends FXMLDocumentController {
             psiloc = "";
         }
 
-        outputsall = psi_moldenout + "\n"
+        outputsall = psi_ther + "\n"
+                + psi_moldenout + "\n"
                 + psi_fchkout + "\n"
                 + psi_gdma + "\n"
                 + cubes + "\n"

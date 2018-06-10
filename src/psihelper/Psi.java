@@ -130,6 +130,7 @@ public class Psi extends FXMLDocumentController {
             String psi_gdma,
             String psi_xyz,
             String addoptions,
+            String addrunopt,
             String num_cube,
             String CubeProp,
             String psi_prop,
@@ -139,7 +140,11 @@ public class Psi extends FXMLDocumentController {
             String write47,
             String writewfx,
             String psi_sapt,
-            String psi_cp) throws IOException // </editor-fold>
+            String psi_cp,
+            String psi_ther,
+            String set_univ,
+            String opt_freq,
+            String resprop) throws IOException // </editor-fold>
     {
 
 // <editor-fold defaultstate="collapsed" desc="Variables">
@@ -207,13 +212,13 @@ public class Psi extends FXMLDocumentController {
 
         // Options section. Create an object first.
         Options geo_main = new Options();
-        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,psi_sapt);
+        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,psi_sapt, set_univ,resprop);
 
         Results calls = new Results();
-        run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp);
+        run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp, addrunopt, opt_freq, resprop);
 
         Outputs outp = new Outputs();
-        resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local);
+        resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local,psi_ther);
 
         input = skeleton + geo + opt + run + resout;
         //log(input);

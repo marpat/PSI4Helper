@@ -50,7 +50,9 @@ public class Options extends FXMLDocumentController {
             String set_alone,
             String addoptions,
             String psi_solvent,
-            String psi_sapt) {
+            String psi_sapt,
+            String set_univ,
+            String resprop) {
 
 // <editor-fold defaultstate="collapsed" desc="here your description">        
 //         // Creating object of a class   
@@ -84,6 +86,7 @@ public class Options extends FXMLDocumentController {
         String link3;
         String pcm = "";
         String pcmtrue = "";
+        String rot = "";
         // </editor-fold>
 
         //PSI4 opt = new PSI4();
@@ -98,7 +101,13 @@ public class Options extends FXMLDocumentController {
             addoptions = addoptions.replaceAll(",", "\n");
             set_main = addoptions; //opt.SetOptions.getText();
         }
-
+        if (resprop.contains("ROTATION") || resprop.contains("OSCILATOR_STRENGTH")){
+            rot = "'omega' : '[589, nm]' \n"
+                    + "'gauge' : 'both'";
+        } else {
+            rot ="";
+        }
+        
         if (psi_pyapi.contains("YES")) {
         } else {
             psi_bas = psi_bas.replaceAll("'", "").replaceAll(":", "");
@@ -113,6 +122,8 @@ public class Options extends FXMLDocumentController {
             opt_type = opt_type.replaceAll("'", "").replaceAll(":", "");
             set_alone = set_alone.replaceAll("'", "").replaceAll(":", "");
             set_main = set_main.replaceAll("'", "").replaceAll(":", "");
+            set_univ = set_univ.replaceAll("'", "").replaceAll(":", "");
+            rot = rot.replaceAll("'", "").replaceAll(":", "");
         }
 //// </editor-fold>
 
@@ -150,6 +161,8 @@ public class Options extends FXMLDocumentController {
                 + psi_print + ",\n"
                 + psi_prmos + ",\n"
                 + psi_prbasis + ",\n"
+                + set_univ + ",\n"
+                + rot + ",\n"
                 + opt_type + ",\n"
                 + set_alone + ",\n"
                 + pcmtrue + "\n"
@@ -165,7 +178,7 @@ public class Options extends FXMLDocumentController {
 
         if (psi_pyapi.contains("YES")) {
         } else {
-            optionall = optionall.replaceAll(",", "");
+            optionall = optionall.replaceAll("(?im),(?! )$", "");
         }
 
         return optionall + "\n";

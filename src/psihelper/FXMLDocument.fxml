@@ -15,9 +15,9 @@
             <tabs>
                 <Tab text="Input">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="550.0" prefWidth="819.0">
                      <children>
-                        <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="124.0" prefWidth="375.0" promptText="Cartesian xyz or Z-matrix" />
+                        <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="120.0" prefWidth="375.0" promptText="Cartesian xyz or Z-matrix" />
                         <TextField fx:id="PsiDescription" layoutX="22.0" layoutY="39.0" prefHeight="25.0" prefWidth="373.0">
                            <tooltip>
                               <Tooltip text="Description of the system and run (free text).">
@@ -25,7 +25,8 @@
                                     <Font size="13.0" />
                                  </font>
                               </Tooltip>
-                           </tooltip></TextField>
+                           </tooltip>
+                        </TextField>
                         <TextField fx:id="PubChem" layoutX="409.0" layoutY="39.0" prefHeight="25.0" prefWidth="389.0">
                            <tooltip>
                               <Tooltip text="Leave empty if entering coordinates to the 'System geometry' field." wrapText="true">
@@ -33,7 +34,8 @@
                                     <Font size="13.0" />
                                  </font>
                               </Tooltip>
-                           </tooltip></TextField>
+                           </tooltip>
+                        </TextField>
                         <Separator layoutX="-13.0" layoutY="367.0" prefHeight="3.0" prefWidth="832.0" />
                         <TextArea fx:id="SetOptions" layoutX="410.0" layoutY="253.0" prefHeight="108.0" prefWidth="386.0" promptText="'abc' : 'def',">
                            <tooltip>
@@ -42,9 +44,9 @@
                                     <Font size="13.0" />
                                  </font>
                               </Tooltip>
-                           </tooltip></TextArea>
-                        <TextArea fx:id="AreaOut" layoutX="410.0" layoutY="376.0" prefHeight="151.0" prefWidth="384.0" promptText="  log/message area" />
-                        <TextField fx:id="PsiCubeRange" layoutX="237.0" layoutY="396.0" prefHeight="25.0" prefWidth="143.0" />
+                           </tooltip>
+                        </TextArea>
+                        <TextField fx:id="PsiCubeRange" layoutX="631.0" layoutY="395.0" prefHeight="25.0" prefWidth="163.0" />
                         <TextField fx:id="PsiCharge" alignment="CENTER" layoutX="714.0" layoutY="81.0" prefHeight="27.0" prefWidth="28.0" promptText="0">
                            <tooltip>
                               <Tooltip text="System Charge" wrapText="true">
@@ -52,7 +54,8 @@
                                     <Font size="13.0" />
                                  </font>
                               </Tooltip>
-                           </tooltip></TextField>
+                           </tooltip>
+                        </TextField>
                         <TextField fx:id="PsiMulti" alignment="CENTER" layoutX="766.0" layoutY="81.0" prefHeight="27.0" prefWidth="28.0" promptText="1">
                            <tooltip>
                               <Tooltip text="Multiplicity" wrapText="true">
@@ -60,61 +63,32 @@
                                     <Font size="13.0" />
                                  </font>
                               </Tooltip>
-                           </tooltip></TextField>
+                           </tooltip>
+                        </TextField>
                         <Label layoutX="34.0" layoutY="14.0" text="Description" />
                         <Label layoutX="421.0" layoutY="14.0" text="Type .xyz filename, molecule name, or PubChem ID" />
                         <Label layoutX="27.0" layoutY="73.0" text="System geometry" />
                         <Label layoutX="415.0" layoutY="235.0" text="Type or choose from *More Options ('set global')" />
-                        <Label layoutX="237.0" layoutY="376.0" prefHeight="17.0" prefWidth="143.0" text="Range for CubeOrbitals">
+                        <Label layoutX="639.0" layoutY="376.0" prefHeight="17.0" prefWidth="143.0" text="Range for CubeOrbitals">
                            <font>
                               <Font size="12.0" />
-                           </font></Label>
+                           </font>
+                        </Label>
                         <ComboBox fx:id="PsiReference" layoutX="413.0" layoutY="140.0" prefHeight="25.0" prefWidth="98.0" promptText="Reference" />
                         <ComboBox fx:id="PsiBas" layoutX="412.0" layoutY="190.0" prefHeight="25.0" prefWidth="99.0" promptText="Basis Set" />
                         <ComboBox fx:id="PsiMethod" layoutX="519.0" layoutY="140.0" prefHeight="25.0" prefWidth="132.0" promptText="Method/Theory" />
                         <ComboBox fx:id="PsiFunct" layoutX="518.0" layoutY="190.0" prefHeight="25.0" prefWidth="131.0" promptText="DFT Functional" />
                         <ComboBox fx:id="ScfType" layoutX="660.0" layoutY="140.0" prefHeight="25.0" prefWidth="132.0" promptText="scf Type" />
                         <ComboBox fx:id="AddOptions" layoutX="659.0" layoutY="190.0" onAction="#AddOptionsAction" prefHeight="25.0" prefWidth="133.0" promptText="*More Options" />
-                        <HBox alignment="CENTER" layoutX="426.0" layoutY="70.0" prefHeight="23.0" prefWidth="272.0" spacing="10.0">
-                           <children>
-                              <CheckBox fx:id="PsiSp" mnemonicParsing="false" prefHeight="17.0" prefWidth="94.0" selected="true" text="Single Point">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></CheckBox>
-                              <CheckBox fx:id="PsiTs" mnemonicParsing="false" prefHeight="17.0" prefWidth="58.0" text="TS" />
-                              <CheckBox fx:id="PsiGrad" mnemonicParsing="false" prefHeight="17.0" prefWidth="91.0" text="Gradient" />
-                           </children>
-                           <padding>
-                              <Insets right="5.0" />
-                           </padding>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" layoutX="428.0" layoutY="94.0" prefHeight="23.0" prefWidth="291.0" spacing="10.0">
-                           <children>
-                              <CheckBox fx:id="PsiOpt" mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="Optimize">
-                                 <font>
-                                    <Font size="12.0" />
-                                 </font></CheckBox>
-                              <CheckBox fx:id="PsiIrc" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="IRC">
-                                 <HBox.margin>
-                                    <Insets left="15.0" />
-                                 </HBox.margin>
-                              </CheckBox>
-                              <CheckBox fx:id="PsiFreq" mnemonicParsing="false" prefHeight="18.0" prefWidth="143.0" text="Frequencies" />
-                           </children>
-                           <padding>
-                              <Insets right="5.0" />
-                           </padding>
-                        </HBox>
                         <Label layoutX="697.0" layoutY="86.0" text="Q" />
                         <Label layoutX="752.0" layoutY="87.0" text="S" />
-                        <Label layoutX="10.0" layoutY="376.0" text="Output Section" textFill="#0646f8">
+                        <Label layoutX="409.0" layoutY="376.0" text="Output Section" textFill="#0646f8">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <VBox layoutX="286.0" layoutY="219.0" prefHeight="147.0" prefWidth="107.0" spacing="8.0">
+                        <VBox layoutX="286.0" layoutY="228.0" prefHeight="135.0" prefWidth="107.0" spacing="8.0">
                            <children>
-                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
                               <CheckBox fx:id="PsiFreeze" mnemonicParsing="false" text="Freeze Core" />
                               <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM" />
                               <CheckBox fx:id="NatOrb" mnemonicParsing="false" text="Nat_Orbitals" />
@@ -141,53 +115,130 @@
                               </CheckBox>
                            </children>
                         </VBox>
-                        <ComboBox fx:id="PsiSolvent" layoutX="20.0" layoutY="277.0" prefHeight="25.0" prefWidth="100.0" promptText="Solvent" />
-                        <ComboBox fx:id="PsiPrint" layoutX="20.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" promptText="Default" />
-                        <ComboBox fx:id="PsiPoint" layoutX="159.0" layoutY="336.0" prefHeight="25.0" prefWidth="100.0" promptText="None" />
-                        <Label layoutX="33.0" layoutY="313.0" text="PRINT Level" />
-                        <Label layoutX="168.0" layoutY="313.0" text="Point Group" />
-                        <VBox layoutX="17.0" layoutY="407.0" prefHeight="112.0" prefWidth="100.0" spacing="8.0">
+                        <ComboBox fx:id="PsiSolvent" layoutX="20.0" layoutY="270.0" prefHeight="25.0" prefWidth="100.0" promptText="Solvent" />
+                        <ComboBox fx:id="PsiPrint" layoutX="20.0" layoutY="324.0" prefHeight="25.0" prefWidth="100.0" promptText="Default" />
+                        <ComboBox fx:id="PsiPoint" layoutX="159.0" layoutY="324.0" prefHeight="25.0" prefWidth="100.0" promptText="None" />
+                        <Label layoutX="33.0" layoutY="305.0" text="PRINT Level" />
+                        <Label layoutX="168.0" layoutY="305.0" text="Point Group" />
+                        <VBox layoutX="412.0" layoutY="407.0" prefHeight="112.0" prefWidth="100.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden out" />
                               <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" />
                               <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx" />
-                              <CheckBox fx:id="Properties" mnemonicParsing="false" text="Properties" />
+                              <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProperties">
+                                 <tooltip>
+                                    <Tooltip text="Series of one-electron properties.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
                            </children>
                         </VBox>
-                        <VBox layoutX="124.0" layoutY="408.0" prefHeight="110.0" prefWidth="132.0" spacing="8.0">
+                        <VBox layoutX="518.0" layoutY="408.0" prefHeight="110.0" prefWidth="132.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Xyzout" mnemonicParsing="false" text="XYZ out" />
                               <CheckBox fx:id="Fchkout" mnemonicParsing="false" text="fchk out" />
                               <CheckBox fx:id="Gdma" mnemonicParsing="false" text="GDMA" />
                               <CheckBox fx:id="PsiLocal" mnemonicParsing="false" prefHeight="17.0" prefWidth="121.0" text="MO Localization" />
+                              <ChoiceBox fx:id="PsiProperties" prefHeight="25.0" prefWidth="105.0" />
                            </children>
                         </VBox>
-                        <VBox layoutX="264.0" layoutY="456.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
+                        <VBox layoutX="651.0" layoutY="456.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den">
                                  <tooltip>
                                     <Tooltip text="Alpha, beta, total, and spin density cubes will be created." />
-                                 </tooltip></CheckBox>
+                                 </tooltip>
+                              </CheckBox>
                               <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb" />
                            </children>
                         </VBox>
-                        <VBox layoutX="334.0" layoutY="456.0" prefHeight="70.0" prefWidth="69.0" spacing="8.0">
+                        <VBox layoutX="732.0" layoutY="456.0" prefHeight="70.0" prefWidth="69.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiCubeEsp" mnemonicParsing="false" text="ESP" />
                               <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
                            </children>
                         </VBox>
-                        <Label layoutX="270.0" layoutY="421.0" text="1,2,5-9,-1, ALL" />
+                        <Label layoutX="661.0" layoutY="421.0" text="1,2,5-9,-1, ALL" />
                         <Label layoutX="417.0" layoutY="123.0" text="Reference" />
                         <Label layoutX="532.0" layoutY="123.0" text="Method/Theory" />
                         <Label layoutX="670.0" layoutY="123.0" text="scf Type" />
                         <Label layoutX="421.0" layoutY="173.0" text="Basis set" />
                         <Label layoutX="534.0" layoutY="173.0" text="DFT Functional" />
-                        <Label layoutX="33.0" layoutY="253.0" text="Solvent" />
+                        <Label layoutX="33.0" layoutY="250.0" text="Solvent" />
                         <Label layoutX="11.0" layoutY="226.0" prefHeight="17.0" prefWidth="110.0" text="Options Section" textFill="#0646f8">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
+                        </Label>
+                        <Label layoutX="11.0" layoutY="376.0" text="Run Options" textFill="#0646f8">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="RunOptions" layoutX="17.0" layoutY="447.0" prefHeight="89.0" prefWidth="378.0" promptText="'abc' : 'def'," />
+                        <ComboBox fx:id="AddRun" layoutX="245.0" layoutY="408.0" onAction="#AddRunOptions" prefWidth="150.0" promptText="*AddRunOptions" />
+                        <HBox layoutX="97.0" layoutY="380.0" prefHeight="27.0" prefWidth="245.0">
+                           <children>
+                              <CheckBox fx:id="PsiTs" mnemonicParsing="false" prefHeight="17.0" prefWidth="73.0" text="TS" />
+                              <CheckBox fx:id="PsiIrc" mnemonicParsing="false" prefHeight="18.0" prefWidth="88.0" text="IRC">
+                                 <HBox.margin>
+                                    <Insets left="15.0" />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <CheckBox fx:id="PsiFreq" mnemonicParsing="false" prefHeight="18.0" prefWidth="111.0" text="Frequencies" />
+                           </children>
+                        </HBox>
+                        <VBox layoutX="415.0" layoutY="68.0" prefHeight="45.0" prefWidth="124.0" spacing="8.0">
+                           <children>
+                              <CheckBox fx:id="PsiSp" mnemonicParsing="false" prefHeight="17.0" prefWidth="89.0" selected="true" text="Single Point">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </CheckBox>
+                              <CheckBox fx:id="PsiOpt" mnemonicParsing="false" prefHeight="17.0" prefWidth="109.0" text="Optimize">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                              </CheckBox>
+                           </children>
+                        </VBox>
+                        <HBox layoutX="17.0" layoutY="407.0" prefHeight="27.0" prefWidth="225.0">
+                           <children>
+                              <CheckBox fx:id="PsiGrad" mnemonicParsing="false" prefHeight="17.0" prefWidth="82.0" text="Gradient">
+                                 <tooltip>
+                                    <Tooltip text="Carry out one gradient pass.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
+                              <CheckBox fx:id="PsiHes" mnemonicParsing="false" prefHeight="17.0" prefWidth="77.0" text="Hessian">
+                                 <tooltip>
+                                    <Tooltip text="Compute force constants.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip>
+                              </CheckBox>
+                              <CheckBox fx:id="PsiTher" mnemonicParsing="false" prefHeight="17.0" prefWidth="73.0" text="Thermo" />
+                           </children>
+                        </HBox>
+                        <VBox layoutX="524.0" layoutY="69.0" prefHeight="45.0" prefWidth="100.0">
+                           <children>
+                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
+                           </children>
+                        </VBox>
+                        <Label layoutX="431.0" layoutY="512.0" prefHeight="17.0" prefWidth="84.0" text="ResProperties">
+                           <tooltip>
+                              <Tooltip text="Response Properties (CC CCSD).">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </Tooltip>
+                           </tooltip>
                         </Label>
                      </children>
                   </AnchorPane>

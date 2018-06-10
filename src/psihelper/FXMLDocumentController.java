@@ -58,6 +58,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -127,8 +128,7 @@ public class FXMLDocumentController implements Initializable {
     private TextField PubChem;
     @FXML
     private TextArea SetOptions;
-    @FXML
-    private TextArea AreaOut;
+    //private TextArea AreaOut;
     @FXML
     private TextField PsiCubeRange;
     @FXML
@@ -203,6 +203,16 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox PsiCp;
     @FXML
     private CheckBox PsiGrad;
+    @FXML
+    private TextArea RunOptions;
+    @FXML
+    private ComboBox<String> AddRun;
+    @FXML
+    private CheckBox PsiHes;
+    @FXML
+    private CheckBox PsiTher;
+    @FXML
+    private ChoiceBox<String> PsiProperties;
 
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Global variables">
@@ -249,6 +259,7 @@ public class FXMLDocumentController implements Initializable {
     String psi_prop;
     String psi_pyapi;
     String addoptions;
+    String addrunopt;
     String cuberange;
     String psi_cuberange;
     String num_cube;
@@ -260,11 +271,18 @@ public class FXMLDocumentController implements Initializable {
     String m2aim_path;
     String ushell;
     String psi_cp;
+    String psi_ther;
+    String set_univ = "";
+    String opt_freq = "";
+    String resprop = "";
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
             "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition"
+    );
+    ObservableList<String> addrunbox = FXCollections.observableArrayList(
+            "dertype 2", "dertype 1", "dertype energy", "BSSE_all"
     );
     ObservableList<String> refbox = FXCollections.observableArrayList(
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
@@ -293,8 +311,11 @@ public class FXMLDocumentController implements Initializable {
     ObservableList<String> symbox = FXCollections.observableArrayList(
             "NA", "c1", "ci", "c2", "cs", "d2", "c2v", "c2h", "d2h"
     );
-    // </editor-fold>
+    ObservableList<String> propbox = FXCollections.observableArrayList(
+            "NONE", "POLARIZABILITY", "ROTATION", "OSCILATOR_STRENGTH", "ROA"
+    );
 
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="myMethod getMatchingString">
     List<String> getMatchingStrings(List<String> list,
             String regex) {
@@ -440,15 +461,18 @@ public class FXMLDocumentController implements Initializable {
         ScfType.setItems(scftypebox);
         ScfType.setValue("DF");
         AddOptions.setItems(addoptbox);
+        AddRun.setItems(addrunbox);
         PsiSolvent.setItems(solventbox);
         PsiSolvent.setValue("None");
         PsiPrint.setItems(printbox);
         PsiPrint.setValue("Default");
         PsiPoint.setItems(symbox);
         PsiPoint.setValue("NA");
+        PsiProperties.setItems(propbox);
+        PsiProperties.setValue("NONE");
         LoadParams();
 
-        // Two checkboxes alter
+        // Three checkboxes alter
         PsiSp.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
             if (isNowSelected) {
                 PsiOpt.setSelected(false);
@@ -466,6 +490,12 @@ public class FXMLDocumentController implements Initializable {
         PsiGrad.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
             if (isNowSelected) {
                 PsiSp.setSelected(false);
+                PsiOpt.setSelected(false);
+            }
+        });
+        PsiGrad.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (!isNowSelected) {
+                PsiSp.setSelected(true);
                 PsiOpt.setSelected(false);
             }
         });
@@ -579,6 +609,31 @@ public class FXMLDocumentController implements Initializable {
                 SetOptions.setText(addoptions);
                 break;
         }
+    }
+
+    @FXML // Append Run Options
+    private void AddRunOptions(ActionEvent event) {
+        String addrunopt = AddRun.getValue();
+        RunOptions.setStyle("-fx-text-fill: #8800CC");
+        switch (addrunopt) {
+            case "dertype 2":
+                addrunopt = RunOptions.getText() + "'dertype=' : '2', ";
+                RunOptions.setText(addrunopt);
+                break;
+            case "dertype 1":
+                addrunopt = RunOptions.getText() + "'dertype=' : '1', ";
+                RunOptions.setText(addrunopt);
+                break;
+            case "dertype energy":
+                addrunopt = RunOptions.getText() + "'dertype=' : 'energy', ";
+                RunOptions.setText(addrunopt);
+                break;
+            case "BSSE_all":
+                addrunopt = RunOptions.getText() + "bsse_type=' : '['nocp', 'cp', 'vmfc']', ";
+                RunOptions.setText(addrunopt);
+                break;
+        }
+
     }
 
     @FXML
@@ -905,6 +960,26 @@ public class FXMLDocumentController implements Initializable {
         }
         // </editor-fold>
 
+// <editor-fold defaultstate="collapsed" desc="Response Properties [resprop]">
+        switch (PsiProperties.getValue()) {
+            case "NONE":
+                resprop = "";
+                break;
+            case "POLARIZABILITY":
+                resprop = "'POLARIZABILITY'";
+                break;
+            case "ROTATION":
+                resprop = "'ROTATION'";
+                break;
+            case "OSCILATOR_STRENGTH":
+                resprop = "'OSCILATOR_STRENGTH'";
+                break;
+            case "ROA":
+                resprop = "'ROA'";
+                break;
+        }
+
+// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="PsiSolvent [psi_solvent]">
         //psi_solvent = PsiSolvent.getValue();
         // PsiSolvent.setValue("None");
@@ -936,6 +1011,11 @@ public class FXMLDocumentController implements Initializable {
 // <editor-fold defaultstate="collapsed" desc="AddOptions [addoptions]">
         addoptions = SetOptions.getText();
 // </editor-fold>
+
+// <editor-fold defaultstate="collapsed" desc="AddRunOptions [addrunopt]">
+        addrunopt = RunOptions.getText();
+// </editor-fold>
+
 // charge multiplicity memory cores comment
 // <editor-fold defaultstate="collapsed" desc="charge multiplicity memory cores comment">
         if (PsiCharge.getText().length() == 0) {
@@ -999,12 +1079,33 @@ public class FXMLDocumentController implements Initializable {
         if (PsiGrad.isSelected()) {
             psi_call = "gradient";
         }
+        if (PsiOpt.isSelected() && PsiFreq.isSelected()) {
+            PsiFreq.setSelected(true);
+            opt_freq = "optfreq";
+        } else {
+            opt_freq = "";
+        }
         if (PsiOpt.isSelected()) {
             psi_call = "optimize";
         }
+        if (PsiHes.isSelected()) {
+            psi_call = "hessian";
+        }
         if (PsiFreq.isSelected()) {
             psi_call = "frequencies";
+            set_univ = "'normal_modes_write' : 'true'";
+        } else {
+            set_univ = "";
         }
+        if (PsiTher.isSelected()) {
+            psi_call = "frequencies";
+            psi_ther = "set t 273.15\n"
+                    + "set p 100000\n"
+                    + "thermo(wfn, wfn.frequencies())";
+        } else {
+            psi_ther = "";
+        }
+
         if (PsiIrc.isSelected()) {
             opt_type = "'opt_type' : 'irc'";
             set_alone = "set g_convergence gau_verytight";
@@ -1208,27 +1309,26 @@ public class FXMLDocumentController implements Initializable {
         String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
 
-        if (FileExists.Confirm(inp_dir,
-                file_name,
-                suff, file_ext)
-                == false) {
-            AreaOut.setStyle("-fx-text-fill: #339933;-fx-font-weight:normal");
-            AreaOut.setText(ToOutArea);
-        } else {
-            AreaOut.setText("");
-        }
-
-        // Create directory 'cubes'
-        if (FileExists.DirExists(inp_dir
-                + File.separator + "cubes") == false) {
-            new File(inp_dir + File.separator + "cubes").mkdirs();
-            AreaOut.appendText("\nDirectory ./cubes was created.");
-        }
-
+//        if (FileExists.Confirm(inp_dir,
+//                file_name,
+//                suff, file_ext)
+//                == false) {
+//            AreaOut.setStyle("-fx-text-fill: #339933;-fx-font-weight:normal");
+//            AreaOut.setText(ToOutArea);
+//        } else {
+//            AreaOut.setText("");
+//        }
+//
+//        // Create directory 'cubes'
+//        if (FileExists.DirExists(inp_dir
+//                + File.separator + "cubes") == false) {
+//            new File(inp_dir + File.separator + "cubes").mkdirs();
+//            AreaOut.appendText("\nDirectory ./cubes was created.");
+//        }
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt, psi_cp);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

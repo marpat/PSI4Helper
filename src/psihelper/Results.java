@@ -23,6 +23,10 @@
  */
 package psihelper;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Results.java (UTF-8)
  *
@@ -32,42 +36,73 @@ package psihelper;
  */
 public class Results extends FXMLDocumentController {
 
-    public String results(String psi_call, String psi_method, String psi_func, String psi_geom, String psi_cp) {
+    static String removeDuplicates(String s) {
+    StringBuilder noDupes = new StringBuilder();
+    for (int i = 0; i < s.length(); i++) {
+        String si = s.substring(i, i + 1);
+        if (noDupes.indexOf(si) == -1) {
+            noDupes.append(si);
+        }
+    }
+    return noDupes.toString();
+}
+    
+    public String results(String psi_call, String psi_method, String psi_func, String psi_geom, String psi_cp, String addrunopt, String opt_freq, String resprop) {
 
 // <editor-fold defaultstate="collapsed" desc="Local variables">
-        String resultsall = "";
+        String resultsall0 = "";
         String methfunc = "";
         String aux0 = ""; // reserved for freq optimization
         String aux1 = ""; // goes to call ()
         String aux2 = "";
-
-        if (psi_method.contains("DFT")) {
+        String aux3 = "";
+      
+       if (psi_method.contains("DFT")) {
             methfunc = psi_func;
         } else {
             methfunc = psi_method;
         }       
-        if (psi_call.contains("Frequencies")){
+        if (opt_freq.contains("optfreq")){
             aux0 = "optimize('"+ methfunc +"')\n";
             aux1 = "dertype=1";
         }
         if (psi_cp != null){
         aux2 = "bsse_type = 'cp'";
         } 
+        if (resprop.length()>3){
+            aux3 = "properties = ["+resprop+"]";
+            methfunc = "cc2";
+        } else {
+            aux3 = "";
+        }
+        if (psi_call.contains("therm")){
+        }
+        // Formating
+        if (addrunopt !=null){
+            addrunopt = addrunopt.replaceAll("'", "").replaceAll(" : ", "");
+        }
 // </editor-fold>
 
-    resultsall  = aux0
-            + "val1, wfn = "
+    resultsall0  = aux0
+            + "E1, wfn = "
             + psi_call + "('"
             + methfunc + "', "
             + "return_wfn=True, "
+            + aux3 + ", "
             + aux1 + ", "
-            + aux2
+            + aux2 + ", "
+            + addrunopt
             + ")\n\n";
 
-    resultsall = resultsall.replaceAll("(?m),\\s+?,", ",");
-    resultsall  = resultsall.replaceAll("(?im),\\s\\)", ")");
+   
+//resultsall = removeDuplicates(resultsall);
+    resultsall0 = resultsall0.replaceAll("(?m),\\s+?,", ",");
+    resultsall0 = resultsall0.replaceAll("(?im)((,)\\s,)", "$2");
+    resultsall0  = resultsall0.replaceAll("(?im),\\s\\)", ")");
+    //Set<String> resultsall = new HashSet<String>(Arrays.asList(resultsall0));
+    //log(resultsall0);
 
-    return resultsall ;
+    return resultsall0.toString() ;
 }
 
 }
