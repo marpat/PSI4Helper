@@ -433,11 +433,12 @@ public class FXMLDocumentController implements Initializable {
             props.setProperty("Molden2Aim", "" + PM2aim.getText());
             props.setProperty("Shell#", "" + ShShell.getText());
 
-            String path = PsiHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            String decodedPath = URLDecoder.decode(path, "UTF-8");
-            String decodedPath1 = (new File(decodedPath)).getParentFile().getPath();
-            log(decodedPath1);
-            File f = new File(decodedPath1 + File.separator + "psi_def.xml");
+//            String path = PsiHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+//            String decodedPath = URLDecoder.decode(path, "UTF-8");
+//            String decodedPath1 = (new File(decodedPath)).getParentFile().getPath();
+//            log(decodedPath1);
+//            File f = new File(decodedPath1 + File.separator + "psi_def.xml");
+            File f = new File("psi_def.xml");
             OutputStream out = new FileOutputStream(f);
             props.storeToXML(out, "Values from the last PSI4 input file.");
         } catch (Exception e) {
@@ -966,16 +967,16 @@ public class FXMLDocumentController implements Initializable {
                 resprop = "";
                 break;
             case "POLARIZABILITY":
-                resprop = "'POLARIZABILITY'";
+                resprop = "'polarizability'";
                 break;
             case "ROTATION":
-                resprop = "'ROTATION'";
+                resprop = "rotation'";
                 break;
             case "OSCILATOR_STRENGTH":
-                resprop = "'OSCILATOR_STRENGTH'";
+                resprop = "'oscilator_strength'";
                 break;
             case "ROA":
-                resprop = "'ROA'";
+                resprop = "'roa'";
                 break;
         }
 
@@ -1163,7 +1164,7 @@ public class FXMLDocumentController implements Initializable {
             psi_prmos = "";
         }
         if (Moldenout.isSelected() || Psi47.isSelected() || PsiWfx.isSelected()) {
-            psi_moldenout = "molden(wfn, '" + file_name + ".molden')";
+            psi_moldenout = "molden(wfn, '" + file_name + suff + ".molden')";
         } else {
             psi_moldenout = "";
         }

@@ -234,7 +234,7 @@ public class Psi extends FXMLDocumentController {
                 + "version_page\n\n"
                 + "comp_dir='" + inp_dir + "'\n"
                 + "mwfn_dir='" + mwfn_path + "'\n" //'/home/mp/Computation/Multiwfn_3.5_bin_Linux'
-                + "f='" + file_name + "'\n\n"
+                + "f='" + file_name + suff +"'\n\n"
                 + "mwfn() {\n"
                 + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
                 + "      echo 'Multiwfn was found at $mwfn_dir'\n"
@@ -277,7 +277,7 @@ public class Psi extends FXMLDocumentController {
                 + "version_page\n\n"
                 + "comp_dir='" + inp_dir + "'\n"
                 + "mwfn_dir='" + mwfn_path + "'\n" //'/home/mp/Computation/Multiwfn_3.5_bin_Linux'
-                + "f='" + file_name + "'\n\n"
+                + "f='" + file_name + suff+ "'\n\n"
                 + "mwfn() {\n"
                 + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
                 + "      echo 'Multiwfn was found at $mwfn_dir'\n"

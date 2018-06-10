@@ -11,3 +11,16 @@ and open the template in the editor.
 .root {
     -fx-font-size: 9pt;
 }
+
+.combo-box, .choice-box {
+     -fx-font-size: 8pt;
+}
+
+#AddOptions .list-cell {
+    -fx-text-fill: blue;
+}
+
+#AddRun .list-cell {
+    -fx-text-fill: darkmagenta;
+}
+

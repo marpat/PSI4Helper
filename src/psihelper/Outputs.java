@@ -88,7 +88,9 @@ public class Outputs extends FXMLDocumentController {
         cubemove = "import os\n"
                 + "from pathlib import Path\n"
                 + "import shutil\n\n"
-                + "now = str(Path().absolute())\n"              
+                + "now = str(Path().absolute())\n"
+                + "if not os.path.exists(now+'/cubes'):\n"
+                + "    os.makedirs(now+'/cubes')\n"
                 + "moveto = now + '/cubes/'\n"
                 + "files = []\n"
                 + "for filename in os.listdir():\n"
@@ -102,7 +104,8 @@ public class Outputs extends FXMLDocumentController {
                 + "    except Exception as e:\n" 
                 + "        print(\"Type error: \" + str(e))\n"
                 + "        pass\n"
-                + "print('Moved {} files to ./cubes directory.'.format(len(files)))";
+                + "print('Moved {} files to ./cubes directory.'.format(len(files)))"
+                + "#os.system('python ' + now+'/cubes/vmd_cube.py')";
         
         if (num_cube.length() < 1) {
             cubeorb = "";
@@ -137,18 +140,19 @@ public class Outputs extends FXMLDocumentController {
                 + "LocalB.localize()\n\n"
                 + "P_M_C_occ = LocalP.L # local P_M C_occ coefficients\n"
                 + "B_C_occ = LocalB.L # local Boys C_occ coefficients\n\n"
-                + "print_out(\"1st canonical C_occ.\n"
+                + "print_out('1st canonical C_occ.')\n"
                 + "wfn.Ca().print_out()\n\n"
-                + "print_out(\"\nPipek-Mezey Localized C_occ.\n"
-                + "P_M_C_occ.print_out()"
-                + "print(\"\nBoys Localized C_occ.\n"
-                + "B_C_occ.print_out()";
+                + "print_out('Pipek-Mezey Localized C_occ.')\n"
+                + "P_M_C_occ.print_out()\n"
+                + "print_out('Boys Localized C_occ.')\n"
+                + "B_C_occ.print_out()\n";
 
         if (psi_xyz.contains("YES")) {
             xyzout = savexyz;
         } else {
-            xyzout = "print_out('Final geometry:')\n"
-                    + "print_out(\"" + molname + ".save_string_xyz()\")";
+            xyzout = "\n\nprint_out('Final geometry:')\n"
+                    +"print_out(\"\\n\")\n"
+                    + "print_out("+molname + ".save_string_xyz())";
         }
 
         if (psi_prop.length() > 0) {
