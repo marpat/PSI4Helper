@@ -79,7 +79,7 @@
                         <ComboBox fx:id="PsiMethod" layoutX="519.0" layoutY="140.0" prefHeight="25.0" prefWidth="132.0" promptText="Method/Theory" />
                         <ComboBox fx:id="PsiFunct" layoutX="518.0" layoutY="190.0" prefHeight="25.0" prefWidth="131.0" promptText="DFT Functional" />
                         <ComboBox fx:id="ScfType" layoutX="660.0" layoutY="140.0" prefHeight="25.0" prefWidth="132.0" promptText="scf Type" />
-                        <ComboBox id="addoptions" fx:id="AddOptions" layoutX="659.0" layoutY="190.0" onAction="#AddOptionsAction" prefHeight="25.0" prefWidth="133.0" promptText="*More Options" />
+                        <ComboBox fx:id="AddOptions" layoutX="659.0" layoutY="190.0" onAction="#AddOptionsAction" prefHeight="25.0" prefWidth="133.0" promptText="*More Options" />
                         <Label layoutX="697.0" layoutY="86.0" text="Q" />
                         <Label layoutX="752.0" layoutY="87.0" text="S" />
                         <Label layoutX="409.0" layoutY="376.0" text="Output Section" textFill="#0646f8">
@@ -231,7 +231,7 @@
                               <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
                            </children>
                         </VBox>
-                        <Label layoutX="432.0" layoutY="510.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
+                        <Label layoutX="444.0" layoutY="506.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
                            <tooltip>
                               <Tooltip text="Response Properties (CC CCSD).">
                                  <font>

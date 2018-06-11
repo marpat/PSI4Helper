@@ -52,7 +52,9 @@ public class Options extends FXMLDocumentController {
             String psi_solvent,
             String psi_sapt,
             String set_univ,
-            String resprop) {
+            String resprop,
+            String psi_irc
+    ) {
 
 // <editor-fold defaultstate="collapsed" desc="here your description">        
 //         // Creating object of a class   
@@ -91,10 +93,12 @@ public class Options extends FXMLDocumentController {
 
         //PSI4 opt = new PSI4();
 //// <editor-fold defaultstate="collapsed" desc="Set extra options">
-        if ("YES".equals(psi_sapt)) {
-            //addoptions = addoptions + "'guess' : 'sad'\n'";
-            
+        if (psi_irc != null) {
+            set_univ = "'geom_maxiter' : '150'\n"
+            + "'irc_direction' : 'backward'\n"
+            + "'cart_hess_read' : 'true'\n"; 
         }
+        
         if (addoptions.length() == 0) {
             set_main = "";
         } else {

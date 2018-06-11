@@ -40,7 +40,6 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -245,6 +244,7 @@ public class FXMLDocumentController implements Initializable {
     String psi_local;
     String psi_call;
     String psi_sapt;
+    String psi_irc;
     String opt_type = "";
     String psi_print;
     String set_alone = "";
@@ -1101,23 +1101,17 @@ public class FXMLDocumentController implements Initializable {
         if (PsiTher.isSelected()) {
             psi_call = "frequencies";
             psi_ther = "set t 273.15\n"
-                    + "set p 100000\n"
-                    + "thermo(wfn, wfn.frequencies())";
+                    + "set p 100000\n\n"
+                    + "thermo(wfn, wfn.frequencies())\n";
         } else {
             psi_ther = "";
         }
 
         if (PsiIrc.isSelected()) {
-            opt_type = "'opt_type' : 'irc'";
-            set_alone = "set g_convergence gau_verytight";
-            //set_main = "irc_direction              backward";
-            psi_call = "optimize";
+            psi_irc = "YES";
         } else {
-            set_alone = "";
+            psi_irc = null;
         }
-//        if (!"IRC".equals(opt_type)) {
-//            set_alone = "";
-//        }
         if (PsiCp.isSelected()) {
             psi_cp = "'bsse_type' : 'cp'";
         } else {
@@ -1329,7 +1323,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

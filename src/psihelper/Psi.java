@@ -144,7 +144,8 @@ public class Psi extends FXMLDocumentController {
             String psi_ther,
             String set_univ,
             String opt_freq,
-            String resprop) throws IOException // </editor-fold>
+            String resprop,
+            String psi_irc) throws IOException // </editor-fold>
     {
 
 // <editor-fold defaultstate="collapsed" desc="Variables">
@@ -167,6 +168,8 @@ public class Psi extends FXMLDocumentController {
         String sh47;
         Boolean Wwfx = false;
         Boolean W47 = false;
+        String setopt;
+        String setopt1;
 // </editor-fold>
 
         if (psi_pyapi.contains("YES")) {
@@ -212,16 +215,28 @@ public class Psi extends FXMLDocumentController {
 
         // Options section. Create an object first.
         Options geo_main = new Options();
-        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,psi_sapt, set_univ,resprop);
+        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent, psi_sapt, set_univ, resprop,psi_irc);
 
         Results calls = new Results();
         run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp, addrunopt, opt_freq, resprop);
 
         Outputs outp = new Outputs();
-        resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local,psi_ther);
+        resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local, psi_ther);
 
-        input = skeleton + geo + opt + run + resout;
-        //log(input);
+        if (psi_irc  != null) {
+            setopt = "set " + psi_bas + "\n"
+                    + "set 'hessian_write' : 'true'\n"
+                    + "\n\nhessian('"+psi_method+"', dertype=1)\n\n";
+            setopt1 = "set g_convergence gau_verytight\n\n";
+            run = "energy = optimize('"+psi_method+"')\n";
+            setopt = setopt.replaceAll("'", "").replaceAll(":", "");
+            
+            input = skeleton + geo + setopt + geo + setopt1 + opt + run + resout;
+            //input = "ha";
+        } else {
+            input = skeleton + geo + opt + run + resout;
+            //input="else";
+        }
 
 // <editor-fold defaultstate="collapsed" desc="mwfn sh">
         mwfnsh = "#!/bin/bash\n"
@@ -234,7 +249,7 @@ public class Psi extends FXMLDocumentController {
                 + "version_page\n\n"
                 + "comp_dir='" + inp_dir + "'\n"
                 + "mwfn_dir='" + mwfn_path + "'\n" //'/home/mp/Computation/Multiwfn_3.5_bin_Linux'
-                + "f='" + file_name + suff +"'\n\n"
+                + "f='" + file_name + suff + "'\n\n"
                 + "mwfn() {\n"
                 + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
                 + "      echo 'Multiwfn was found at $mwfn_dir'\n"
@@ -277,7 +292,7 @@ public class Psi extends FXMLDocumentController {
                 + "version_page\n\n"
                 + "comp_dir='" + inp_dir + "'\n"
                 + "mwfn_dir='" + mwfn_path + "'\n" //'/home/mp/Computation/Multiwfn_3.5_bin_Linux'
-                + "f='" + file_name + suff+ "'\n\n"
+                + "f='" + file_name + suff + "'\n\n"
                 + "mwfn() {\n"
                 + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
                 + "      echo 'Multiwfn was found at $mwfn_dir'\n"
