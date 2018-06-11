@@ -23,10 +23,6 @@
  */
 package psihelper;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Results.java (UTF-8)
  *
@@ -70,6 +66,7 @@ public class Results extends FXMLDocumentController {
         aux2 = "bsse_type = 'cp'";
         } 
         if (resprop.length()>3){
+            psi_call = "properties";
             aux3 = "properties = ["+resprop+"]";
             methfunc = "cc2";
         } else {
