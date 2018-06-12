@@ -282,13 +282,13 @@ public class FXMLDocumentController implements Initializable {
             "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition"
     );
     ObservableList<String> addrunbox = FXCollections.observableArrayList(
-            "dertype 2", "dertype 1", "dertype energy", "BSSE_all"
+            "CLEAR", "dertype 2", "dertype 1", "dertype energy", "BSSE_all"
     );
     ObservableList<String> refbox = FXCollections.observableArrayList(
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
     );
     ObservableList<String> basisbox = FXCollections.observableArrayList(
-            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ", "jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "CUSTOM", "mybas"
+            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ", "jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
     );
     ObservableList<String> methodbox = FXCollections.observableArrayList(
             "HF", "DFT", "MP2", "CC2", "CCSD", "CCSD(T)", "MP4", "FNO-MP4", "OMP2", "SAPT0", "SAPT2", "SAPT+(3)", "SAPT2+(3)dMP2", "F-SAPT"
@@ -300,7 +300,7 @@ public class FXMLDocumentController implements Initializable {
             "DF", "DIRECT", "PK", "OUT_OF_CORE", "FAST_DF", "CD", "INDEPENDENT"
     );
     ObservableList<String> addoptbox = FXCollections.observableArrayList(
-            "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "clean()", "SAPT-typical", "fisapt_do_plot true"
+            "CLEAR", "custom basis set", "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "df_scf_guess false", "SAPT-typical", "fisapt_do_plot true"
     );
     ObservableList<String> solventbox = FXCollections.observableArrayList(
             "None", "water", "dmso", "acetonitrile", "thf", "dcm", "benzene"
@@ -537,6 +537,14 @@ public class FXMLDocumentController implements Initializable {
         String addoptions = AddOptions.getValue();
         SetOptions.setStyle("-fx-text-fill: #3300FF");
         switch (addoptions) {
+            case "CLEAR":
+                addoptions = SetOptions.getText() + "";
+                SetOptions.setText("");
+                break;
+            case "custom basis set":
+                addoptions = SetOptions.getText() + "'basis' : 'select _CUSTOM from Basis set and type_basis_set here',\n";
+                SetOptions.setText(addoptions);
+                break;
             case "geom_maxiter 25":
                 addoptions = SetOptions.getText() + "'geom_maxiter' : '25',\n";
                 SetOptions.setText(addoptions);
@@ -594,8 +602,8 @@ public class FXMLDocumentController implements Initializable {
                 addoptions = SetOptions.getText() + "'irc_direction': 'backward',\n";
                 SetOptions.setText(addoptions);
                 break;
-            case "clean()":
-                addoptions = SetOptions.getText() + "'clean()' : '',\n";
+            case "df_scf_guess false":
+                addoptions = SetOptions.getText() + "'df_scf_guess' : 'false',\n";
                 SetOptions.setText(addoptions);
                 break;
             case "SAPT-typical":
@@ -617,6 +625,10 @@ public class FXMLDocumentController implements Initializable {
         String addrunopt = AddRun.getValue();
         RunOptions.setStyle("-fx-text-fill: #8800CC");
         switch (addrunopt) {
+            case "CLEAR":
+                addrunopt = RunOptions.getText() + "";
+                RunOptions.setText("");
+                break;
             case "dertype 2":
                 addrunopt = RunOptions.getText() + "'dertype=' : '2', ";
                 RunOptions.setText(addrunopt);
@@ -707,9 +719,8 @@ public class FXMLDocumentController implements Initializable {
                 psi_bas = "'basis' : 'cc-pCVTZ'";
                 link3 = "";
                 break;
-            case "CUSTOM":
-                psi_bas = "'basis' : ' '";
-                link3 = "";
+            case "_CUSTOM":
+                psi_bas = "'# basis' : 'enter from *More Options box and re-run'";
                 break;
             case "mybas"://TODO use my_bas and find where it goes
                 psi_bas = "mybas {\n"
@@ -1164,11 +1175,13 @@ public class FXMLDocumentController implements Initializable {
         }
         if (Psi47.isSelected()) {
             write47 = "YES";
+            psi_freeze = "'freeze_core': 'true'";
         } else {
             write47 = null;
         }
         if (PsiWfx.isSelected()) {
             writewfx = "YES";
+            psi_freeze = "'freeze_core': 'true'";
         } else {
             writewfx = null;
         }

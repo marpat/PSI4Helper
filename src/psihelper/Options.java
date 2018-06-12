@@ -111,7 +111,6 @@ public class Options extends FXMLDocumentController {
         } else {
             rot ="";
         }
-        
         if (psi_pyapi.contains("YES")) {
         } else {
             psi_bas = psi_bas.replaceAll("'", "").replaceAll(":", "");
