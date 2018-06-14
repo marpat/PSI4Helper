@@ -75,6 +75,7 @@ import javafx.stage.Stage;
 public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="@FXML declarations">
+    // Defined in fxml file by Scene Builder
     @FXML
     private Button SetDirBn;
     @FXML
@@ -214,7 +215,7 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox<String> PsiProperties;
 
 // </editor-fold>
-    // <editor-fold defaultstate="collapsed" desc="Global variables">
+    // <editor-fold defaultstate="collapsed" desc="My Global variables">
     String suff = null;
     String link3;
     String link2;
@@ -278,6 +279,7 @@ public class FXMLDocumentController implements Initializable {
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
+    // Boxes with ObservableArrayList objects
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
             "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition"
     );
