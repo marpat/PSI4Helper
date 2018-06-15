@@ -66,6 +66,7 @@ public class Outputs extends FXMLDocumentController {
         String moloc;
         String movecube;
         String cubemove;
+        String countorb;
 
         // Copy vmd_cube.py file into ./cubes directory
 //        String pat="";
@@ -83,8 +84,8 @@ public class Outputs extends FXMLDocumentController {
 //        copyFile(source1, dest1);
         //log("CubeProp:" + CubeProp);
         //log("num_cube:" + num_cube);
-        inp_dir =  inp_dir.replace("\\", "/"); // for all platforms
-        
+        inp_dir = inp_dir.replace("\\", "/"); // for all platforms
+
         cubemove = "import os\n"
                 + "from pathlib import Path\n"
                 + "import shutil\n\n"
@@ -101,20 +102,52 @@ public class Outputs extends FXMLDocumentController {
                 + "        src = now+'/'+f\n"
                 + "        dst = moveto+f\n"
                 + "        shutil.move(src,dst)\n"
-                + "    except Exception as e:\n" 
+                + "    except Exception as e:\n"
                 + "        print(\"Type error: \" + str(e))\n"
                 + "        pass\n"
-                + "print('Moved {} files to ./cubes directory.'.format(len(files)))"
+                + "print('Moved {} files to ./cubes directory.'.format(len(files)))\n"
                 + "#os.system('python ' + now+'/cubes/vmd_cube.py')";
-        
+
+        countorb = "nocca = wfn.nalpha()\n"
+                + "noccb = wfn.nbeta()\n"
+                + "ndocc = min(nocca, noccb)\n"
+                + "nocc = max(nocca, noccb)\n"
+                + "nsocc = nocc - ndocc\n"
+                + "\n"
+                + "mints = psi4.core.MintsHelper(wfn.basisset())\n"
+                + "S = np.asarray(mints.ao_overlap())\n"
+                + "nbf = S.shape[0]\n"
+                + "\n"
+                + "HOMO = wfn.epsilon_a_subset(\"AO\", \"ALL\")[wfn.nalpha()]\n" 
+                + "LUMO = wfn.epsilon_a_subset(\"AO\", \"ALL\")[wfn.nalpha() + 1]\n" 
+                + "\n"
+                + "print('The HOMO - LUMO gap is: %16.8f hartree' % (LUMO - HOMO))\n"
+                + "\n"
+                + "print('Number of doubly occupied orbitals:   %d' % ndocc)\n"
+                + "print('Number of singly occupied orbitals:   %d' % nsocc)\n"
+                + "print('Number of basis functions:            %d' % nbf)\n";
+
+        //work on num_cube string
+        if (num_cube.toLowerCase().contains("HOMO".toLowerCase())) {
+            num_cube = num_cube.toLowerCase().replace("HOMO".toLowerCase(), "$ndocc");
+        }
+        if (num_cube.toLowerCase().contains("LUMO".toLowerCase())) {
+            num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(), "$ndocc+1");
+        }
+        if (num_cube.toLowerCase().contains("SOMO".toLowerCase())) {
+            num_cube = num_cube.toLowerCase().replace("SOMO".toLowerCase(), "$nsocc");
+        }
+
         if (num_cube.length() < 1) {
             cubeorb = "";
+            countorb = "";
         } else {
             cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
             //copyFile(source1, dest1);
         }
         if (CubeProp.length() > 0) {
-            cubes = "set cubeprop_tasks [" + CubeProp + "]\n"
+            cubes = countorb + "\n"
+                    + "set cubeprop_tasks [" + CubeProp + "]\n"
                     + cubeorb + "\n"
                     //+ "cubeprop_filepath ('./cubes')\n"
                     + "cubeprop(wfn)\n";
@@ -151,8 +184,8 @@ public class Outputs extends FXMLDocumentController {
             xyzout = savexyz;
         } else {
             xyzout = "\n\nprint_out('Final geometry:')\n"
-                    +"print_out(\"\\n\")\n"
-                    + "print_out("+molname + ".save_string_xyz())";
+                    + "print_out(\"\\n\")\n"
+                    + "print_out(" + molname + ".save_string_xyz())";
         }
 
         if (psi_prop.length() > 0) {
@@ -175,7 +208,7 @@ public class Outputs extends FXMLDocumentController {
                 + psiprop + "\n"
                 + psiloc + "\n"
                 + xyzout + "\n\n"
-                + movecube+"\n";
+                + movecube + "\n";
 
         outputsall = outputsall.replaceAll("(?m)^(null)?,", "");
         outputsall = outputsall.replaceAll("(?m)^[ \t]*\r?r?\n\n", "");

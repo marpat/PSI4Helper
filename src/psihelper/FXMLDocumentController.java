@@ -53,6 +53,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -61,6 +62,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -280,6 +282,8 @@ public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
     // Boxes with ObservableArrayList objects
+    Separator separator = new Separator(Orientation.HORIZONTAL);
+    
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
             "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition"
     );
@@ -290,13 +294,13 @@ public class FXMLDocumentController implements Initializable {
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
     );
     ObservableList<String> basisbox = FXCollections.observableArrayList(
-            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ", "jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
+            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ","def2-TZVP","jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
     );
     ObservableList<String> methodbox = FXCollections.observableArrayList(
             "HF", "DFT", "MP2", "CC2", "CCSD", "CCSD(T)", "MP4", "FNO-MP4", "OMP2", "SAPT0", "SAPT2", "SAPT+(3)", "SAPT2+(3)dMP2", "F-SAPT"
     );
     ObservableList<String> functbox = FXCollections.observableArrayList(
-            "B3LYP", "B3LYP-D", "B3LYP-D3", "B97-D", "M06", "M06-2X", "PBE0", "PBE-DH"
+            "B3LYP", "B3LYP-D", "B3LYP-D3", "B97-D", "WB97X-D", "M06", "M06-2X", "PBE0", "PBE-DH"
     );
     ObservableList<String> scftypebox = FXCollections.observableArrayList(
             "DF", "DIRECT", "PK", "OUT_OF_CORE", "FAST_DF", "CD", "INDEPENDENT"
@@ -705,6 +709,10 @@ public class FXMLDocumentController implements Initializable {
                 psi_bas = "'basis' : 'cc-pVQZ'";
                 link3 = "";
                 break;
+            case "def2-TZVP":
+                psi_bas = "'basis' : 'def2-TZVP'";
+                link3 = "";
+                break;                      
             case "jun-cc-pVDZ":
                 psi_bas = "'basis' : 'jun-cc-pVDZ'";
                 link3 = "";
@@ -901,77 +909,80 @@ public class FXMLDocumentController implements Initializable {
         }
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="DFT Functionals [psi_funct] ">
-        //psi_funct = PsiFunct.getValue();
+// <editor-fold defaultstate="collapsed" desc="DFT Functionals [psi_funct; no switch] ">
+        psi_funct = PsiFunct.getValue();
         //PsiFunct.setValue("B3LYP");
-        switch (PsiFunct.getValue()) {
-            case "B3LYP":
-                psi_funct = "B3LYP";
-                link2 = "";
-                break;
-            case "B3LYP-D":
-                psi_funct = "B3LYP-D";
-                link2 = "";
-                break;
-            case "B3LYP-D3":
-                psi_funct = "B3LYP-D3";
-                link2 = "";
-                break;
-            case "B97-D":
-                psi_funct = "B97-D";
-                link2 = "";
-                break;
-            case "M06":
-                psi_funct = "M06";
-                link2 = "";
-                break;
-            case "M06-2X":
-                psi_funct = "M06-2X";
-                link2 = "";
-                break;
-            case "PBE0":
-                psi_funct = "PBE0";
-                link2 = "";
-                break;
-            case "PBE0-DH":
-                psi_funct = "PBE0-DH";
-                link2 = "";
-                break;
-        }
+//        switch (PsiFunct.getValue()) {
+//            case "B3LYP":
+//                psi_funct = "B3LYP";
+//                link2 = "";
+//                break;
+//            case "B3LYP-D":
+//                psi_funct = "B3LYP-D";
+//                link2 = "";
+//                break;
+//            case "B3LYP-D3":
+//                psi_funct = "B3LYP-D3";
+//                link2 = "";
+//                break;
+//            case "B97-D":
+//                psi_funct = "B97-D";
+//                link2 = "";
+//                break;
+//            case "M06":
+//                psi_funct = "M06";
+//                link2 = "";
+//                break;
+//            case "M06-2X":
+//                psi_funct = "M06-2X";
+//                link2 = "";
+//                break;
+//            case "PBE0":
+//                psi_funct = "PBE0";
+//                link2 = "";
+//                break;
+//            case "PBE0-DH":
+//                psi_funct = "PBE0-DH";
+//                link2 = "";
+//                break;
+//        }
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Symmetry [psi_point]">
-        //psi_point = PsiPoint.getValue();
+// in case that selection == value, there is no need for switch-case        
+        psi_point = PsiPoint.getValue();
+        if (psi_point == "NA")
+            psi_point = "";
         //PsiPoint.setValue("c1");
-        switch (PsiPoint.getValue()) {
-            case "c1":
-                psi_point = "c1";
-                break;
-            case "ci":
-                psi_point = "ci";
-                break;
-            case "c2":
-                psi_point = "c2";
-                break;
-            case "cs":
-                psi_point = "cs";
-                break;
-            case "d2":
-                psi_point = "d2";
-                break;
-            case "c2v":
-                psi_point = "c2v";
-                break;
-            case "c2h":
-                psi_point = "c2h";
-                break;
-            case "d2h":
-                psi_point = "d2h";
-                break;
-            case "NA":
-                psi_point = "";
-                break;
-        }
+//        switch (PsiPoint.getValue()) {
+//            case "c1":
+//                psi_point = "c1";
+//                break;
+//            case "ci":
+//                psi_point = "ci";
+//                break;
+//            case "c2":
+//                psi_point = "c2";
+//                break;
+//            case "cs":
+//                psi_point = "cs";
+//                break;
+//            case "d2":
+//                psi_point = "d2";
+//                break;
+//            case "c2v":
+//                psi_point = "c2v";
+//                break;
+//            case "c2h":
+//                psi_point = "c2h";
+//                break;
+//            case "d2h":
+//                psi_point = "d2h";
+//                break;
+//            case "NA":
+//                psi_point = "";
+//                break;
+//        }
         // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Response Properties [resprop]">

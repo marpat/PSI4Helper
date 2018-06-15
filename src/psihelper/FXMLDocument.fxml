@@ -160,7 +160,7 @@
                               <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
                            </children>
                         </VBox>
-                        <Label layoutX="661.0" layoutY="421.0" text="1,2,5-9,-1, ALL" />
+                        <Label layoutX="620.0" layoutY="425.0" text="1,2,5-9,-1, ALL, homo, lumo, somo" />
                         <Label layoutX="417.0" layoutY="123.0" text="Reference" />
                         <Label layoutX="532.0" layoutY="123.0" text="Method/Theory" />
                         <Label layoutX="670.0" layoutY="123.0" text="scf Type" />
