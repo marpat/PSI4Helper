@@ -68,6 +68,7 @@ public class Outputs extends FXMLDocumentController {
         String cubemove;
         String countorb;
 
+// <editor-fold defaultstate="collapsed" desc="vmd_cube scripts">
         // Copy vmd_cube.py file into ./cubes directory
 //        String pat="";
 //        try {
@@ -84,6 +85,8 @@ public class Outputs extends FXMLDocumentController {
 //        copyFile(source1, dest1);
         //log("CubeProp:" + CubeProp);
         //log("num_cube:" + num_cube);
+// </editor-fold>
+        
         inp_dir = inp_dir.replace("\\", "/"); // for all platforms
 
         cubemove = "import os\n"

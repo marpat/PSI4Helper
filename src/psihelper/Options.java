@@ -82,6 +82,7 @@ public class Options extends FXMLDocumentController {
 // <editor-fold defaultstate="collapsed" desc="Local variables">
 //Local variables 
         String optionall = "";
+        String optionpart = "";
         String set_main;
         String linkR;
         String linkT;
@@ -95,21 +96,21 @@ public class Options extends FXMLDocumentController {
 //// <editor-fold defaultstate="collapsed" desc="Set extra options">
         if (psi_irc != null) {
             set_univ = "'geom_maxiter' : '150'\n"
-            + "'irc_direction' : 'backward'\n"
-            + "'cart_hess_read' : 'true'\n"; 
+                    + "'irc_direction' : 'backward'\n"
+                    + "'cart_hess_read' : 'true'\n";
         }
-        
+
         if (addoptions.length() == 0) {
             set_main = "";
         } else {
             addoptions = addoptions.replaceAll(",", "\n");
             set_main = addoptions; //opt.SetOptions.getText();
         }
-        if (resprop.contains("ROTATION") || resprop.contains("OSCILATOR_STRENGTH")){
+        if (resprop.contains("ROTATION") || resprop.contains("OSCILATOR_STRENGTH")) {
             rot = "'omega' : '[589, nm]' \n"
                     + "'gauge' : 'both'";
         } else {
-            rot ="";
+            rot = "";
         }
         if (psi_pyapi.contains("YES")) {
         } else {
@@ -154,8 +155,7 @@ public class Options extends FXMLDocumentController {
 
 // <editor-fold defaultstate="collapsed" desc="Checkboxes 2 [set_main]">
 // </editor-fold>
-        optionall = "\n\nset {\n"
-                + psi_bas + ",\n"
+        optionpart = psi_bas + ",\n"
                 + psi_ref + ",\n"
                 + psi_scftype + ",\n"
                 + psi_freeze + ",\n"
@@ -169,7 +169,17 @@ public class Options extends FXMLDocumentController {
                 + opt_type + ",\n"
                 + set_alone + ",\n"
                 + pcmtrue + "\n"
-                + set_main + "\n"
+                + set_main + "\n";
+
+//        optionpart = optionpart.replaceAll("(?m)^(null)?,", "");
+//        optionpart = optionpart.replaceAll("(?m)^[ \t]*\r?\n", ""); 
+        
+        // Cleanup optionpart from duplicates in ArrayList
+       
+        //log(Arrays.toString(items));
+        
+        optionall = "\n\nset {\n"
+                + optionpart+ "\n"
                 + "}\n\n";
 
         optionall = optionall.replaceAll("(?m)^(null)?,", "");
@@ -183,7 +193,7 @@ public class Options extends FXMLDocumentController {
         } else {
             optionall = optionall.replaceAll("(?im),(?! )$", "");
         }
-
+      
         return optionall + "\n";
     }
 }

@@ -1188,13 +1188,13 @@ public class FXMLDocumentController implements Initializable {
         }
         if (Psi47.isSelected()) {
             write47 = "YES";
-            psi_freeze = "'freeze_core': 'true'";
+            psi_puream = "'PUREAM': 'true'";
         } else {
             write47 = null;
         }
         if (PsiWfx.isSelected()) {
             writewfx = "YES";
-            psi_freeze = "'freeze_core': 'true'";
+            psi_puream = "'PUREAM': 'true'";
         } else {
             writewfx = null;
         }
