@@ -160,7 +160,10 @@
                               <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
                            </children>
                         </VBox>
-                        <Label layoutX="620.0" layoutY="425.0" text="1,2,5-9,-1, ALL, homo, lumo, somo" />
+                        <Label layoutX="620.0" layoutY="425.0" text="1,2,5-9,-1, ALL, homo, lumo, somo">
+                           <font>
+                              <Font size="11.0" />
+                           </font></Label>
                         <Label layoutX="417.0" layoutY="123.0" text="Reference" />
                         <Label layoutX="532.0" layoutY="123.0" text="Method/Theory" />
                         <Label layoutX="670.0" layoutY="123.0" text="scf Type" />
@@ -231,7 +234,7 @@
                               <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
                            </children>
                         </VBox>
-                        <Label layoutX="444.0" layoutY="506.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
+                        <Label layoutX="635.0" layoutY="506.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
                            <tooltip>
                               <Tooltip text="Response Properties (CC CCSD).">
                                  <font>

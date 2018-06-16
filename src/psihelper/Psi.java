@@ -285,7 +285,7 @@ public class Psi extends FXMLDocumentController {
         sh47 = "#!/bin/bash\n"
                 + "VERSION=1.0\n\n"
                 + "# Usage:\n"
-                + "# sh47.sh, expects hard-coded values for [f, comp_dir, mwfn_dir]\n\n"
+                + "# bash sh47.sh. Expects hard-coded values for [f, comp_dir, mwfn_dir]\n\n"
                 + "function version_page {\n"
                 + "echo \"$(basename \"$0\")\" \"version:\" \"$VERSION\"\n"
                 + "}\n"
@@ -348,7 +348,7 @@ public class Psi extends FXMLDocumentController {
             System.err.println("Error: " + e.getMessage());
         }
 
-        if (true == Wwfx) {
+        if (Wwfx) {
             try {
                 // write bash file in the same directory
                 FileWriter fstreamWrite = new FileWriter(inp_dir + "/multiwfn.sh");
