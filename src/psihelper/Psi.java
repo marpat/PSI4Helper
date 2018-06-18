@@ -168,6 +168,7 @@ public class Psi extends FXMLDocumentController {
         String sh47;
         Boolean Wwfx = false;
         Boolean W47 = false;
+        Boolean jmol = false;
         String setopt;
         String setopt1;
 // </editor-fold>
@@ -182,6 +183,9 @@ public class Psi extends FXMLDocumentController {
         }
         if (write47 != null) {
             W47 = true;
+        }
+         if (num_cube != null) {
+            jmol = true;
         }
 
 // <editor-fold defaultstate="collapsed" desc="unused">
@@ -211,26 +215,33 @@ public class Psi extends FXMLDocumentController {
                 + proc
                 + "import numpy as np" + "\n"
                 + "\n";
-        geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, ingeo1, ingeo2, psi_point, psi_solvent, psi_sapt);
+        geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, ingeo1,
+                ingeo2, psi_point, psi_solvent, psi_sapt);
 
         // Options section. Create an object first.
         Options geo_main = new Options();
-        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, opt_type, set_alone, addoptions, psi_solvent, psi_sapt, set_univ, resprop,psi_irc);
+        opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref,
+                psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos,
+                psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,
+                psi_sapt, set_univ, resprop, psi_irc);
 
         Results calls = new Results();
-        run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp, addrunopt, opt_freq, resprop);
+        run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp,
+                addrunopt, opt_freq, resprop);
 
         Outputs outp = new Outputs();
-        resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local, psi_ther);
+        resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma,
+                psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local,
+                psi_ther);
 
-        if (psi_irc  != null) {
+        if (psi_irc != null) {
             setopt = "set " + psi_bas + "\n"
                     + "set 'hessian_write' : 'true'\n"
-                    + "\n\nhessian('"+psi_method+"', dertype=1)\n\n";
+                    + "\n\nhessian('" + psi_method + "', dertype=1)\n\n";
             setopt1 = "set g_convergence gau_verytight\n\n";
-            run = "energy = optimize('"+psi_method+"')\n";
+            run = "energy = optimize('" + psi_method + "')\n";
             setopt = setopt.replaceAll("'", "").replaceAll(":", "");
-            
+
             input = skeleton + geo + setopt + geo + setopt1 + opt + run + resout;
             //input = "ha";
         } else {
@@ -326,21 +337,36 @@ public class Psi extends FXMLDocumentController {
                 + "echo \'DONE. Files were moved to $comp_dir\'";
 // </editor-fold>
 
-//        if (link1 == true || linkx == true) { // wfn link1
-//            skeleton_enh1 = addlink;
-//        } else {
-//            skeleton_enh1 = "";
-//        }
+// <editor-fold defaultstate="collapsed" desc="Jmol macro files">
+// Orbitals macro Jmol
+//        if(jmol){
+//          for (int i = 0; i < num_cube.length(); i = i+1) {
+//         String OutputScript = "reset; load " + inp_dir + "/" + file_name + "_"+ i +"_"
+//                + ".cube" + "; frame 1.1; mo " + i
+//                + "; mo color [255,0,0] [0,0,255];" 
+//                + " set labelfront;" + "  mo fill nomesh translucent 0.3;";
+//        String Writepath = inp_dir + "/cubes/" + i + "_" + file_name + "_"
+//                + ".spt";
+//        // Write file to specific directory; start with error checking          
+//        try {
+//            // Create file 
+//            FileWriter fstream = new FileWriter(Writepath);
+//            BufferedWriter outA = new BufferedWriter(fstream);
+//            outA.write(OutputScript);
+//            outA.close(); // close stream
 //
-//        if (link2.length() > 1) { //nbo link1 for NBO
-//            skeleton_enh = skeleton + addlink2;
-//        } else {
-//            skeleton_enh = skeleton;
+//        } catch (IOException e) {//Catch exception if any
+//            System.out.println("Error: " + e.getMessage());
 //        }
+//          }
+//        }
+// </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="write files">
         try {
             // Now fileContent will have updated content , which you can override into file
-            FileWriter fstreamWrite = new FileWriter(inp_dir + File.separator + file_name + suff + "." + file_ext);
+            FileWriter fstreamWrite = new FileWriter(inp_dir + File.separator
+                    + file_name + suff + "." + file_ext);
             try (BufferedWriter out = new BufferedWriter(fstreamWrite)) {
                 out.write(input);
             }
@@ -351,7 +377,8 @@ public class Psi extends FXMLDocumentController {
         if (Wwfx) {
             try {
                 // write bash file in the same directory
-                FileWriter fstreamWrite = new FileWriter(inp_dir + "/multiwfn.sh");
+                FileWriter fstreamWrite = new FileWriter(inp_dir
+                        + "/multiwfn.sh");
                 BufferedWriter out = new BufferedWriter(fstreamWrite);
                 out.write(mwfnsh);
                 out.close();
