@@ -168,6 +168,7 @@ public class Outputs extends FXMLDocumentController {
                 + "print('\\nOptimized geometry was saved in file .xyz')\n"
                 + molname + ".save_xyz_file('" + molname + ".xyz', True)";
 
+        // MO localization
         moloc = "basis_ = wfn.basisset()\n"
                 + "C_occ = wfn.Ca_subset(\"AO\", \"OCC\") # canonical C_occ coefficients\n"
                 + "LocalP = core.Localizer.build(\"PIPEK_MEZEY\", basis_, C_occ) # Pipek-Mezey Localization\n"
@@ -211,7 +212,8 @@ public class Outputs extends FXMLDocumentController {
                 + psiprop + "\n"
                 + psiloc + "\n"
                 + xyzout + "\n\n"
-                + movecube + "\n";
+                + movecube + "\n"
+                + "\nprint_variables()\n";
 
         outputsall = outputsall.replaceAll("(?m)^(null)?,", "");
         outputsall = outputsall.replaceAll("(?m)^[ \t]*\r?r?\n\n", "");

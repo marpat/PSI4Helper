@@ -99,6 +99,7 @@ public class Geo extends FXMLDocumentController {
             symm = "";
         }
 
+        
         if (psi_geom.contains(".xyz")) {
             molxyz = "has xyz extension";
             readxyz = "# Reading in .xyz file\n"

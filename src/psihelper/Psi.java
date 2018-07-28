@@ -210,15 +210,22 @@ public class Psi extends FXMLDocumentController {
 //        }
 //     String name, String charge, String multi, String molecule
 // </editor-fold>
+        
+       // if no molname entered use 'mol'
+        molname = molname.length() > 0 ? molname : "mol";
+        
+        // Very top section of PSI4 input file (START HERE ###)
         skeleton = "#! " + psi_molcomment + "\n\n"
                 + "memory " + memory + " GB\n"
                 + proc
                 + "import numpy as np" + "\n"
                 + "\n";
+        
+        // Call and return geometry and options
         geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, ingeo1,
                 ingeo2, psi_point, psi_solvent, psi_sapt);
 
-        // Options section. Create an object first.
+        // General Options section. Create an object first.
         Options geo_main = new Options();
         opt = geo_main.options(psi_pyapi, psi_freeze, psi_bas, psi_ref,
                 psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos,
