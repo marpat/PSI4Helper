@@ -64,6 +64,8 @@ public class Outputs extends FXMLDocumentController {
         String psiprop = "";
         String psiloc = "";
         String moloc;
+        String dipget;
+        String eneget;
         String movecube;
         String cubemove;
         String countorb;
@@ -184,6 +186,19 @@ public class Outputs extends FXMLDocumentController {
                 + "print_out('Boys Localized C_occ.')\n"
                 + "B_C_occ.print_out()\n";
 
+        // Calculate and print total dipole
+        dipget = "\n" +
+                        "dipX = get_variable(\"CURRENT DIPOLE X\")\n" +
+                        "dipY = get_variable(\"CURRENT DIPOLE Y\")\n" +
+                        "dipZ = get_variable(\"CURRENT DIPOLE Z\")\n" +
+                       "\n" +
+                       "dipT = np.sqrt(np.square(dipX) + np.square(dipY) + np.square(dipZ))\n" +
+                       "print(\"\\nTotal dipole: {0:.2f} D\\n\".format(dipT))";
+        
+        eneget = "\n" +
+                        "eneT = get_variable(\"CURRENT ENERGY\")\n" +
+                        "print(\"\\nCurrent Energy: {0:.7f} a.u.\\n\".format(eneT))";
+        
         if (psi_xyz.contains("YES")) {
             xyzout = savexyz;
         } else {
@@ -196,6 +211,7 @@ public class Outputs extends FXMLDocumentController {
             psiprop = "oeprop(wfn, " + psi_prop + ")";
         } else {
             psiprop = "";
+            dipget = "";
         }
 
         if (psi_local.length() > 0) {
@@ -213,7 +229,9 @@ public class Outputs extends FXMLDocumentController {
                 + psiloc + "\n"
                 + xyzout + "\n\n"
                 + movecube + "\n"
-                + "\nprint_variables()\n";
+                + dipget + "\n"
+                + eneget + "\n"
+                + "\nprint_variables()\n" +"\n";
 
         outputsall = outputsall.replaceAll("(?m)^(null)?,", "");
         outputsall = outputsall.replaceAll("(?m)^[ \t]*\r?r?\n\n", "");

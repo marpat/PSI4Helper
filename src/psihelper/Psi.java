@@ -21,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 /**
  *
  * @author Marcel Patek <chemgplus at gmail.com>
+ * @version 1.0, 7/27/2018
  */
 package psihelper;
 
@@ -36,6 +38,7 @@ import java.io.IOException;
  *
  * @author Rubidium
  */
+
 public class Psi extends FXMLDocumentController {
 
     /**
@@ -93,7 +96,8 @@ public class Psi extends FXMLDocumentController {
      * @throws java.io.IOException
      */
     @SuppressWarnings("UseSpecificCatch")
-    // <editor-fold defaultstate="collapsed" desc="Inputa">
+    
+// <editor-fold defaultstate="collapsed" desc="Inputa">
     public boolean Inputa(
             String psi_pyapi,
             String file_name,
@@ -145,7 +149,9 @@ public class Psi extends FXMLDocumentController {
             String set_univ,
             String opt_freq,
             String resprop,
-            String psi_irc) throws IOException // </editor-fold>
+            String psi_irc) throws IOException 
+// </editor-fold>
+    
     {
 
 // <editor-fold defaultstate="collapsed" desc="Variables">

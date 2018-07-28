@@ -30,6 +30,7 @@ package psihelper;
  *
  * @author Marcel Patek <chemgplus at gmail.com>
  */
+
 public class Results extends FXMLDocumentController {
 
     static String removeDuplicates(String s) {

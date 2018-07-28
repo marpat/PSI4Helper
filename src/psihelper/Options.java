@@ -30,6 +30,7 @@ package psihelper;
  *
  * @author Marcel Patek <chemgplus at gmail.com>
  */
+
 public class Options extends FXMLDocumentController {
 
 //    private Class<? extends Options> Classcls;
@@ -55,30 +56,7 @@ public class Options extends FXMLDocumentController {
             String resprop,
             String psi_irc
     ) {
-
-// <editor-fold defaultstate="collapsed" desc="here your description">        
-//         // Creating object of a class   
-//        Options calculate = new Options();  
-//        // instantiating Class class  
-//        Classcls = calculate.getClass();  
-//        // Getting declared methods inside the Calculate class  
-//        Method[] method = Classcls.getDeclaredMethods(); // It returns array of methods
-//        for (Method method2 : method) {  
-//            System.out.print(method2.getName()); 
-//        // Getting parameters of each method  
-//            Parameter parameter[] = method2.getParameters(); // It returns array of parameters  
-//            // Iterating parameter array  
-//            for (Parameter parameter2 : parameter) {  
-//                System.out.print(""+parameter2.getParameterizedType()+"\n"); // returns type of parameter  
-//                System.out.print(""+parameter2.getName()+"\n"); // returns parameter name  
-//            }  
-//            System.out.println();  
-//        
-//        }
-//        for (String arg: args) { 
-//                    log(args);
-//    }
-// </editor-fold>    
+  
 // <editor-fold defaultstate="collapsed" desc="Local variables">
 //Local variables 
         String optionall = "";
@@ -93,7 +71,8 @@ public class Options extends FXMLDocumentController {
         // </editor-fold>
 
         //PSI4 opt = new PSI4();
-//// <editor-fold defaultstate="collapsed" desc="Set extra options">
+
+// <editor-fold defaultstate="collapsed" desc="Set extra options">
         if (psi_irc != null) {
             set_univ = "'geom_maxiter' : '150'\n"
                     + "'irc_direction' : 'backward'\n"

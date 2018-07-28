@@ -24,8 +24,12 @@
 
  /*
  * FXMLDocumentController.java, part of the PsiHelper project
- * http://chemgplus.blogspot.com/
+ * 
+ * PSI4 Helper is GIU interface that assists in creating content and format of PSI4 input files.
+ * PSI4 Helper is written in JavaFlex included in JDK8 and running on JRE8.
+ * Details of PSI4 compotational chemistry platform are at: https://http://www.psicode.org/
  */
+
 package psihelper;
 
 import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
@@ -73,7 +77,9 @@ import javafx.stage.Stage;
 /**
  *
  * @author Marcel Patek <chemgplus at gmail.com>
+ * @version 1.0, 7/27/2018
  */
+
 public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="@FXML declarations">
@@ -217,6 +223,7 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox<String> PsiProperties;
 
 // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="My Global variables">
     String suff = null;
     String link3;
@@ -322,6 +329,7 @@ public class FXMLDocumentController implements Initializable {
     );
 
     // </editor-fold>
+   
     // <editor-fold defaultstate="collapsed" desc="myMethod getMatchingString">
     List<String> getMatchingStrings(List<String> list,
             String regex) {
@@ -336,7 +344,7 @@ public class FXMLDocumentController implements Initializable {
     }
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="Load and Save values from XML">
+   // <editor-fold defaultstate="collapsed" desc="Load and Save values from XML">
     public void LoadParams() {
         Properties props = new Properties();
         InputStream is = null;
@@ -655,7 +663,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
+     @FXML// Save Layout
     private void SaveLayoutAction(ActionEvent event) {
         file_name = Filename.getText();
         inp_dir = InpDir.getText();
@@ -663,8 +671,9 @@ public class FXMLDocumentController implements Initializable {
             suff = "";
         } else {
             suff = Suffix.getText().trim();
-        }
-        // PSI input settings
+     }
+       
+    // PSI input settings
         String set_alone = "";
         String psi_call = "";
         String psi_pubchem = "";
@@ -1005,6 +1014,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
 // </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="PsiSolvent [psi_solvent]">
         //psi_solvent = PsiSolvent.getValue();
         // PsiSolvent.setValue("None");
@@ -1085,6 +1095,7 @@ public class FXMLDocumentController implements Initializable {
         molname = MolName.getText();
 
 // </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="check boxes">
         if (PsiPyapi.isSelected()) {
             psi_pyapi = "YES";
@@ -1242,6 +1253,7 @@ public class FXMLDocumentController implements Initializable {
 //psi_molcomment = PsiDescription.getText();
 //cores  = Cores.getText();
 // </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="PsiCubeRange [psi_cuberange] ">
         String cuberange = PsiCubeRange.getText();
         String num_cube = null;
@@ -1300,6 +1312,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
 // </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="Cube Properties">
 //'density', 'orbitals', 'ESP', 'ELF'
         String CubeProp = "";
@@ -1326,26 +1339,12 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
+
 // <editor-fold defaultstate="collapsed" desc="To AreaOut">
         String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
+// </editor-fold>
 
-//        if (FileExists.Confirm(inp_dir,
-//                file_name,
-//                suff, file_ext)
-//                == false) {
-//            AreaOut.setStyle("-fx-text-fill: #339933;-fx-font-weight:normal");
-//            AreaOut.setText(ToOutArea);
-//        } else {
-//            AreaOut.setText("");
-//        }
-//
-//        // Create directory 'cubes'
-//        if (FileExists.DirExists(inp_dir
-//                + File.separator + "cubes") == false) {
-//            new File(inp_dir + File.separator + "cubes").mkdirs();
-//            AreaOut.appendText("\nDirectory ./cubes was created.");
-//        }
 // Create an object first.
         Psi psi_main = new Psi();
         try {

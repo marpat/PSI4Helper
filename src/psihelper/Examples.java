@@ -34,8 +34,6 @@ package psihelper;
 
 public class Examples {
 
-    
-
     public static String[] ExamplesCoord(String molecule) {
         String molret = "";
         String comments = "";
@@ -308,7 +306,7 @@ public class Examples {
         }
 
         String[] s = {molret, comments, molnm};
-        //System.out.println(molret);
+
         return s;
     }
 }
