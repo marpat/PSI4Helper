@@ -50,6 +50,7 @@ public class Outputs extends FXMLDocumentController {
             String psi_gdma,
             String psi_xyz,
             String molname,
+            String suff,
             String num_cube,
             String CubeProp,
             String psi_prop,
@@ -168,7 +169,7 @@ public class Outputs extends FXMLDocumentController {
                 + molname + ".print_out()\n"
                 + "\n"
                 + "print('\\nOptimized geometry was saved in file .xyz')\n"
-                + molname + ".save_xyz_file('" + molname + ".xyz', True)";
+                + molname + ".save_xyz_file('" + molname + suff + ".xyz', True)";
 
         // MO localization
         moloc = "basis_ = wfn.basisset()\n"

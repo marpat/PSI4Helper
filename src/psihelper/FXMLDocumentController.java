@@ -25,7 +25,7 @@
  /*
  * FXMLDocumentController.java, part of the PsiHelper project
  * 
- * PSI4 Helper is GIU interface that assists in creating content and format of PSI4 input files.
+ * PSI4 Helper is GUI interface that assists in creating content and format of PSI4 input files.
  * PSI4 Helper is written in JavaFlex included in JDK8 and running on JRE8.
  * Details of PSI4 compotational chemistry platform are at: https://http://www.psicode.org/
  */
@@ -1210,7 +1210,7 @@ public class FXMLDocumentController implements Initializable {
             writewfx = null;
         }
         if (Fchkout.isSelected()) {
-            psi_fchkout = "fchk(wfn, '" + file_name + ".fchk')";
+            psi_fchkout = "fchk(wfn, '" + file_name + suff + ".fchk')";
         } else {
             psi_fchkout = "";
         }

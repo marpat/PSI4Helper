@@ -244,7 +244,7 @@ public class Psi extends FXMLDocumentController {
 
         Outputs outp = new Outputs();
         resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma,
-                psi_xyz, molname, num_cube, CubeProp, psi_prop, psi_local,
+                psi_xyz, molname, suff, num_cube, CubeProp, psi_prop, psi_local,
                 psi_ther);
 
         if (psi_irc != null) {

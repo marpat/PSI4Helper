@@ -114,7 +114,14 @@
                         </VBox>
                         <VBox layoutX="168.0" layoutY="228.0" prefHeight="54.0" prefWidth="103.0" spacing="8.0">
                            <children>
-                              <CheckBox fx:id="PsiNocom" mnemonicParsing="false" text="no_com" />
+                              <CheckBox fx:id="PsiNocom" mnemonicParsing="false" text="no_com">
+                                 <tooltip>
+                                    <Tooltip text="No recentering">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
                               <CheckBox fx:id="Psinoorient" mnemonicParsing="false" text="no_reorient">
                                  <tooltip>
                                     <Tooltip text="Do not move coordinates." />
@@ -138,8 +145,22 @@
                         <VBox layoutX="412.0" layoutY="402.0" prefHeight="112.0" prefWidth="112.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden out" />
-                              <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" />
-                              <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx" />
+                              <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47">
+                                 <tooltip>
+                                    <Tooltip text="Uses molden output.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
+                              <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx">
+                                 <tooltip>
+                                    <Tooltip text="Uses molden output.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
                               <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProperties">
                                  <tooltip>
                                     <Tooltip text="Series of one-electron properties.">
