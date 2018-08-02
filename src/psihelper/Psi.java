@@ -83,6 +83,7 @@ public class Psi extends FXMLDocumentController {
      * @param num_cube
      * @param CubeProp
      * @param psi_print
+     * @param addrunopt
      * @param psi_charge
      * @param link2
      * @param psi_prop
@@ -92,6 +93,13 @@ public class Psi extends FXMLDocumentController {
      * @param write47
      * @param writewfx
      * @param psi_sapt
+     * @param writemol2
+     * @param psi_cp
+     * @param psi_ther
+     * @param set_univ
+     * @param opt_freq
+     * @param resprop
+     * @param psi_irc
      * @return
      * @throws java.io.IOException
      */
@@ -143,6 +151,7 @@ public class Psi extends FXMLDocumentController {
             String mwfn_path,
             String write47,
             String writewfx,
+            String writemol2,
             String psi_sapt,
             String psi_cp,
             String psi_ther,
@@ -245,7 +254,7 @@ public class Psi extends FXMLDocumentController {
         Outputs outp = new Outputs();
         resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma,
                 psi_xyz, molname, suff, num_cube, CubeProp, psi_prop, psi_local,
-                psi_ther);
+                psi_ther,writemol2);
 
         if (psi_irc != null) {
             setopt = "set " + psi_bas + "\n"

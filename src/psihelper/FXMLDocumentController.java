@@ -278,6 +278,7 @@ public class FXMLDocumentController implements Initializable {
     String mwfn_path = null;
     String write47;
     String writewfx;
+    String writemol2;
     String m2aim_path;
     String ushell;
     String psi_cp;
@@ -327,6 +328,8 @@ public class FXMLDocumentController implements Initializable {
     ObservableList<String> propbox = FXCollections.observableArrayList(
             "NONE", "POLARIZABILITY", "ROTATION", "OSCILATOR_STRENGTH", "ROA"
     );
+    @FXML
+    private CheckBox PsiMol2;
 
     // </editor-fold>
    
@@ -1234,6 +1237,13 @@ public class FXMLDocumentController implements Initializable {
         } else {
             psi_prop = "";
         }
+        if (PsiMol2.isSelected()) {
+            writemol2= "YES";
+            psi_xyz = "YES";
+            psi_prop = "'DIPOLE'";
+        } else {
+            writemol2 = "";
+        }
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Set default variables">
@@ -1318,15 +1328,19 @@ public class FXMLDocumentController implements Initializable {
         String CubeProp = "";
         if (PsiCubeDen.isSelected()) {
             CubeProp = "'density', ";
+            psi_xyz = "YES";
         }
         if (PsiCubeOrb.isSelected()) {
             CubeProp = CubeProp + "'orbitals', ";
+            psi_xyz = "YES";
         }
         if (PsiCubeEsp.isSelected()) {
             CubeProp = CubeProp + "'esp', ";
+            psi_xyz = "YES";
         }
         if (PsiCubeElf.isSelected()) {
             CubeProp = CubeProp + "'elf'";
+            psi_xyz = "YES";
         }
         if (!PsiCubeOrb.isSelected()) {
             num_cube = "";
@@ -1348,7 +1362,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

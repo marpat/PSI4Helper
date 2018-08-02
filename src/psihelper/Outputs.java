@@ -55,7 +55,9 @@ public class Outputs extends FXMLDocumentController {
             String CubeProp,
             String psi_prop,
             String psi_local,
-            String psi_ther) throws IOException {
+            String psi_ther,
+            String writemol2
+            ) throws IOException {
 
         String outputsall = "";
         String xyzout = "";
@@ -70,6 +72,9 @@ public class Outputs extends FXMLDocumentController {
         String movecube;
         String cubemove;
         String countorb;
+        String babel;
+        String runbabel;
+        String cahxyz;
 
 // <editor-fold defaultstate="collapsed" desc="vmd_cube scripts">
         // Copy vmd_cube.py file into ./cubes directory
@@ -127,7 +132,7 @@ public class Outputs extends FXMLDocumentController {
                 + "HOMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha()]\n" 
                 +"LUMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha() + 1]\n" 
                 + "\n"
-                + "print('The HOMO - LUMO gap is: %16.8f hartree' % (LUMO - HOMO))\n"
+                + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
                 + "print('Number of doubly occupied orbitals:   %d' % ndocc)\n"
                 + "print('Number of singly occupied orbitals:   %d' % nsocc)\n"
@@ -168,7 +173,7 @@ public class Outputs extends FXMLDocumentController {
                 + molname + ".geometry()\n"
                 + molname + ".print_out()\n"
                 + "\n"
-                + "print('\\nOptimized geometry was saved in file .xyz')\n"
+                + "print('\\nCurrent system geometry was saved in file .xyz')\n"
                 + molname + ".save_xyz_file('" + molname + suff + ".xyz', True)";
 
         // MO localization
@@ -199,6 +204,37 @@ public class Outputs extends FXMLDocumentController {
         eneget = "\n" +
                         "eneT = get_variable(\"CURRENT ENERGY\")\n" +
                         "print(\"\\nCurrent Energy: {0:.7f} a.u.\\n\".format(eneT))";
+        
+        //OpenBabel (writemol2 ==YES)
+        
+        
+        babel = "\n"+
+                "\nimport subprocess, sys, os, glob\n"
+                
+                +"\ncah = \"\"\"2\\n\n"
+                + "\nH   0.00000   0.00000   0.00000\n"
+                + "Ca   {:.5f}   {:.5f}   {:.5f}\"\"\".format(dipX, dipY, dipZ)\n"
+                + "\ntry:\n"
+                + "    with open(\"cah.xyz\", \"w+\") as f:\n" +
+                  "        f.write(cah)\n"
+                + "except Exception as e:\n"
+                + "    print(\"Type error: \" + str(e))\n"
+                + "    pass\n"
+                + "\nif len(glob.glob(\"*.xyz\")) > 2:\n"
+                + "    print(\"There are > 2 .xyz files to merge by Open Babel.\")\n"
+                + "    sys.exit(\"Exiting. Remove other .xyz files.\")\n"
+                + "\ntry:\n"
+                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + molname + suff +".mol2 -j\'\n" 
+                + "    p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)\n"
+                + "    print(\"Sybyl .mol2 file with dipole vector was created.\")\n"
+                + "except Exception as e:\n"
+                + "    print(\"Type error when creating mol2 file: \" + str(e))\n"
+                + "    pass\n";
+
+        
+        
+        // if writemol2 == YES entered use 'mol'
+        runbabel = writemol2.length() > 0 ? babel : "";       
         
         if (psi_xyz.contains("YES")) {
             xyzout = savexyz;
@@ -232,7 +268,8 @@ public class Outputs extends FXMLDocumentController {
                 + movecube + "\n"
                 + dipget + "\n"
                 + eneget + "\n"
-                + "\nprint_variables()\n" +"\n";
+                + "\nprint_variables()\n" +"\n"
+                + runbabel  + "\n";
 
         outputsall = outputsall.replaceAll("(?m)^(null)?,", "");
         outputsall = outputsall.replaceAll("(?m)^[ \t]*\r?r?\n\n", "");

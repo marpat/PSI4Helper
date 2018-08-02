@@ -142,10 +142,10 @@
                         <ComboBox fx:id="PsiPoint" layoutX="159.0" layoutY="324.0" prefHeight="25.0" prefWidth="100.0" promptText="None" />
                         <Label layoutX="33.0" layoutY="305.0" text="PRINT Level" />
                         <Label layoutX="168.0" layoutY="305.0" text="Point Group" />
-                        <VBox layoutX="412.0" layoutY="402.0" prefHeight="112.0" prefWidth="112.0" spacing="8.0">
+                        <VBox layoutX="412.0" layoutY="402.0" prefHeight="133.0" prefWidth="112.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden out" />
-                              <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47">
+                              <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" textFill="#007cc4">
                                  <tooltip>
                                     <Tooltip text="Uses molden output.">
                                        <font>
@@ -153,7 +153,7 @@
                                        </font>
                                     </Tooltip>
                                  </tooltip></CheckBox>
-                              <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx">
+                              <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx" textFill="#007cc4">
                                  <tooltip>
                                     <Tooltip text="Uses molden output.">
                                        <font>
@@ -161,6 +161,15 @@
                                        </font>
                                     </Tooltip>
                                  </tooltip></CheckBox>
+                              <CheckBox fx:id="PsiMol2" mnemonicParsing="false" text=".mol2" textFill="#007cc4">
+                                 <tooltip>
+                                    <Tooltip text="Requires Open Babel.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip>
+                              </CheckBox>
                               <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProperties">
                                  <tooltip>
                                     <Tooltip text="Series of one-electron properties.">
