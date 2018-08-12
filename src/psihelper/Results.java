@@ -44,7 +44,7 @@ public class Results extends FXMLDocumentController {
     return noDupes.toString();
 }
     
-    public String results(String psi_call, String psi_method, String psi_func, String psi_geom, String psi_cp, String addrunopt, String opt_freq, String resprop) {
+    public String results(String psi_call, String psi_method, String psi_func, String psi_cp, String addrunopt, String opt_freq, String resprop) {
 
 // <editor-fold defaultstate="collapsed" desc="Local variables">
         String resultsall0 = "";

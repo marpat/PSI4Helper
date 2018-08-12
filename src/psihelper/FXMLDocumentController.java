@@ -221,6 +221,8 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox PsiTher;
     @FXML
     private ChoiceBox<String> PsiProperties;
+    @FXML
+    private CheckBox PsiMol2;
 
 // </editor-fold>
     
@@ -293,7 +295,7 @@ public class FXMLDocumentController implements Initializable {
     Separator separator = new Separator(Orientation.HORIZONTAL);
     
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
-            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition"
+            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition", "HCN-HNC IRC examples at psi4/samples/opt-irc-2"
     );
     ObservableList<String> addrunbox = FXCollections.observableArrayList(
             "CLEAR", "dertype 2", "dertype 1", "dertype energy", "BSSE_all"
@@ -305,16 +307,16 @@ public class FXMLDocumentController implements Initializable {
             "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ","def2-TZVP","jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
     );
     ObservableList<String> methodbox = FXCollections.observableArrayList(
-            "HF", "DFT", "MP2", "CC2", "CCSD", "CCSD(T)", "MP4", "FNO-MP4", "OMP2", "SAPT0", "SAPT2", "SAPT+(3)", "SAPT2+(3)dMP2", "F-SAPT"
+            "HF", "DFT", "MP2", "CC2", "CCSD", "CCSD(T)", "MP4", "FNO-MP4", "OMP2", "SAPT0", "SAPT(dft)", "SAPT2", "SAPT2+(3)", "SAPT2+(3)dMP2", "F-SAPT", "SAPT-CT"
     );
     ObservableList<String> functbox = FXCollections.observableArrayList(
-            "B3LYP", "B3LYP-D", "B3LYP-D3", "B97-D", "WB97X-D", "M06", "M06-2X", "PBE0", "PBE-DH"
+            "B3LYP", "HF", "B3LYP-D", "B3LYP-D3", "B97-D", "WB97X-D", "M06", "M06-2X", "PBE0", "PBE-DH"
     );
     ObservableList<String> scftypebox = FXCollections.observableArrayList(
             "DF", "DIRECT", "PK", "OUT_OF_CORE", "FAST_DF", "CD", "INDEPENDENT"
     );
     ObservableList<String> addoptbox = FXCollections.observableArrayList(
-            "CLEAR", "custom basis set", "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "df_scf_guess false", "SAPT-typical", "fisapt_do_plot true"
+            "CLEAR", "custom basis set", "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "df_scf_guess false", "SAPT-A", "SAPT(dft)", "SAPTx-CT", "fisapt_do_plot true"
     );
     ObservableList<String> solventbox = FXCollections.observableArrayList(
             "None", "water", "dmso", "acetonitrile", "thf", "dcm", "benzene"
@@ -328,8 +330,6 @@ public class FXMLDocumentController implements Initializable {
     ObservableList<String> propbox = FXCollections.observableArrayList(
             "NONE", "POLARIZABILITY", "ROTATION", "OSCILATOR_STRENGTH", "ROA"
     );
-    @FXML
-    private CheckBox PsiMol2;
 
     // </editor-fold>
    
@@ -517,6 +517,30 @@ public class FXMLDocumentController implements Initializable {
                 PsiOpt.setSelected(false);
             }
         });
+        PsiIrc.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                PsiSp.setSelected(false);
+                PsiOpt.setSelected(true);
+            }
+        });
+        PsiIrc.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (!isNowSelected) {
+                PsiSp.setSelected(true);
+                PsiOpt.setSelected(false);
+            }
+        });
+        PsiTs.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (isNowSelected) {
+                PsiSp.setSelected(false);
+                PsiOpt.setSelected(true);
+            }
+        });
+        PsiTs.selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+            if (!isNowSelected) {
+                PsiSp.setSelected(true);
+                PsiOpt.setSelected(false);
+            }
+        });
     }
 
     @FXML // Load Directory
@@ -623,11 +647,28 @@ public class FXMLDocumentController implements Initializable {
                 addoptions = SetOptions.getText() + "'df_scf_guess' : 'false',\n";
                 SetOptions.setText(addoptions);
                 break;
-            case "SAPT-typical":
-                addoptions = "'df_basis_set' : 'aug-cc-pvdz-jkfit',\n"
-                        + "'df_basis_sapt' : 'aug-cc-pvdz-ri',\n"
+            case "SAPT-A":
+                addoptions = "'guess' : 'sad',\n"
+                        + "'freeze_core': 'true' # for larger molecules,\n";
+                SetOptions.setText(addoptions);
+                break;
+            case "SAPT(dft)":
+                addoptions = 
+                        "'SAPT_DFT_FUNCTIONAL' : '"+ PsiFunct.getValue() + "' #  functional to use for SAPT(DFT),\n"
                         + "'guess' : 'sad',\n"
-                        + "'freeze_core': 'true',\n";
+                        + "'freeze_core': 'true' # for larger molecules,\n";
+                SetOptions.setText(addoptions);
+                break;            
+            case "SAPTx-CT":
+                addoptions = "# Use sapt_x-ct method,\n"
+                        + "'df_basis_scf' : '"+ PsiBas.getValue() + "'-jkfit',\n"
+                        + "'df_basis_sapt' : '"+ PsiBas.getValue() + "'-ri',\n"
+                        + "'df_basis_elst' : '"+ PsiBas.getValue() + "'-jkfit',\n"
+                        + "'guess' : 'sad',\n"
+                        + "'puream' : 'true,'\n"
+                        + "'print' : '1',\n"
+                        + "'basis_guess' : 'true',\n"
+                        + "'freeze_core': 'true' # for larger molecules,\n";
                 SetOptions.setText(addoptions);
                 break;
             case "fisapt_do_plot true":
@@ -798,6 +839,10 @@ public class FXMLDocumentController implements Initializable {
                 psi_method = "SAPT0";
                 link2 = "";
                 break;
+            case "SAPT(dft)":
+                psi_method = "SAPT(dft)";
+                link2 = "";
+                break;
             case "SAPT2":
                 psi_method = "SAPT2";
                 link2 = "";
@@ -812,6 +857,10 @@ public class FXMLDocumentController implements Initializable {
                 break;
             case "F-SAPT":
                 psi_method = "fisapt0";
+                link2 = "";
+                break;
+            case "SAPT-CT":
+                psi_method = "sapt-ct";
                 link2 = "";
                 break;
         }
@@ -1147,6 +1196,7 @@ public class FXMLDocumentController implements Initializable {
 
         if (PsiIrc.isSelected()) {
             psi_irc = "YES";
+            psi_call = "optimize";
         } else {
             psi_irc = null;
         }
@@ -1173,7 +1223,7 @@ public class FXMLDocumentController implements Initializable {
         if (PsiFreeze.isSelected()) {
             psi_freeze = "'freeze_core': 'true'";
         } else {
-            psi_freeze = "'freeze_core': 'false'";
+            psi_freeze = "";
         }
         if (PsiPuream.isSelected()) {
             psi_puream = "'PUREAM': 'true'";

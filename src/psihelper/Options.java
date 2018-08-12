@@ -74,9 +74,11 @@ public class Options extends FXMLDocumentController {
 
 // <editor-fold defaultstate="collapsed" desc="Set extra options">
         if (psi_irc != null) {
-            set_univ = "'geom_maxiter' : '150'\n"
+            set_univ = "'opt_type' :  'irc'\n"
+                    + "'geom_maxiter' : '150'\n"
                     + "'irc_direction' : 'backward'\n"
-                    + "'cart_hess_read' : 'true'\n";
+                    + "'cart_hess_read' : 'true'\n"
+                    + "'PRINT_TRAJECTORY_XYZ_FILE' : 'true'\n";
         }
 
         if (addoptions.length() == 0) {

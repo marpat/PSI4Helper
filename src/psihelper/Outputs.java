@@ -211,12 +211,12 @@ public class Outputs extends FXMLDocumentController {
         babel = "\n"+
                 "\nimport subprocess, sys, os, glob\n"
                 
-                +"\ncah = \"\"\"2\\n\n"
-                + "\nH   0.00000   0.00000   0.00000\n"
-                + "Ca   {:.5f}   {:.5f}   {:.5f}\"\"\".format(dipX, dipY, dipZ)\n"
+                +"\nkf = \"\"\"2\\n\n"
+                + "\nF     0.00000    0.00000   0.00000\n"
+                + "K   {:.5f}   {:.5f}   {:.5f}\"\"\".format(dipX, dipY, dipZ)\n"
                 + "\ntry:\n"
-                + "    with open(\"cah.xyz\", \"w+\") as f:\n" +
-                  "        f.write(cah)\n"
+                + "    with open(\"zzkf.xyz\", \"w+\") as f:\n" +
+                  "        f.write(kf)\n"
                 + "except Exception as e:\n"
                 + "    print(\"Type error: \" + str(e))\n"
                 + "    pass\n"
@@ -224,7 +224,7 @@ public class Outputs extends FXMLDocumentController {
                 + "    print(\"There are > 2 .xyz files to merge by Open Babel.\")\n"
                 + "    sys.exit(\"Exiting. Remove other .xyz files.\")\n"
                 + "\ntry:\n"
-                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + molname + suff +".mol2 -j\'\n" 
+                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + molname + suff +".mol2 -j -c\'\n" 
                 + "    p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)\n"
                 + "    print(\"Sybyl .mol2 file with dipole vector was created.\")\n"
                 + "except Exception as e:\n"

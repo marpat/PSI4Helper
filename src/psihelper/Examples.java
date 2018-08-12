@@ -52,6 +52,8 @@ public class Examples {
         String HCOHH2O;
         String waterdim;
         String azide_acet;
+        String HCNpsi;
+        String HCN_psi;
 
         hf = "H-F";
         String Hydrogenfluoride = "F\n"
@@ -74,13 +76,14 @@ public class Examples {
                 + "H   2   1.08   1  120.0  3  180.0";
 
         menh2_com = "Methylamine...RHF/3-21G//Pople-Gordon geometry";
-        String Methylamine = "C\n"
-                + "N   1   1.47\n"
-                + "H   1   1.09   2   109.4712\n"
-                + "H   1   1.09   2   109.4712   3   120. 0\n"
-                + "H   1   1.09   2   109.4712   3   240. 0\n"
-                + "H   2   1.01   1   109.4712   3    60. 0\n"
-                + "H   2   1.01   1   109.4712   3   300. 0";
+        String Methylamine = 
+                 "C   0.000000    0.000000    0.000000\n"
+                +"N   0.000000    0.000000    1.470000\n"
+                +"H   1.027662    0.000000   -0.363333\n"
+                +"H  -0.513831   -0.889981   -0.363333\n"
+                +"H  -0.513831    0.889981   -0.363333\n"
+                +"H   0.476119    0.824662    1.806667\n"
+                +"H   0.476119   -0.824662    1.806667";
 
         form = "formamide (H2NCHO) in plane";
         String Formamide_XYZ = " N      0.000000       0.000000      -1.361000\n"
@@ -232,6 +235,11 @@ public class Examples {
                 + "H     1     1.0\n"
                 + "H     1     1.0     2     104.5";
         
+        HCNpsi = "HCN-HNC IRC examples at psi4/samples/opt-irc-2";
+        String HCN_PSI = "H    -0.5958806528   0.9889214459   0.0000000000\n"
+                  + "C    -0.5958806528  -0.1660941336   0.0000000000\n"
+                  + "N     0.5535292657   0.0711607905   0.0000000000\n";
+        
         switch (molecule) {
             case "H-F":
                 molret = Hydrogenfluoride;
@@ -302,6 +310,11 @@ public class Examples {
                 molret = Azide_acet;
                 comments = azide_acet;
                 molnm = "C2H2_HN3";
+                break;
+            case "HCN-HNC IRC examples at psi4/samples/opt-irc-2":
+                molret = HCN_PSI;
+                comments = HCNpsi;
+                molnm = "HCN_HNC";
                 break;
         }
 

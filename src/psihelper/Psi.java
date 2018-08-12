@@ -186,6 +186,7 @@ public class Psi extends FXMLDocumentController {
         Boolean jmol = false;
         String setopt;
         String setopt1;
+        String auxirc;
 // </editor-fold>
 
         if (psi_pyapi.contains("YES")) {
@@ -248,7 +249,7 @@ public class Psi extends FXMLDocumentController {
                 psi_sapt, set_univ, resprop, psi_irc);
 
         Results calls = new Results();
-        run = calls.results(psi_call, psi_method, psi_funct, psi_geom, psi_cp,
+        run = calls.results(psi_call, psi_method, psi_funct, psi_cp,
                 addrunopt, opt_freq, resprop);
 
         Outputs outp = new Outputs();
@@ -257,14 +258,16 @@ public class Psi extends FXMLDocumentController {
                 psi_ther,writemol2);
 
         if (psi_irc != null) {
+            psi_method = psi_method.contains("DFT") ? "scf" : psi_method;
             setopt = "set " + psi_bas + "\n"
-                    + "set 'hessian_write' : 'true'\n"
-                    + "\n\nhessian('" + psi_method + "', dertype=1)\n\n";
+                    + "set 'hessian_write' : 'true'\n";
+            setopt = setopt.replaceAll("'", "").replaceAll(":", "");
+            auxirc = "\n\nhessian('" + psi_method + "', dertype=1)\n\n";
             setopt1 = "set g_convergence gau_verytight\n\n";
             run = "energy = optimize('" + psi_method + "')\n";
-            setopt = setopt.replaceAll("'", "").replaceAll(":", "");
+            
 
-            input = skeleton + geo + setopt + geo + setopt1 + opt + run + resout;
+            input = skeleton + geo + setopt + auxirc + geo + setopt1 + opt + run + resout;
             //input = "ha";
         } else {
             input = skeleton + geo + opt + run + resout;
