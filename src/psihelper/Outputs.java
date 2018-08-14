@@ -23,7 +23,9 @@
  */
 package psihelper;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -56,8 +58,9 @@ public class Outputs extends FXMLDocumentController {
             String psi_prop,
             String psi_local,
             String psi_ther,
-            String writemol2
-            ) throws IOException {
+            String writemol2,
+            String jmol_path
+    ) throws IOException {
 
         String outputsall = "";
         String xyzout = "";
@@ -75,6 +78,7 @@ public class Outputs extends FXMLDocumentController {
         String babel;
         String runbabel;
         String cahxyz;
+        String jmol;
 
 // <editor-fold defaultstate="collapsed" desc="vmd_cube scripts">
         // Copy vmd_cube.py file into ./cubes directory
@@ -94,10 +98,9 @@ public class Outputs extends FXMLDocumentController {
         //log("CubeProp:" + CubeProp);
         //log("num_cube:" + num_cube);
 // </editor-fold>
-        
         inp_dir = inp_dir.replace("\\", "/"); // for all platforms
 
-        cubemove = "import os\n"
+        cubemove = "import os, re\n"
                 + "from pathlib import Path\n"
                 + "import shutil\n\n"
                 + "now = str(Path().absolute())\n"
@@ -110,8 +113,9 @@ public class Outputs extends FXMLDocumentController {
                 + "        files.append(filename)\n"
                 + "for f in files:\n"
                 + "    try:\n"
+                + "        fil = re.sub(\"'|\\\"\", \"\",f)\n"
                 + "        src = now+'/'+f\n"
-                + "        dst = moveto+f\n"
+                + "        dst = moveto+fil\n"
                 + "        shutil.move(src,dst)\n"
                 + "    except Exception as e:\n"
                 + "        print(\"Type error: \" + str(e))\n"
@@ -129,8 +133,8 @@ public class Outputs extends FXMLDocumentController {
                 + "S = np.asarray(mints.ao_overlap())\n"
                 + "nbf = S.shape[0]\n"
                 + "\n"
-                + "HOMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha()]\n" 
-                +"LUMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha() + 1]\n" 
+                + "HOMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha()]\n"
+                + "LUMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha() + 1]\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
@@ -167,6 +171,7 @@ public class Outputs extends FXMLDocumentController {
             cubes = "";
             movecube = "";
         }
+        
         //log("cubes:"+ cubes);
 
         savexyz = molname + ".update_geometry()\n"
@@ -193,30 +198,27 @@ public class Outputs extends FXMLDocumentController {
                 + "B_C_occ.print_out()\n";
 
         // Calculate and print total dipole
-        dipget = "\n" +
-                        "dipX = get_variable(\"CURRENT DIPOLE X\")\n" +
-                        "dipY = get_variable(\"CURRENT DIPOLE Y\")\n" +
-                        "dipZ = get_variable(\"CURRENT DIPOLE Z\")\n" +
-                       "\n" +
-                       "dipT = np.sqrt(np.square(dipX) + np.square(dipY) + np.square(dipZ))\n" +
-                       "print(\"\\nTotal dipole: {0:.2f} D\\n\".format(dipT))";
-        
-        eneget = "\n" +
-                        "eneT = get_variable(\"CURRENT ENERGY\")\n" +
-                        "print(\"\\nCurrent Energy: {0:.7f} a.u.\\n\".format(eneT))";
-        
+        dipget = "\n"
+                + "dipX = get_variable(\"CURRENT DIPOLE X\")\n"
+                + "dipY = get_variable(\"CURRENT DIPOLE Y\")\n"
+                + "dipZ = get_variable(\"CURRENT DIPOLE Z\")\n"
+                + "\n"
+                + "dipT = np.sqrt(np.square(dipX) + np.square(dipY) + np.square(dipZ))\n"
+                + "print(\"\\nTotal dipole: {0:.2f} D\\n\".format(dipT))";
+
+        eneget = "\n"
+                + "eneT = get_variable(\"CURRENT ENERGY\")\n"
+                + "print(\"\\nCurrent Energy: {0:.7f} a.u.\\n\".format(eneT))";
+
         //OpenBabel (writemol2 ==YES)
-        
-        
-        babel = "\n"+
-                "\nimport subprocess, sys, os, glob\n"
-                
-                +"\nkf = \"\"\"2\\n\n"
+        babel = "\n"
+                + "\nimport subprocess, sys, os, glob\n"
+                + "\nkf = \"\"\"2\\n\n"
                 + "\nF     0.00000    0.00000   0.00000\n"
                 + "K   {:.5f}   {:.5f}   {:.5f}\"\"\".format(dipX, dipY, dipZ)\n"
                 + "\ntry:\n"
-                + "    with open(\"zzkf.xyz\", \"w+\") as f:\n" +
-                  "        f.write(kf)\n"
+                + "    with open(\"zzkf.xyz\", \"w+\") as f:\n"
+                + "        f.write(kf)\n"
                 + "except Exception as e:\n"
                 + "    print(\"Type error: \" + str(e))\n"
                 + "    pass\n"
@@ -224,18 +226,58 @@ public class Outputs extends FXMLDocumentController {
                 + "    print(\"There are > 2 .xyz files to merge by Open Babel.\")\n"
                 + "    sys.exit(\"Exiting. Remove other .xyz files.\")\n"
                 + "\ntry:\n"
-                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + molname + suff +".mol2 -j -c\'\n" 
+                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + molname + suff + ".mol2 -j -c\'\n"
                 + "    p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)\n"
                 + "    print(\"Sybyl .mol2 file with dipole vector was created.\")\n"
                 + "except Exception as e:\n"
                 + "    print(\"Type error when creating mol2 file: \" + str(e))\n"
                 + "    pass\n";
 
+        // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
+        jmol = "\n"
+                + "\nimport sys, os, glob\n"
+                + "\nnow = str(Path().absolute())\n"
+                + "path_data = str(now+'/cubes')\n"
+                + "a = glob.glob(path_data + '/*.*')\n"
+                + "result_files=[]\n"
+                + "result_files += [each.split('cubes/')[1] for each in a if each.endswith('.cube')]\n"
+                + "\ntry:\n"
+                + "    for j in enumerate(result_files):\n"
+                + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
+                + "        print(i)\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load ' + path_data + '/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign '+ path_data + '/' + i +'.cube translucent 0.5; show isosurface'\n"
+                + "        with open('"+jmol_path+"'/' + i + '.macro', \"w+\") as f:\n"
+                + "            f.write(OutputScript)\n"
+                + "except Exception as e:\n"
+                + "    print(\"Write error when creating Jmol .macro files: \" + str(e))\n"; 
         
-        
-        // if writemol2 == YES entered use 'mol'
-        runbabel = writemol2.length() > 0 ? babel : "";       
-        
+        jmol = CubeProp.length() > 0 ? jmol : "";
+
+// Orbitals macro Jmol
+                //        for (int i = 0; i < num_cube.length(); i = i + 1) {
+                //            String OutputScript = "reset; load " + inp_dir + "/" + file_name + "_" + i + "_"
+                //                    + ".cube;" 
+                //                    + " set labelfront;" + " isosurface cutoff 0.07 sign "+ inp_dir + "/" + file_name + "_" + i + "_"
+                //                    + ".cube; show isosurface";
+                //            
+                //            if (CubeProp.length() > 0) {
+                //                try {
+                //                    // write bash file in the same directory
+                //                    FileWriter fstreamWrite = new FileWriter(jmol_path + "/PSI4_"+ file_name + "-" + i +".macro");
+                //                    BufferedWriter out = new BufferedWriter(fstreamWrite);
+                //                    out.write("Title=PSI4_" + file_name + "-" + i + "\nScript=" + OutputScript);
+                //                    out.close();
+                //                    //Close the input stream
+                //
+                //                } catch (Exception e) {//Catch exception if any
+                //                    System.err.println("Error: " + e.getMessage());
+                //                }
+                //            }
+                //        }
+                // </editor-fold>
+                // if writemol2 == YES entered use 'mol'
+        runbabel = writemol2.length() > 0 ? babel : "";
+
         if (psi_xyz.contains("YES")) {
             xyzout = savexyz;
         } else {
@@ -266,10 +308,11 @@ public class Outputs extends FXMLDocumentController {
                 + psiloc + "\n"
                 + xyzout + "\n\n"
                 + movecube + "\n"
+                + jmol + "\n"
                 + dipget + "\n"
                 + eneget + "\n"
-                + "\nprint_variables()\n" +"\n"
-                + runbabel  + "\n";
+                + "\nprint_variables()\n" + "\n"
+                + runbabel + "\n";
 
         outputsall = outputsall.replaceAll("(?m)^(null)?,", "");
         outputsall = outputsall.replaceAll("(?m)^[ \t]*\r?r?\n\n", "");

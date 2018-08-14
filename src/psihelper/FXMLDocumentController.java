@@ -24,12 +24,11 @@
 
  /*
  * FXMLDocumentController.java, part of the PsiHelper project
- * 
+ *
  * PSI4 Helper is GUI interface that assists in creating content and format of PSI4 input files.
  * PSI4 Helper is written in JavaFlex included in JDK8 and running on JRE8.
  * Details of PSI4 compotational chemistry platform are at: https://http://www.psicode.org/
  */
-
 package psihelper;
 
 import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
@@ -79,7 +78,6 @@ import javafx.stage.Stage;
  * @author Marcel Patek <chemgplus at gmail.com>
  * @version 1.0, 7/27/2018
  */
-
 public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="@FXML declarations">
@@ -225,7 +223,6 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox PsiMol2;
 
 // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="My Global variables">
     String suff = null;
     String link3;
@@ -288,12 +285,13 @@ public class FXMLDocumentController implements Initializable {
     String set_univ = "";
     String opt_freq = "";
     String resprop = "";
+    String user_home;
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
     // Boxes with ObservableArrayList objects
     Separator separator = new Separator(Orientation.HORIZONTAL);
-    
+
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
             "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition", "HCN-HNC IRC examples at psi4/samples/opt-irc-2"
     );
@@ -304,7 +302,7 @@ public class FXMLDocumentController implements Initializable {
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
     );
     ObservableList<String> basisbox = FXCollections.observableArrayList(
-            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ","def2-TZVP","jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
+            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ", "def2-TZVP", "jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
     );
     ObservableList<String> methodbox = FXCollections.observableArrayList(
             "HF", "DFT", "MP2", "CC2", "CCSD", "CCSD(T)", "MP4", "FNO-MP4", "OMP2", "SAPT0", "SAPT(dft)", "SAPT2", "SAPT2+(3)", "SAPT2+(3)dMP2", "F-SAPT", "SAPT-CT"
@@ -332,7 +330,6 @@ public class FXMLDocumentController implements Initializable {
     );
 
     // </editor-fold>
-   
     // <editor-fold defaultstate="collapsed" desc="myMethod getMatchingString">
     List<String> getMatchingStrings(List<String> list,
             String regex) {
@@ -347,7 +344,7 @@ public class FXMLDocumentController implements Initializable {
     }
 // </editor-fold>
 
-   // <editor-fold defaultstate="collapsed" desc="Load and Save values from XML">
+    // <editor-fold defaultstate="collapsed" desc="Load and Save values from XML">
     public void LoadParams() {
         Properties props = new Properties();
         InputStream is = null;
@@ -653,17 +650,17 @@ public class FXMLDocumentController implements Initializable {
                 SetOptions.setText(addoptions);
                 break;
             case "SAPT(dft)":
-                addoptions = 
-                        "'SAPT_DFT_FUNCTIONAL' : '"+ PsiFunct.getValue() + "' #  functional to use for SAPT(DFT),\n"
+                addoptions
+                        = "'SAPT_DFT_FUNCTIONAL' : '" + PsiFunct.getValue() + "' #  functional to use for SAPT(DFT),\n"
                         + "'guess' : 'sad',\n"
                         + "'freeze_core': 'true' # for larger molecules,\n";
                 SetOptions.setText(addoptions);
-                break;            
+                break;
             case "SAPTx-CT":
                 addoptions = "# Use sapt_x-ct method,\n"
-                        + "'df_basis_scf' : '"+ PsiBas.getValue() + "'-jkfit',\n"
-                        + "'df_basis_sapt' : '"+ PsiBas.getValue() + "'-ri',\n"
-                        + "'df_basis_elst' : '"+ PsiBas.getValue() + "'-jkfit',\n"
+                        + "'df_basis_scf' : '" + PsiBas.getValue() + "'-jkfit',\n"
+                        + "'df_basis_sapt' : '" + PsiBas.getValue() + "'-ri',\n"
+                        + "'df_basis_elst' : '" + PsiBas.getValue() + "'-jkfit',\n"
                         + "'guess' : 'sad',\n"
                         + "'puream' : 'true,'\n"
                         + "'print' : '1',\n"
@@ -707,7 +704,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-     @FXML// Save Layout
+    @FXML// Save Layout
     private void SaveLayoutAction(ActionEvent event) {
         file_name = Filename.getText();
         inp_dir = InpDir.getText();
@@ -715,9 +712,9 @@ public class FXMLDocumentController implements Initializable {
             suff = "";
         } else {
             suff = Suffix.getText().trim();
-     }
-       
-    // PSI input settings
+        }
+
+        // PSI input settings
         String set_alone = "";
         String psi_call = "";
         String psi_pubchem = "";
@@ -765,7 +762,7 @@ public class FXMLDocumentController implements Initializable {
             case "def2-TZVP":
                 psi_bas = "'basis' : 'def2-TZVP'";
                 link3 = "";
-                break;                      
+                break;
             case "jun-cc-pVDZ":
                 psi_bas = "'basis' : 'jun-cc-pVDZ'";
                 link3 = "";
@@ -1012,8 +1009,9 @@ public class FXMLDocumentController implements Initializable {
 // <editor-fold defaultstate="collapsed" desc="Symmetry [psi_point]">
 // in case that selection == value, there is no need for switch-case        
         psi_point = PsiPoint.getValue();
-        if (psi_point == "NA")
+        if (psi_point == "NA") {
             psi_point = "";
+        }
         //PsiPoint.setValue("c1");
 //        switch (PsiPoint.getValue()) {
 //            case "c1":
@@ -1066,7 +1064,6 @@ public class FXMLDocumentController implements Initializable {
         }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="PsiSolvent [psi_solvent]">
         //psi_solvent = PsiSolvent.getValue();
         // PsiSolvent.setValue("None");
@@ -1147,7 +1144,6 @@ public class FXMLDocumentController implements Initializable {
         molname = MolName.getText();
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="check boxes">
         if (PsiPyapi.isSelected()) {
             psi_pyapi = "YES";
@@ -1288,7 +1284,7 @@ public class FXMLDocumentController implements Initializable {
             psi_prop = "";
         }
         if (PsiMol2.isSelected()) {
-            writemol2= "YES";
+            writemol2 = "YES";
             psi_xyz = "YES";
             psi_prop = "'DIPOLE'";
         } else {
@@ -1313,7 +1309,6 @@ public class FXMLDocumentController implements Initializable {
 //psi_molcomment = PsiDescription.getText();
 //cores  = Cores.getText();
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="PsiCubeRange [psi_cuberange] ">
         String cuberange = PsiCubeRange.getText();
         String num_cube = null;
@@ -1372,7 +1367,6 @@ public class FXMLDocumentController implements Initializable {
         }
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="Cube Properties">
 //'density', 'orbitals', 'ESP', 'ELF'
         String CubeProp = "";
@@ -1403,16 +1397,22 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="To AreaOut">
         String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
         String file_ext = "inp";
 // </editor-fold>
 
+
+// Check for .macro
+user_home = System.getProperty("user.home");
+createDirectoryIfNeeded(user_home + "/.jmol/macros");
+String jmol_path = user_home + "\\.jmol\\macros";
+//log(jmol_path);
+
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1531,6 +1531,18 @@ public class FXMLDocumentController implements Initializable {
     }
 
     //  methods
+    // Check if .macro exists and create it if not
+    private void createDirectoryIfNeeded(String directoryName) {
+        File theDir = new File(directoryName);
+
+        // if the directory does not exist, create it
+        if (!theDir.exists()) {
+            new Alert(Alert.AlertType.WARNING, "Directory /macros did not found. Attemped to make it.\n", ButtonType.OK).showAndWait().filter(response -> response == ButtonType.OK);
+            return;
+        }
+        theDir.mkdir();
+    }
+
     public static void log(Object aObject) {
         System.out.println(String.valueOf(aObject));
     }

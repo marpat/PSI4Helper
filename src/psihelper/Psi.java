@@ -158,7 +158,8 @@ public class Psi extends FXMLDocumentController {
             String set_univ,
             String opt_freq,
             String resprop,
-            String psi_irc) throws IOException 
+            String psi_irc,
+            String jmol_path) throws IOException 
 // </editor-fold>
     
     {
@@ -255,7 +256,7 @@ public class Psi extends FXMLDocumentController {
         Outputs outp = new Outputs();
         resout = outp.outputs(inp_dir, psi_moldenout, psi_fchkout, psi_gdma,
                 psi_xyz, molname, suff, num_cube, CubeProp, psi_prop, psi_local,
-                psi_ther,writemol2);
+                psi_ther,writemol2, jmol_path);
 
         if (psi_irc != null) {
             psi_method = psi_method.contains("DFT") ? "scf" : psi_method;
@@ -362,30 +363,7 @@ public class Psi extends FXMLDocumentController {
                 + "echo \'DONE. Files were moved to $comp_dir\'";
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="Jmol macro files">
-// Orbitals macro Jmol
-//        if(jmol){
-//          for (int i = 0; i < num_cube.length(); i = i+1) {
-//         String OutputScript = "reset; load " + inp_dir + "/" + file_name + "_"+ i +"_"
-//                + ".cube" + "; frame 1.1; mo " + i
-//                + "; mo color [255,0,0] [0,0,255];" 
-//                + " set labelfront;" + "  mo fill nomesh translucent 0.3;";
-//        String Writepath = inp_dir + "/cubes/" + i + "_" + file_name + "_"
-//                + ".spt";
-//        // Write file to specific directory; start with error checking          
-//        try {
-//            // Create file 
-//            FileWriter fstream = new FileWriter(Writepath);
-//            BufferedWriter outA = new BufferedWriter(fstream);
-//            outA.write(OutputScript);
-//            outA.close(); // close stream
-//
-//        } catch (IOException e) {//Catch exception if any
-//            System.out.println("Error: " + e.getMessage());
-//        }
-//          }
-//        }
-// </editor-fold>
+
 
 // <editor-fold defaultstate="collapsed" desc="write files">
         try {
