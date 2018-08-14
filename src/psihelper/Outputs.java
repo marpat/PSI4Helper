@@ -233,7 +233,9 @@ public class Outputs extends FXMLDocumentController {
                 + "    print(\"Type error when creating mol2 file: \" + str(e))\n"
                 + "    pass\n";
 
-        // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
+                // unify script directory
+                String inp_diru = inp_dir.replace("\\", "/");
+                // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
         jmol = "\n"
                 + "\nimport sys, os, glob\n"
                 + "\nnow = str(Path().absolute())\n"
@@ -245,8 +247,8 @@ public class Outputs extends FXMLDocumentController {
                 + "    for j in enumerate(result_files):\n"
                 + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
                 + "        print(i)\n"
-                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load ' + path_data + '/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign '+ path_data + '/' + i +'.cube translucent 0.5; show isosurface'\n"
-                + "        with open('"+jmol_path+"'/' + i + '.macro', \"w+\") as f:\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign "+ inp_diru + "/cubes/' + i +'.cube translucent 0.5; show isosurface'\n"
+                + "        with open(\"./cubes/\" + i + \".macro\", \"w+\") as f:\n"
                 + "            f.write(OutputScript)\n"
                 + "except Exception as e:\n"
                 + "    print(\"Write error when creating Jmol .macro files: \" + str(e))\n"; 

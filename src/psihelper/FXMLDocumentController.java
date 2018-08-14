@@ -1403,9 +1403,9 @@ public class FXMLDocumentController implements Initializable {
 // </editor-fold>
 
 
-// Check for .macro
+// Check for .macro folder / create it
 user_home = System.getProperty("user.home");
-createDirectoryIfNeeded(user_home + "/.jmol/macros");
+//createDirectoryIfNeeded(user_home + "/.jmol/macros");
 String jmol_path = user_home + "\\.jmol\\macros";
 //log(jmol_path);
 
