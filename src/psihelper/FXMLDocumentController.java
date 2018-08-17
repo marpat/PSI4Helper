@@ -1358,6 +1358,7 @@ public class FXMLDocumentController implements Initializable {
             String[] num_cube_arr = cuberange_arrA.toArray(new String[cubeCount]); // List to array for later use
             int actCount = num_cube_arr.length;
             // Pass to output
+           
 
             for (int i = 0; i < actCount; i++) {
                 num_cube += num_cube_arr[i] + ",";

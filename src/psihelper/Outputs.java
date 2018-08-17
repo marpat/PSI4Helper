@@ -135,9 +135,11 @@ public class Outputs extends FXMLDocumentController {
                 + "\n"
                 + "HOMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha()]\n"
                 + "LUMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha() + 1]\n"
-                + "# Create variables for beta HOMO and LUMO orbitals"
-                + "homob = -ndocc\n"
-                + "lumob = -(ndocc +1)\n"
+                + "# Create variables for beta HOMO and LUMO orbitals\n"
+                + "homo = int(ndocc)\n"
+                + "lumo = (int(ndocc) +1)\n"
+                + "orb_list= '" + num_cube + "' \n"
+                + "orbitals = orb_list # TODO\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
@@ -145,28 +147,26 @@ public class Outputs extends FXMLDocumentController {
                 + "print('Number of singly occupied orbitals:   %d' % nsocc)\n"
                 + "print('Number of basis functions:            %d' % nbf)\n";
 
-        //work on num_cube string
+       log("incoming num_cube");
+        log(num_cube);        
+//work on num_cube string
         if (num_cube.toLowerCase().contains("HOMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("HOMO".toLowerCase(), "$ndocc");
+            num_cube = num_cube.toLowerCase().replace("HOMO".toLowerCase(), "$homo");
         }
         if (num_cube.toLowerCase().contains("LUMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(), "$ndocc+1");
-        }
-        if (num_cube.toLowerCase().contains("-HOMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("-HOMO".toLowerCase(), "$homob");
-        }
-        if (num_cube.toLowerCase().contains("-LUMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("-LUMO".toLowerCase(), "$lumob");
+            num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(), "$lumo");
         }
         if (num_cube.toLowerCase().contains("SOMO".toLowerCase())) {
             num_cube = num_cube.toLowerCase().replace("SOMO".toLowerCase(), "$nsocc");
         }
-
+       log("changed num_cube");
+        log(num_cube);
         if (num_cube.length() < 1) {
             cubeorb = "";
             countorb = "";
         } else {
-            cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
+          cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
+//TODO            cubeorb = "set cubeprop_orbitals [$orbitals]";
             //copyFile(source1, dest1);
         }
         if (CubeProp.length() > 0) {
