@@ -23,11 +23,16 @@
  */
 package psihelper;
 
+import java.awt.RenderingHints.Key;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Outputs.java (UTF-8)
@@ -45,6 +50,24 @@ public class Outputs extends FXMLDocumentController {
         }
     }
 
+//Tretrieval by disctionary
+    public String stringDict(String orb_string) {
+        Map<String, String> map = new HashMap<>();
+        String results ="";
+        
+        map.put("homo", "$homo");
+        map.put("lumo", "$lumo");
+        map.put("somo", "$nsocc");
+        map.put("-homo", "np.negative($homo)");
+        map.put("-lumo", "np.negative($lumo)");
+        
+        orb_string = Arrays.stream(orb_string.split(","))
+        .map(s -> map.getOrDefault(s, s))
+        .collect(Collectors.joining(","));
+
+        return orb_string;
+    }
+    
     public String outputs(
             String inp_dir,
             String psi_moldenout,
@@ -100,6 +123,12 @@ public class Outputs extends FXMLDocumentController {
 // </editor-fold>
         inp_dir = inp_dir.replace("\\", "/"); // for all platforms
 
+        log("incoming num_cube");
+        log(num_cube);
+        String orbitals = stringDict(num_cube);
+        log("\nJava method output");
+        log(orbitals);
+
         cubemove = "import os, re\n"
                 + "from pathlib import Path\n"
                 + "import shutil\n\n"
@@ -138,8 +167,12 @@ public class Outputs extends FXMLDocumentController {
                 + "# Create variables for beta HOMO and LUMO orbitals\n"
                 + "homo = int(ndocc)\n"
                 + "lumo = (int(ndocc) +1)\n"
-                + "orb_list= '" + num_cube + "' \n"
-                + "orbitals = orb_list # TODO\n"
+                + "#orb_string= '" + num_cube + "' \n"
+                + "#dict = {'homo': '$homo','lumo': '$lumo','-homo': 'np.negative($homo)','-lumo': 'np.negative($lumo)','somo': '$nsocc'}\n"
+                + "#orb_list = orb_string.split(',')\n"
+                + "#subs = {k: v for k, v in dict.items()}\n"
+                + "#orbitals = ','.join([subs.get(item, item) for item in orb_list])\n"
+                + "orbitals = " + orbitals + "\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
@@ -147,26 +180,27 @@ public class Outputs extends FXMLDocumentController {
                 + "print('Number of singly occupied orbitals:   %d' % nsocc)\n"
                 + "print('Number of basis functions:            %d' % nbf)\n";
 
-       log("incoming num_cube");
-        log(num_cube);        
 //work on num_cube string
-        if (num_cube.toLowerCase().contains("HOMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("HOMO".toLowerCase(), "$homo");
-        }
-        if (num_cube.toLowerCase().contains("LUMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(), "$lumo");
-        }
-        if (num_cube.toLowerCase().contains("SOMO".toLowerCase())) {
-            num_cube = num_cube.toLowerCase().replace("SOMO".toLowerCase(), "$nsocc");
-        }
-       log("changed num_cube");
-        log(num_cube);
+//        if (num_cube.toLowerCase().contains("HOMO".toLowerCase())) {
+//            num_cube = num_cube.toLowerCase().replace("HOMO".toLowerCase(),
+//                    "$homo");
+//        }
+//        if (num_cube.toLowerCase().contains("LUMO".toLowerCase())) {
+//            num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(),
+//                    "$lumo");
+//        }
+//        if (num_cube.toLowerCase().contains("SOMO".toLowerCase())) {
+//            num_cube = num_cube.toLowerCase().replace("SOMO".toLowerCase(),
+//                    "$nsocc");
+//        }
+//        log("changed num_cube");
+//        log(num_cube);
         if (num_cube.length() < 1) {
             cubeorb = "";
             countorb = "";
         } else {
-          cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
-//TODO            cubeorb = "set cubeprop_orbitals [$orbitals]";
+            //    cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
+            cubeorb = "set cubeprop_orbitals [$orbitals]";
             //copyFile(source1, dest1);
         }
         if (CubeProp.length() > 0) {
@@ -180,9 +214,8 @@ public class Outputs extends FXMLDocumentController {
             cubes = "";
             movecube = "";
         }
-        
-        //log("cubes:"+ cubes);
 
+        //log("cubes:"+ cubes);
         savexyz = molname + ".update_geometry()\n"
                 + molname + ".geometry()\n"
                 + molname + ".print_out()\n"
@@ -248,9 +281,9 @@ public class Outputs extends FXMLDocumentController {
                 + "    print(\"Type error when creating mol2 file: \" + str(e))\n"
                 + "    pass\n";
 
-                // unify script directory
-                String inp_diru = inp_dir.replace("\\", "/");
-                // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
+        // unify script directory
+        String inp_diru = inp_dir.replace("\\", "/");
+        // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
         jmol = "\n"
                 + "\nimport sys, os, glob\n"
                 + "\nnow = str(Path().absolute())\n"
@@ -262,37 +295,37 @@ public class Outputs extends FXMLDocumentController {
                 + "    for j in enumerate(result_files):\n"
                 + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
                 + "        print(i)\n"
-                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign "+ inp_diru + "/cubes/' + i +'.cube translucent 0.3; show isosurface'\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign " + inp_diru + "/cubes/' + i +'.cube translucent 0.3; show isosurface'\n"
                 + "        with open(\"./cubes/\" + i + \".macro\", \"w+\") as f:\n"
                 + "            f.write(OutputScript)\n"
                 + "except Exception as e:\n"
-                + "    print(\"Write error when creating Jmol .macro files: \" + str(e))\n"; 
-        
+                + "    print(\"Write error when creating Jmol .macro files: \" + str(e))\n";
+
         jmol = CubeProp.length() > 0 ? jmol : "";
 
 // Orbitals macro Jmol
-                //        for (int i = 0; i < num_cube.length(); i = i + 1) {
-                //            String OutputScript = "reset; load " + inp_dir + "/" + file_name + "_" + i + "_"
-                //                    + ".cube;" 
-                //                    + " set labelfront;" + " isosurface cutoff 0.07 sign "+ inp_dir + "/" + file_name + "_" + i + "_"
-                //                    + ".cube; show isosurface";
-                //            
-                //            if (CubeProp.length() > 0) {
-                //                try {
-                //                    // write bash file in the same directory
-                //                    FileWriter fstreamWrite = new FileWriter(jmol_path + "/PSI4_"+ file_name + "-" + i +".macro");
-                //                    BufferedWriter out = new BufferedWriter(fstreamWrite);
-                //                    out.write("Title=PSI4_" + file_name + "-" + i + "\nScript=" + OutputScript);
-                //                    out.close();
-                //                    //Close the input stream
-                //
-                //                } catch (Exception e) {//Catch exception if any
-                //                    System.err.println("Error: " + e.getMessage());
-                //                }
-                //            }
-                //        }
-                // </editor-fold>
-                // if writemol2 == YES entered use 'mol'
+        //        for (int i = 0; i < num_cube.length(); i = i + 1) {
+        //            String OutputScript = "reset; load " + inp_dir + "/" + file_name + "_" + i + "_"
+        //                    + ".cube;" 
+        //                    + " set labelfront;" + " isosurface cutoff 0.07 sign "+ inp_dir + "/" + file_name + "_" + i + "_"
+        //                    + ".cube; show isosurface";
+        //            
+        //            if (CubeProp.length() > 0) {
+        //                try {
+        //                    // write bash file in the same directory
+        //                    FileWriter fstreamWrite = new FileWriter(jmol_path + "/PSI4_"+ file_name + "-" + i +".macro");
+        //                    BufferedWriter out = new BufferedWriter(fstreamWrite);
+        //                    out.write("Title=PSI4_" + file_name + "-" + i + "\nScript=" + OutputScript);
+        //                    out.close();
+        //                    //Close the input stream
+        //
+        //                } catch (Exception e) {//Catch exception if any
+        //                    System.err.println("Error: " + e.getMessage());
+        //                }
+        //            }
+        //        }
+        // </editor-fold>
+        // if writemol2 == YES entered use 'mol'
         runbabel = writemol2.length() > 0 ? babel : "";
 
         if (psi_xyz.contains("YES")) {
