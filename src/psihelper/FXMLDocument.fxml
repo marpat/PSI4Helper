@@ -103,7 +103,14 @@
                            <children>
                               <CheckBox fx:id="PsiFreeze" mnemonicParsing="false" text="Freeze Core" />
                               <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM" />
-                              <CheckBox fx:id="NatOrb" mnemonicParsing="false" text="Nat_Orbitals" />
+                              <CheckBox fx:id="NatOrb" mnemonicParsing="false" text="Nat_Orbitals">
+                                 <tooltip>
+                                    <Tooltip text="Write natural Orbital in Molden">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
                               <CheckBox fx:id="PsiPrbasis" mnemonicParsing="false" text="print_basis" />
                               <CheckBox fx:id="PsiPrmos" mnemonicParsing="false" prefHeight="23.0" prefWidth="101.0" text="print_mos">
                                  <padding>

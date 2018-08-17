@@ -135,6 +135,9 @@ public class Outputs extends FXMLDocumentController {
                 + "\n"
                 + "HOMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha()]\n"
                 + "LUMO = np.asarray(wfn.epsilon_a_subset(\"AO\", \"ALL\"))[wfn.nalpha() + 1]\n"
+                + "# Create variables for beta HOMO and LUMO orbitals"
+                + "homob = -ndocc\n"
+                + "lumob = -(ndocc +1)\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
@@ -148,6 +151,12 @@ public class Outputs extends FXMLDocumentController {
         }
         if (num_cube.toLowerCase().contains("LUMO".toLowerCase())) {
             num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(), "$ndocc+1");
+        }
+        if (num_cube.toLowerCase().contains("-HOMO".toLowerCase())) {
+            num_cube = num_cube.toLowerCase().replace("-HOMO".toLowerCase(), "$homob");
+        }
+        if (num_cube.toLowerCase().contains("-LUMO".toLowerCase())) {
+            num_cube = num_cube.toLowerCase().replace("-LUMO".toLowerCase(), "$lumob");
         }
         if (num_cube.toLowerCase().contains("SOMO".toLowerCase())) {
             num_cube = num_cube.toLowerCase().replace("SOMO".toLowerCase(), "$nsocc");
@@ -213,6 +222,12 @@ public class Outputs extends FXMLDocumentController {
         //OpenBabel (writemol2 ==YES)
         babel = "\n"
                 + "\nimport subprocess, sys, os, glob\n"
+                + "\n# If cubes are checked, geom.xyz file is created. Remove it.\n"
+                + "try:\n"
+                + "    os.remove(\"geom.xyz\")\n"
+                + "except Exception as r:\n"
+                + "    print(\"Type error when removing geom.xyz file: \" + str(r))\n"
+                + "    pass\n"
                 + "\nkf = \"\"\"2\\n\n"
                 + "\nF     0.00000    0.00000   0.00000\n"
                 + "K   {:.5f}   {:.5f}   {:.5f}\"\"\".format(dipX, dipY, dipZ)\n"
@@ -247,7 +262,7 @@ public class Outputs extends FXMLDocumentController {
                 + "    for j in enumerate(result_files):\n"
                 + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
                 + "        print(i)\n"
-                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign "+ inp_diru + "/cubes/' + i +'.cube translucent 0.5; show isosurface'\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign "+ inp_diru + "/cubes/' + i +'.cube translucent 0.3; show isosurface'\n"
                 + "        with open(\"./cubes/\" + i + \".macro\", \"w+\") as f:\n"
                 + "            f.write(OutputScript)\n"
                 + "except Exception as e:\n"

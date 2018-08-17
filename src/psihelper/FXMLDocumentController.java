@@ -1227,7 +1227,7 @@ public class FXMLDocumentController implements Initializable {
             psi_puream = "";
         }
         if (NatOrb.isSelected()) {
-            psi_natorb = "'NAT_ORB': 'true'";
+            psi_natorb = "'WRITE_NOS': 'true'";
         } else {
             psi_natorb = "";
         }
