@@ -23,10 +23,7 @@
  */
 package psihelper;
 
-import java.awt.RenderingHints.Key;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
@@ -50,18 +47,17 @@ public class Outputs extends FXMLDocumentController {
         }
     }
 
-//Tretrieval by disctionary
+//Replace words in string using a dictionary
     public String stringDict(String orb_string) {
         Map<String, String> map = new HashMap<>();
-        String results ="";
-        
+        // define Python variables
         map.put("homo", "$homo");
         map.put("lumo", "$lumo");
         map.put("somo", "$nsocc");
         map.put("-homo", "np.negative($homo)");
         map.put("-lumo", "np.negative($lumo)");
         
-        orb_string = Arrays.stream(orb_string.split(","))
+        orb_string = Arrays.stream(orb_string.toLowerCase().split(","))
         .map(s -> map.getOrDefault(s, s))
         .collect(Collectors.joining(","));
 
@@ -123,11 +119,11 @@ public class Outputs extends FXMLDocumentController {
 // </editor-fold>
         inp_dir = inp_dir.replace("\\", "/"); // for all platforms
 
-        log("incoming num_cube");
-        log(num_cube);
+        //log("incoming num_cube");
+        //log(num_cube);
         String orbitals = stringDict(num_cube);
-        log("\nJava method output");
-        log(orbitals);
+        //log("\nJava method output");
+        //log(orbitals);
 
         cubemove = "import os, re\n"
                 + "from pathlib import Path\n"
@@ -167,11 +163,6 @@ public class Outputs extends FXMLDocumentController {
                 + "# Create variables for beta HOMO and LUMO orbitals\n"
                 + "homo = int(ndocc)\n"
                 + "lumo = (int(ndocc) +1)\n"
-                + "#orb_string= '" + num_cube + "' \n"
-                + "#dict = {'homo': '$homo','lumo': '$lumo','-homo': 'np.negative($homo)','-lumo': 'np.negative($lumo)','somo': '$nsocc'}\n"
-                + "#orb_list = orb_string.split(',')\n"
-                + "#subs = {k: v for k, v in dict.items()}\n"
-                + "#orbitals = ','.join([subs.get(item, item) for item in orb_list])\n"
                 + "orbitals = " + orbitals + "\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
@@ -180,21 +171,6 @@ public class Outputs extends FXMLDocumentController {
                 + "print('Number of singly occupied orbitals:   %d' % nsocc)\n"
                 + "print('Number of basis functions:            %d' % nbf)\n";
 
-//work on num_cube string
-//        if (num_cube.toLowerCase().contains("HOMO".toLowerCase())) {
-//            num_cube = num_cube.toLowerCase().replace("HOMO".toLowerCase(),
-//                    "$homo");
-//        }
-//        if (num_cube.toLowerCase().contains("LUMO".toLowerCase())) {
-//            num_cube = num_cube.toLowerCase().replace("LUMO".toLowerCase(),
-//                    "$lumo");
-//        }
-//        if (num_cube.toLowerCase().contains("SOMO".toLowerCase())) {
-//            num_cube = num_cube.toLowerCase().replace("SOMO".toLowerCase(),
-//                    "$nsocc");
-//        }
-//        log("changed num_cube");
-//        log(num_cube);
         if (num_cube.length() < 1) {
             cubeorb = "";
             countorb = "";

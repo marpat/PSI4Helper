@@ -567,6 +567,7 @@ public class FXMLDocumentController implements Initializable {
             PsiDescription.setText(molgeom[1]);
             MolName.setText(molgeom[2]);
         }
+
     }
 
     @FXML //Add more Options
