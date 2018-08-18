@@ -53,12 +53,8 @@ public class Outputs extends FXMLDocumentController {
 //Replace words in Orbital string using a dictionary
     public String stringDict(String orb_string) {
         Map<String, String> map = new HashMap<>();
-        // define Python variables
-        map.put("homo", "$homo");
-        map.put("lumo", "$lumo");
-        map.put("somo", "$nsocc");
-        map.put("-homo", "np.negative($homo)");
-        map.put("-lumo", "np.negative($lumo)");
+        map.put("-homo", "homo1m");
+        map.put("-lumo", "lumo1m");
         
         orb_string = Arrays.stream(orb_string.toLowerCase().split(","))
         .map(s -> map.getOrDefault(s, s))
@@ -174,7 +170,9 @@ public class Outputs extends FXMLDocumentController {
                 + "# Create variables for beta HOMO and LUMO orbitals\n"
                 + "homo = int(ndocc)\n"
                 + "lumo = (int(ndocc) +1)\n"
-                + "orbitals = '" + orbitals + "'\n"
+                + "homo1m = np.negative(homo)\n"
+                + "lumo1m = np.negative(lumo)\n"
+                + "orbitals = [" + orbitals + "]\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
@@ -187,7 +185,7 @@ public class Outputs extends FXMLDocumentController {
             countorb = "";
         } else {
             //    cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
-            cubeorb = "set cubeprop_orbitals [$orbitals]";
+            cubeorb = "set cubeprop_orbitals $orbitals";
         }
         if (CubeProp.length() > 0) {
             cubes = countorb + "\n"
@@ -280,11 +278,12 @@ public class Outputs extends FXMLDocumentController {
                 + "    for j in enumerate(result_files):\n"
                 + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
                 + "        print(i)\n"
-                + "        if i.strip()[-1] == \"A\":\n"
+                + "#        if i.strip()[-1] == \"A\":\n"
+                + "        if i.strip()[-1] in ['A', 'P']:\n"
                 + "            cut = '0.07'  # for orbitals\n"
                 + "        else:\n"
                 + "            cut = '0.002'  # for density and ESP'\n"
-                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff '+ cut + ' sign " + inp_diru + "/cubes/' + i +'.cube translucent 0.3; show isosurface'\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load \"" + inp_diru + "/cubes/' + i + '.cube\"; set labelfront; isosurface cutoff '+ cut + ' sign \"" + inp_diru + "/cubes/' + i +'.cube\" translucent 0.3; show isosurface'\n"
                 + "        with open(\"./cubes/\" + i + \".macro\", \"w+\") as f:\n"
                 + "            f.write(OutputScript)\n"
                 + "    print(\"\\nCreated cube->macro files for Jmol visualization.\")\n"
