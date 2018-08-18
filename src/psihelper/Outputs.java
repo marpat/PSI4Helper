@@ -31,15 +31,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
+/** Date, author
  * Outputs.java (UTF-8)
  *
  * May 20, 2018 "
  *
  * @author Marcel Patek <chemgplus at gmail.com>
  */
+
+// main class
 public class Outputs extends FXMLDocumentController {
 
+    // Check if file exists and copy
     private static void copyFile(File source,
             File dest) throws IOException {
         if (Files.notExists(dest.toPath())) {
@@ -47,7 +50,7 @@ public class Outputs extends FXMLDocumentController {
         }
     }
 
-//Replace words in string using a dictionary
+//Replace words in Orbital string using a dictionary
     public String stringDict(String orb_string) {
         Map<String, String> map = new HashMap<>();
         // define Python variables
@@ -64,7 +67,10 @@ public class Outputs extends FXMLDocumentController {
         return orb_string;
     }
     
+ // Outputs method
+    // <editor-fold defaultstate="collapsed" desc="main method from PSI.java">
     public String outputs(
+            String file_name,
             String inp_dir,
             String psi_moldenout,
             String psi_fchkout,
@@ -98,7 +104,8 @@ public class Outputs extends FXMLDocumentController {
         String runbabel;
         String cahxyz;
         String jmol;
-
+// </editor-fold>
+        
 // <editor-fold defaultstate="collapsed" desc="vmd_cube scripts">
         // Copy vmd_cube.py file into ./cubes directory
 //        String pat="";
@@ -117,7 +124,11 @@ public class Outputs extends FXMLDocumentController {
         //log("CubeProp:" + CubeProp);
         //log("num_cube:" + num_cube);
 // </editor-fold>
+        
+        // Change slashes in PATH (to forward slashes)
         inp_dir = inp_dir.replace("\\", "/"); // for all platforms
+        // unify script directory
+        String inp_diru = inp_dir.replace("\\", "/"); // for Jmol script
 
         //log("incoming num_cube");
         //log(num_cube);
@@ -140,12 +151,12 @@ public class Outputs extends FXMLDocumentController {
                 + "    try:\n"
                 + "        fil = re.sub(\"'|\\\"\", \"\",f)\n"
                 + "        src = now+'/'+f\n"
-                + "        dst = moveto+fil\n"
+                + "        dst = moveto+'"+file_name+"_'+fil\n"
                 + "        shutil.move(src,dst)\n"
                 + "    except Exception as e:\n"
-                + "        print(\"Type error: \" + str(e))\n"
+                + "        print(\"Move file error: \" + str(e))\n"
                 + "        pass\n"
-                + "print('Moved {} files to ./cubes directory.'.format(len(files)))\n"
+                + "\nprint('Moved {} .cube files to ./cubes directory.'.format(len(files)))\n"
                 + "#os.system('python ' + now+'/cubes/vmd_cube.py')";
 
         countorb = "nocca = wfn.nalpha()\n"
@@ -163,7 +174,7 @@ public class Outputs extends FXMLDocumentController {
                 + "# Create variables for beta HOMO and LUMO orbitals\n"
                 + "homo = int(ndocc)\n"
                 + "lumo = (int(ndocc) +1)\n"
-                + "orbitals = " + orbitals + "\n"
+                + "orbitals = '" + orbitals + "'\n"
                 + "\n"
                 + "print('The HOMO - LUMO gap is: %16.8f a.u.' % (LUMO - HOMO))\n"
                 + "\n"
@@ -177,7 +188,6 @@ public class Outputs extends FXMLDocumentController {
         } else {
             //    cubeorb = "set cubeprop_orbitals [" + num_cube + "]";
             cubeorb = "set cubeprop_orbitals [$orbitals]";
-            //copyFile(source1, dest1);
         }
         if (CubeProp.length() > 0) {
             cubes = countorb + "\n"
@@ -257,10 +267,9 @@ public class Outputs extends FXMLDocumentController {
                 + "    print(\"Type error when creating mol2 file: \" + str(e))\n"
                 + "    pass\n";
 
-        // unify script directory
-        String inp_diru = inp_dir.replace("\\", "/");
+
         // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
-        jmol = "\n"
+        jmol = "\n# Generate macro file for Jmol visualization.\n"
                 + "\nimport sys, os, glob\n"
                 + "\nnow = str(Path().absolute())\n"
                 + "path_data = str(now+'/cubes')\n"
@@ -271,9 +280,14 @@ public class Outputs extends FXMLDocumentController {
                 + "    for j in enumerate(result_files):\n"
                 + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
                 + "        print(i)\n"
-                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff 0.07 sign " + inp_diru + "/cubes/' + i +'.cube translucent 0.3; show isosurface'\n"
+                + "        if i.strip()[-1] == \"A\":\n"
+                + "            cut = '0.07'  # for orbitals\n"
+                + "        else:\n"
+                + "            cut = '0.002'  # for density and ESP'\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load " + inp_diru + "/cubes/' + i + '.cube; set labelfront; isosurface cutoff '+ cut + ' sign " + inp_diru + "/cubes/' + i +'.cube translucent 0.3; show isosurface'\n"
                 + "        with open(\"./cubes/\" + i + \".macro\", \"w+\") as f:\n"
                 + "            f.write(OutputScript)\n"
+                + "    print(\"\\nCreated cube->macro files for Jmol visualization.\")\n"
                 + "except Exception as e:\n"
                 + "    print(\"Write error when creating Jmol .macro files: \" + str(e))\n";
 

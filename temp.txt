@@ -1,0 +1,47 @@
+
+
+//retrieval by disctionary
+    public String stringDict(String orb_string) {
+        Map<String, String> map = new HashMap<>();
+        String results ="";
+        
+        map.put("homo", "$homo");
+        map.put("lumo", "$lumo");
+        map.put("somo", "$nsocc");
+        map.put("-homo", "np.negative($homo)");
+        map.put("-lumo", "np.negative($lumo)");
+        
+        orb_string = Arrays.stream(orb_string.split(","))
+        .map(s -> map.getOrDefault(s, s))
+        .collect(Collectors.joining(","));
+
+        return orb_string;
+    }
+
+        log("incoming num_cube");
+        log(num_cube);
+        String orbitals = stringDict(num_cube);
+        log("\nJava method output");
+        log(orbitals);
+
+
++ "#orb_string= '" + num_cube + "' \n"
+
+
+
+    
+
+orb_string = '4,10,homo,lumo,-homo,-lumo'
+
+dict = {'homo': '$homo','lumo': '$lumo','-homo': 'np.negative($homo)','-lumo': 'np.negative($lumo)'}
+orb_list = orb_string.split(",")
+subs = {k: v for k, v in dict.items()}
+orbitals = ",".join([subs.get(item, item) for item in orb_list])
+
+orbitals
+
+                + "orb_string= '" + num_cube + "' \n"
+                + "dict = {'homo': '$homo','lumo': '$lumo','-homo': 'np.negative($homo)','-lumo': 'np.negative($lumo)','somo': '$nsocc'}\n"
+                + "orb_list = orb_string.split(',')\n"
+                + "subs = {k: v for k, v in dict.items()}\n"
+                + "orbitals = ','.join([subs.get(item, item) for item in orb_list])\n"
