@@ -159,11 +159,11 @@ public class Psi extends FXMLDocumentController {
             String opt_freq,
             String resprop,
             String psi_irc,
-            String jmol_path) throws IOException 
+            String jmol_path,
+            String psi_jmolloc) throws IOException 
 // </editor-fold>
     
     {
-
 // <editor-fold defaultstate="collapsed" desc="Variables">
         String file_ext = "inp";
         String input;
@@ -256,7 +256,7 @@ public class Psi extends FXMLDocumentController {
         Outputs outp = new Outputs();
         resout = outp.outputs(file_name, inp_dir, psi_moldenout, psi_fchkout, psi_gdma,
                 psi_xyz, molname, suff, num_cube, CubeProp, psi_prop, psi_local,
-                psi_ther,writemol2, jmol_path);
+                psi_ther,writemol2, jmol_path, psi_jmolloc);
 
         if (psi_irc != null) {
             psi_method = psi_method.contains("DFT") ? "scf" : psi_method;
@@ -409,11 +409,5 @@ public class Psi extends FXMLDocumentController {
         //appendToPane(AreaOut, input, new Color(0, 128, 0), true);
         boolean confirm = FileExists.Confirm(inp_dir, file_name, suff, file_ext);
         return confirm;
-    }
-
-//    public boolean Conf (String inp_dir, String file_ext ){
-//       boolean confirm = FileExists.Confirm(inp_dir, file_name, file_ext);
-//       return confirm; 
-//    }
-    // appendToPane(AreaOut, input, new Color(128, 0, 0), false);   
+    }  
 }

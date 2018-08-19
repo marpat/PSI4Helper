@@ -80,7 +80,8 @@ public class Outputs extends FXMLDocumentController {
             String psi_local,
             String psi_ther,
             String writemol2,
-            String jmol_path
+            String jmol_path,
+            String psi_jmolloc
     ) throws IOException {
 
         String outputsall = "";
@@ -100,6 +101,7 @@ public class Outputs extends FXMLDocumentController {
         String runbabel;
         String cahxyz;
         String jmol;
+        String jpath;
 // </editor-fold>
         
 // <editor-fold defaultstate="collapsed" desc="vmd_cube scripts">
@@ -123,6 +125,7 @@ public class Outputs extends FXMLDocumentController {
         
         // Change slashes in PATH (to forward slashes)
         inp_dir = inp_dir.replace("\\", "/"); // for all platforms
+        jmol_path = jmol_path.replace("\\", "/");
         // unify script directory
         String inp_diru = inp_dir.replace("\\", "/"); // for Jmol script
 
@@ -139,6 +142,15 @@ public class Outputs extends FXMLDocumentController {
                 + "if not os.path.exists(now+'/cubes'):\n"
                 + "    os.makedirs(now+'/cubes')\n"
                 + "moveto = now + '/cubes/'\n"
+                + "# remove old .cube files first\n"
+                + "try:\n"
+                + "    cubelist = [ c for c in os.listdir(moveto) if c.endswith(\".cube\") ]\n"
+                + "    for k in cubelist:\n"
+                + "        os.remove(os.path.join(moveto, k))\n"
+                + "    print(\"Removed old .cube files for ./cubes directory.\")\n"
+                + "except Exception as c:\n"
+                + "    print(\"Error in removing old .cube files: \" + str(c))\n"
+                + "    pass\n"
                 + "files = []\n"
                 + "for filename in os.listdir():\n"
                 + "    if filename.endswith('.cube'):\n"
@@ -198,6 +210,12 @@ public class Outputs extends FXMLDocumentController {
             cubes = "";
             movecube = "";
         }
+        
+        if (psi_jmolloc.contains("YES")) {
+            jpath = jmol_path;
+        } else {
+            jpath = "./cubes/";
+        }
 
         //log("cubes:"+ cubes);
         savexyz = molname + ".update_geometry()\n"
@@ -205,7 +223,7 @@ public class Outputs extends FXMLDocumentController {
                 + molname + ".print_out()\n"
                 + "\n"
                 + "print('\\nCurrent system geometry was saved in file .xyz')\n"
-                + molname + ".save_xyz_file('" + molname + suff + ".xyz', True)";
+                + molname + ".save_xyz_file('" + file_name + suff + ".xyz', True)";
 
         // MO localization
         moloc = "basis_ = wfn.basisset()\n"
@@ -258,7 +276,7 @@ public class Outputs extends FXMLDocumentController {
                 + "    print(\"There are > 2 .xyz files to merge by Open Babel.\")\n"
                 + "    sys.exit(\"Exiting. Remove other .xyz files.\")\n"
                 + "\ntry:\n"
-                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + molname + suff + ".mol2 -j -c\'\n"
+                + "    cmd = 'obabel -ixyz *.xyz -omol2 -O " + file_name + suff + ".mol2 -j -c\'\n"
                 + "    p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)\n"
                 + "    print(\"Sybyl .mol2 file with dipole vector was created.\")\n"
                 + "except Exception as e:\n"
@@ -267,6 +285,7 @@ public class Outputs extends FXMLDocumentController {
 
 
         // <editor-fold defaultstate="collapsed" desc="Jmol macro files">
+        // 
         jmol = "\n# Generate macro file for Jmol visualization.\n"
                 + "\nimport sys, os, glob\n"
                 + "\nnow = str(Path().absolute())\n"
@@ -278,13 +297,20 @@ public class Outputs extends FXMLDocumentController {
                 + "    for j in enumerate(result_files):\n"
                 + "        i = j[1].split(\".\")[0].strip(\"'\").strip('\"')\n"
                 + "        print(i)\n"
-                + "#        if i.strip()[-1] == \"A\":\n"
-                + "        if i.strip()[-1] in ['A', 'P']:\n"
+                + "        if i.strip()[-1] == 'P':\n"
+                + "            cut = '0.07'  # for potential\n"
+                + "            color = ' sign color [255 0 0] [250 208 0]'\n"
+                + "        elif i.strip()[-1] == 'A':\n"
                 + "            cut = '0.07'  # for orbitals\n"
+                + "            color = ' sign '\n"
+                + "        elif i.strip()[-2] == 'D':\n"
+                + "            cut = '0.002'  # for density\n"
+                + "            color = ' sign color [255 0 0] [250 208 0]'\n"
                 + "        else:\n"
-                + "            cut = '0.002'  # for density and ESP'\n"
-                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load \"" + inp_diru + "/cubes/' + i + '.cube\"; set labelfront; isosurface cutoff '+ cut + ' sign \"" + inp_diru + "/cubes/' + i +'.cube\" translucent 0.3; show isosurface'\n"
-                + "        with open(\"./cubes/\" + i + \".macro\", \"w+\") as f:\n"
+                + "            cut = '0.85'  # for ELF'\n"
+                + "            color = ' color [255 0 0]'\n"
+                + "        OutputScript = 'Title=' + i + '\\nScript=reset; load \"" + inp_diru + "/cubes/' + i + '.cube\"; set labelfront; background [0 55 114]; isosurface cutoff '+ cut  +color+ ' \"" + inp_diru + "/cubes/' + i +'.cube\" translucent 0.3; show isosurface'\n"
+                + "        with open(\""+jpath+"\" + i + \".macro\", \"w+\") as f:\n"
                 + "            f.write(OutputScript)\n"
                 + "    print(\"\\nCreated cube->macro files for Jmol visualization.\")\n"
                 + "except Exception as e:\n"
@@ -292,28 +318,6 @@ public class Outputs extends FXMLDocumentController {
 
         jmol = CubeProp.length() > 0 ? jmol : "";
 
-// Orbitals macro Jmol
-        //        for (int i = 0; i < num_cube.length(); i = i + 1) {
-        //            String OutputScript = "reset; load " + inp_dir + "/" + file_name + "_" + i + "_"
-        //                    + ".cube;" 
-        //                    + " set labelfront;" + " isosurface cutoff 0.07 sign "+ inp_dir + "/" + file_name + "_" + i + "_"
-        //                    + ".cube; show isosurface";
-        //            
-        //            if (CubeProp.length() > 0) {
-        //                try {
-        //                    // write bash file in the same directory
-        //                    FileWriter fstreamWrite = new FileWriter(jmol_path + "/PSI4_"+ file_name + "-" + i +".macro");
-        //                    BufferedWriter out = new BufferedWriter(fstreamWrite);
-        //                    out.write("Title=PSI4_" + file_name + "-" + i + "\nScript=" + OutputScript);
-        //                    out.close();
-        //                    //Close the input stream
-        //
-        //                } catch (Exception e) {//Catch exception if any
-        //                    System.err.println("Error: " + e.getMessage());
-        //                }
-        //            }
-        //        }
-        // </editor-fold>
         // if writemol2 == YES entered use 'mol'
         runbabel = writemol2.length() > 0 ? babel : "";
 

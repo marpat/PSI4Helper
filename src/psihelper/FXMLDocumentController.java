@@ -221,6 +221,8 @@ public class FXMLDocumentController implements Initializable {
     private ChoiceBox<String> PsiProperties;
     @FXML
     private CheckBox PsiMol2;
+    @FXML
+    private CheckBox PsiJmol;
 
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="My Global variables">
@@ -286,6 +288,8 @@ public class FXMLDocumentController implements Initializable {
     String opt_freq = "";
     String resprop = "";
     String user_home;
+    String psi_jmolloc;
+    String jmol_path;
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
@@ -396,42 +400,6 @@ public class FXMLDocumentController implements Initializable {
             PM2aim.setText("Set path to M2aim");
             ShShell.setText("Set proper shebang");
         }
-
-//        try {
-//            File f = new File("psi_def.xml");
-//            is = new FileInputStream(f);
-//        } catch (Exception e) {
-//            is = null;
-//        }
-//        try {
-//            if (is == null) {
-//                // Try loading from classpath
-//                is = getClass().getResourceAsStream("psi_def.xml");
-//            }
-//            // Try loading properties from the file (if found)
-//            props.loadFromXML(is);
-//        } catch (Exception e) {
-//        }
-        //props.forEach((k, v) -> System.out.println(String.format("key = %s, value = %s", k, v)));
-//        memory = props.getProperty("memory");
-//        file_name = props.getProperty("file_name");
-//        inp_dir = props.getProperty("inp_dir");
-//        cores = props.getProperty("cores");
-//        psi_charge = props.getProperty("psi_charge");
-//        psi_multi = props.getProperty("psi_multi");
-//        mwfn_path = props.getProperty("Multiwfn");
-//        m2aim_path = props.getProperty("Molden2Aim");
-//        ushell = props.getProperty("Shell#");
-//
-//        InpDir.setText(inp_dir);
-//        Filename.setText(file_name);
-//        Memory.setText(memory);
-//        Cores.setText(cores);
-//        PsiCharge.setText(psi_charge);
-//        PsiMulti.setText(psi_multi);
-//        PMwfn.setText(mwfn_path);
-//        PM2aim.setText(mwfn_path);
-//        ShShell.setText(ushell);
     }
 
     public void saveParamChangesAsXML() {
@@ -543,6 +511,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML // Load Directory
     private void setOnAction(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
+        try {
+        directoryChooser.setInitialDirectory(new File(inp_dir));
+        }
+        catch (Exception e) {
+            log("Enter 'run' directory path manually and re-try.");
+        }
         Stage stage = (Stage) anchorid.getScene().getWindow();
         File selectedDirectory
                 = directoryChooser.showDialog(stage);
@@ -715,10 +689,13 @@ public class FXMLDocumentController implements Initializable {
             suff = Suffix.getText().trim();
         }
 
-        // PSI input settings
+    // PSI input settings
         String set_alone = "";
         String psi_call = "";
         String psi_pubchem = "";
+        
+    // Set OS specific User path
+    user_home = System.getProperty("user.home");
 
 //// <editor-fold defaultstate="collapsed" desc="PsiBas[psi_bas]">
         //String psi_bas = PsiBas.getValue();
@@ -1065,6 +1042,8 @@ public class FXMLDocumentController implements Initializable {
         }
 
 // </editor-fold>
+
+
 // <editor-fold defaultstate="collapsed" desc="PsiSolvent [psi_solvent]">
         //psi_solvent = PsiSolvent.getValue();
         // PsiSolvent.setValue("None");
@@ -1145,6 +1124,8 @@ public class FXMLDocumentController implements Initializable {
         molname = MolName.getText();
 
 // </editor-fold>
+
+
 // <editor-fold defaultstate="collapsed" desc="check boxes">
         if (PsiPyapi.isSelected()) {
             psi_pyapi = "YES";
@@ -1291,6 +1272,13 @@ public class FXMLDocumentController implements Initializable {
         } else {
             writemol2 = "";
         }
+        if (PsiJmol.isSelected()) {
+            psi_jmolloc = "YES";
+            jmol_path = user_home + "\\.jmol/macros/";
+        } else {
+            psi_jmolloc = "NO";
+            jmol_path = "./cubes";
+        }
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Set default variables">
@@ -1406,15 +1394,15 @@ public class FXMLDocumentController implements Initializable {
 
 
 // Check for .macro folder / create it
-user_home = System.getProperty("user.home");
+//user_home = System.getProperty("user.home");
 //createDirectoryIfNeeded(user_home + "/.jmol/macros");
-String jmol_path = user_home + "\\.jmol\\macros";
+//String jmol_path = user_home + "\\.jmol\\macros";
 //log(jmol_path);
 
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

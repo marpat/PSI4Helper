@@ -46,7 +46,7 @@
                               </Tooltip>
                            </tooltip>
                         </TextArea>
-                        <TextField fx:id="PsiCubeRange" layoutX="631.0" layoutY="395.0" prefHeight="25.0" prefWidth="163.0">
+                        <TextField fx:id="PsiCubeRange" layoutX="620.0" layoutY="395.0" prefHeight="25.0" prefWidth="174.0">
                            <tooltip>
                               <Tooltip text="Enter orbitals to calculate and create the corresponding .cube files.">
                                  <font>
@@ -151,7 +151,7 @@
                         <Label layoutX="168.0" layoutY="305.0" text="Point Group" />
                         <VBox layoutX="412.0" layoutY="402.0" prefHeight="133.0" prefWidth="112.0" spacing="8.0">
                            <children>
-                              <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden out" />
+                              <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden" />
                               <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" textFill="#007cc4">
                                  <tooltip>
                                     <Tooltip text="Uses molden output.">
@@ -177,7 +177,7 @@
                                     </Tooltip>
                                  </tooltip>
                               </CheckBox>
-                              <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProperties">
+                              <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProp">
                                  <tooltip>
                                     <Tooltip text="Series of one-electron properties.">
                                        <font>
@@ -187,16 +187,19 @@
                                  </tooltip></CheckBox>
                            </children>
                         </VBox>
-                        <VBox layoutX="522.0" layoutY="402.0" prefHeight="125.0" prefWidth="113.0" spacing="8.0">
+                        <VBox layoutX="501.0" layoutY="402.0" prefHeight="127.0" prefWidth="124.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Xyzout" mnemonicParsing="false" text="XYZ out" />
                               <CheckBox fx:id="Fchkout" mnemonicParsing="false" text="fchk out" />
                               <CheckBox fx:id="Gdma" mnemonicParsing="false" text="GDMA" />
-                              <CheckBox fx:id="PsiLocal" mnemonicParsing="false" prefHeight="18.0" prefWidth="131.0" text="MO Localization" />
+                              <CheckBox fx:id="PsiLocal" mnemonicParsing="false" prefHeight="18.0" prefWidth="131.0" text="MO Localization">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font></CheckBox>
                               <ChoiceBox fx:id="PsiProperties" prefHeight="25.0" prefWidth="105.0" />
                            </children>
                         </VBox>
-                        <VBox layoutX="662.0" layoutY="452.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
+                        <VBox layoutX="660.0" layoutY="455.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den">
                                  <tooltip>
@@ -206,13 +209,18 @@
                               <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb" />
                            </children>
                         </VBox>
-                        <VBox layoutX="732.0" layoutY="452.0" prefHeight="70.0" prefWidth="69.0" spacing="8.0">
+                        <VBox layoutX="720.0" layoutY="455.0" prefHeight="70.0" prefWidth="84.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiCubeEsp" mnemonicParsing="false" text="ESP" />
                               <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
+                              <CheckBox fx:id="PsiJmol" mnemonicParsing="false" text="JmolLoc" textFill="#0a7cf2">
+                                 <tooltip>
+                                    <Tooltip text="Create local cube .macro files" />
+                                 </tooltip>
+                              </CheckBox>
                            </children>
                         </VBox>
-                        <Label layoutX="620.0" layoutY="425.0" text="1,2,5-9,-1, ALL, homo, lumo, somo">
+                        <Label layoutX="620.0" layoutY="425.0" text="2,5-9,-1, ALL, homo, -lumo, somo">
                            <font>
                               <Font size="11.0" />
                            </font></Label>
@@ -292,7 +300,7 @@
                               <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
                            </children>
                         </VBox>
-                        <Label layoutX="635.0" layoutY="506.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
+                        <Label layoutX="614.0" layoutY="508.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
                            <tooltip>
                               <Tooltip text="Response Properties (CC CCSD).">
                                  <font>

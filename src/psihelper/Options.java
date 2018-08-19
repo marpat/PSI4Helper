@@ -152,8 +152,6 @@ public class Options extends FXMLDocumentController {
                 + pcmtrue + "\n"
                 + set_main + "\n";
 
-//        optionpart = optionpart.replaceAll("(?m)^(null)?,", "");
-//        optionpart = optionpart.replaceAll("(?m)^[ \t]*\r?\n", ""); 
         
         // Cleanup optionpart from duplicates in ArrayList
        
