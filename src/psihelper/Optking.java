@@ -13,5 +13,5 @@ package psihelper;
  */
 
 public class Optking extends FXMLDocumentController  {
-// pass from Psi.java
+// pass from Psi.java and elswhere
 }
