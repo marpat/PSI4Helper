@@ -114,6 +114,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ComboBox<String> AddOptions;
     @FXML
+    private TextArea OptKingOptions;
+    @FXML
+    private ComboBox<String> AddKingOpt;
+    @FXML
     private ComboBox<String> PsiSolvent;
     @FXML
     private ComboBox<String> PsiPrint;
@@ -276,6 +280,7 @@ public class FXMLDocumentController implements Initializable {
     String psi_prop;
     String psi_pyapi;
     String addoptions;
+    String king_options;
     String addrunopt;
     String cuberange;
     String psi_cuberange;
@@ -314,6 +319,9 @@ public class FXMLDocumentController implements Initializable {
     ObservableList<String> addrunbox = FXCollections.observableArrayList(
             "CLEAR", "dertype 2", "dertype 1", "dertype energy", "BSSE_all"
     );
+    ObservableList<String> addkingbox = FXCollections.observableArrayList(
+            "CLEAR", "Dynamic_Level 1", "Dynamic_Level 2", "Dynamic_Level 5","Opt_Coord Natural", "Opt_Coord Deloc", "Opt_Coord Both", "intrafrag_step_limit","step_type nr", "step_type rfo", "fixed_coord_force_constant", "frozen_cartesian list"
+    );
     ObservableList<String> refbox = FXCollections.observableArrayList(
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
     );
@@ -344,6 +352,7 @@ public class FXMLDocumentController implements Initializable {
     ObservableList<String> propbox = FXCollections.observableArrayList(
             "NONE", "POLARIZABILITY", "ROTATION", "OSCILATOR_STRENGTH", "ROA"
     );
+
 
 
     // </editor-fold>
@@ -462,6 +471,7 @@ public class FXMLDocumentController implements Initializable {
         ScfType.setItems(scftypebox);
         ScfType.setValue("DF");
         AddOptions.setItems(addoptbox);
+        AddKingOpt.setItems(addkingbox);
         AddRun.setItems(addrunbox);
         PsiSolvent.setItems(solventbox);
         PsiSolvent.setValue("None");
@@ -701,6 +711,63 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    @FXML // Constrains add King options
+    private void AddKingOptions(ActionEvent event) {
+    //"intrafrag_step_limit","step_type nr", "step_type rfo", "fixed_coord_force_constant", 
+        king_options = AddKingOpt.getValue();
+        OptKingOptions.setStyle("-fx-text-fill: #8800CC");
+        switch (king_options) {
+            case "CLEAR":
+                king_options = OptKingOptions.getText() + "";
+                OptKingOptions.setText("");
+                break;
+            case "Dynamic_Level 1":
+                king_options = OptKingOptions.getText() + "'DYNAMIC_LEVEL =' : '1',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "Dynamic_Level 2":
+                king_options = OptKingOptions.getText() + "'DYNAMIC_LEVEL =' : '2',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "Dynamic_Level 5":
+                king_options = OptKingOptions.getText() + "'DYNAMIC_LEVEL =' : '5',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "Opt_Coord Natural":
+                king_options = OptKingOptions.getText() + "'OPT_COORDINATES =' : 'NATURAL',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "Opt_Coord Both":
+                king_options = OptKingOptions.getText() + "'OPT_COORDINATES =' : 'BOTH',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "Opt_Coord Deloc":
+                king_options = OptKingOptions.getText() + "'OPT_COORDINATES=' : 'DELOCALIZED',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "intrafrag_step_limit":
+                king_options = OptKingOptions.getText() + "'intrafrag_step_limit =' : '0.1' # default,";
+                OptKingOptions.setText(king_options);
+                break;
+        case "step_type nr":
+                king_options = OptKingOptions.getText() + "'step_type =' : 'nr',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "step_type rfo":
+                king_options = OptKingOptions.getText() + "'step_type =' : 'rfo',";
+                OptKingOptions.setText(king_options);
+                break;
+        case "fixed_coord_force_constant":
+                king_options = OptKingOptions.getText() + "'fixed_coord_force_constant =' : '0.5' # 0.5 to 200,";
+                OptKingOptions.setText(king_options);
+                break;
+        case "frozen_cartesian list":
+                king_options = OptKingOptions.getText() + "'frozen_cartesian =' : '(\" \")' # atom# x[y][z],";
+                OptKingOptions.setText(king_options);
+                break;
+        }
+    }
+   
     @FXML// Save Layout
     private void SaveLayoutAction(ActionEvent event) {
         file_name = Filename.getText();
@@ -1094,6 +1161,7 @@ public class FXMLDocumentController implements Initializable {
 
 // <editor-fold defaultstate="collapsed" desc="AddOptions [addoptions]">
         addoptions = SetOptions.getText();
+        king_options = OptKingOptions.getText();
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="AddRunOptions [addrunopt]">
@@ -1435,7 +1503,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, mybas, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_47out, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension, king_options);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1574,5 +1642,7 @@ public class FXMLDocumentController implements Initializable {
     public static void log(Object aObject) {
         System.out.println(String.valueOf(aObject));
     }
+
+
 
 }

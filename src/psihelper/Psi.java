@@ -166,7 +166,8 @@ public class Psi extends FXMLDocumentController {
             String psi_irc,
             String jmol_path,
             String psi_jmolloc,
-            String extension) throws IOException 
+            String extension,
+            String king_options) throws IOException 
 // </editor-fold>
     
     {
@@ -178,6 +179,7 @@ public class Psi extends FXMLDocumentController {
         String opt;
         String run;
         String resout;
+        String optking;
         String mwfnsh;
         String geo_get; // aggregate field for any source of geometry
         String addlink; // wfn
@@ -258,6 +260,9 @@ public class Psi extends FXMLDocumentController {
                 psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,
                 psi_sapt, set_univ, resprop, psi_irc);
 
+        Optking king = new Optking();
+        optking = king.optking(psi_pyapi, king_options);
+       
         Results calls = new Results();
         run = calls.results(psi_call, psi_method, psi_funct, psi_cp,
                 addrunopt, opt_freq, resprop);
@@ -280,7 +285,7 @@ public class Psi extends FXMLDocumentController {
             input = skeleton + geo + setopt + auxirc + geo + setopt1 + opt + run + resout;
             //input = "ha";
         } else {
-            input = skeleton + geo + opt + run + resout;
+            input = skeleton + geo + opt + optking + run + resout;
             //input="else";
         }
 

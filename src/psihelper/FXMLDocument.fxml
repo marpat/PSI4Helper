@@ -17,7 +17,11 @@
                <content>
                   <AnchorPane prefHeight="550.0" prefWidth="819.0">
                      <children>
+<<<<<<< HEAD
                         <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="120.0" prefWidth="375.0" promptText="Cartesian xyz like&#13;&#10; C   0.000000    0.000000    0.000000&#13;&#10; N   0.000000    0.000000    1.470000&#13;&#10; ....&#13;&#10; or Z-matrix " />
+=======
+                        <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="120.0" prefWidth="375.0" promptText="Cartesian xyz or Z-matrix" />
+>>>>>>> implemented kingoptions pulldown 
                         <TextField fx:id="PsiDescription" layoutX="22.0" layoutY="39.0" prefHeight="25.0" prefWidth="373.0">
                            <tooltip>
                               <Tooltip text="Description of the system and run (free text).">
@@ -72,7 +76,11 @@
                            </tooltip>
                         </TextField>
                         <Label layoutX="30.0" layoutY="14.0" text="Description" />
+<<<<<<< HEAD
                         <Label layoutX="421.0" layoutY="14.0" text="Type .xyz or .mol2 filename, molecule name, or PubChem ID" />
+=======
+                        <Label layoutX="421.0" layoutY="14.0" text="Type .xyz filename, molecule name, or PubChem ID" />
+>>>>>>> implemented kingoptions pulldown 
                         <Label layoutX="27.0" layoutY="73.0" text="System geometry" />
                         <Label layoutX="415.0" layoutY="235.0" text="Type or choose from *More Options ('set global')" />
                         <Label layoutX="639.0" layoutY="376.0" prefHeight="17.0" prefWidth="143.0" text="Range for CubeOrbitals">
@@ -102,10 +110,14 @@
                         <VBox layoutX="286.0" layoutY="228.0" prefHeight="135.0" prefWidth="107.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiFreeze" mnemonicParsing="false" text="Freeze Core" />
+<<<<<<< HEAD
                               <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM">
                                  <tooltip>
                                     <Tooltip text="Use spherical or cartesian basis set." />
                                  </tooltip></CheckBox>
+=======
+                              <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM" />
+>>>>>>> implemented kingoptions pulldown 
                               <CheckBox fx:id="NatOrb" mnemonicParsing="false" text="Nat_Orbitals">
                                  <tooltip>
                                     <Tooltip text="Write natural Orbital in Molden">
@@ -126,7 +138,11 @@
                            <children>
                               <CheckBox fx:id="PsiNocom" mnemonicParsing="false" text="no_com">
                                  <tooltip>
+<<<<<<< HEAD
                                     <Tooltip text="No re-centering.">
+=======
+                                    <Tooltip text="No recentering">
+>>>>>>> implemented kingoptions pulldown 
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -134,10 +150,14 @@
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="Psinoorient" mnemonicParsing="false" text="no_reorient">
                                  <tooltip>
+<<<<<<< HEAD
                                     <Tooltip text="Do not move coordinates.">
                                        <font>
                                           <Font size="13.0" />
                                        </font></Tooltip>
+=======
+                                    <Tooltip text="Do not move coordinates." />
+>>>>>>> implemented kingoptions pulldown 
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="PsiCp" mnemonicParsing="false" text="BSSE_cp">
                                  <tooltip>
@@ -160,7 +180,11 @@
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden" />
                               <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" textFill="#007cc4">
                                  <tooltip>
+<<<<<<< HEAD
                                     <Tooltip text="Write GENNBO .47 file. May require PUREAM=1.">
+=======
+                                    <Tooltip text="Uses molden output.">
+>>>>>>> implemented kingoptions pulldown 
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -168,7 +192,11 @@
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx" textFill="#007cc4">
                                  <tooltip>
+<<<<<<< HEAD
                                     <Tooltip text="Uses .molden and Multiwfn conversion.">
+=======
+                                    <Tooltip text="Uses molden output.">
+>>>>>>> implemented kingoptions pulldown 
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -176,7 +204,11 @@
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="PsiMol2" mnemonicParsing="false" text=".mol2" textFill="#007cc4">
                                  <tooltip>
+<<<<<<< HEAD
                                     <Tooltip text="Requires Open Babel in the PATH.">
+=======
+                                    <Tooltip text="Requires Open Babel.">
+>>>>>>> implemented kingoptions pulldown 
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -185,7 +217,11 @@
                               </CheckBox>
                               <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProp">
                                  <tooltip>
+<<<<<<< HEAD
                                     <Tooltip text="A series of one-electron properties.">
+=======
+                                    <Tooltip text="Series of one-electron properties.">
+>>>>>>> implemented kingoptions pulldown 
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -193,7 +229,11 @@
                                  </tooltip></CheckBox>
                            </children>
                         </VBox>
+<<<<<<< HEAD
                         <VBox layoutX="495.0" layoutY="402.0" prefHeight="127.0" prefWidth="124.0" spacing="8.0">
+=======
+                        <VBox layoutX="501.0" layoutY="402.0" prefHeight="127.0" prefWidth="124.0" spacing="8.0">
+>>>>>>> implemented kingoptions pulldown 
                            <children>
                               <CheckBox fx:id="Xyzout" mnemonicParsing="false" text="XYZ out" />
                               <CheckBox fx:id="Fchkout" mnemonicParsing="false" text="fchk out" />
@@ -205,6 +245,7 @@
                               <ChoiceBox fx:id="PsiProperties" prefHeight="25.0" prefWidth="105.0" />
                            </children>
                         </VBox>
+<<<<<<< HEAD
                         <VBox layoutX="622.0" layoutY="447.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den">
@@ -235,6 +276,25 @@
                                        <font>
                                           <Font size="13.0" />
                                        </font></Tooltip>
+=======
+                        <VBox layoutX="660.0" layoutY="455.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
+                           <children>
+                              <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den">
+                                 <tooltip>
+                                    <Tooltip text="Alpha, beta, total, and spin density cubes will be created." />
+                                 </tooltip>
+                              </CheckBox>
+                              <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="720.0" layoutY="455.0" prefHeight="70.0" prefWidth="84.0" spacing="8.0">
+                           <children>
+                              <CheckBox fx:id="PsiCubeEsp" mnemonicParsing="false" text="ESP" />
+                              <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
+                              <CheckBox fx:id="PsiJmol" mnemonicParsing="false" text="JmolLoc" textFill="#0a7cf2">
+                                 <tooltip>
+                                    <Tooltip text="Create local cube .macro files" />
+>>>>>>> implemented kingoptions pulldown 
                                  </tooltip>
                               </CheckBox>
                            </children>
@@ -316,6 +376,7 @@
                         </HBox>
                         <VBox layoutX="524.0" layoutY="69.0" prefHeight="45.0" prefWidth="100.0">
                            <children>
+<<<<<<< HEAD
                               <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT">
                                  <tooltip>
                                     <Tooltip text="Check the box and choose Method and parameters from *More Options below." />
@@ -326,6 +387,12 @@
                            </children>
                         </VBox>
                         <Label layoutX="604.0" layoutY="508.0" prefHeight="17.0" prefWidth="59.0" text="ResProp">
+=======
+                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
+                           </children>
+                        </VBox>
+                        <Label layoutX="614.0" layoutY="508.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
+>>>>>>> implemented kingoptions pulldown 
                            <tooltip>
                               <Tooltip text="Response Properties (CC CCSD).">
                                  <font>
@@ -334,6 +401,7 @@
                               </Tooltip>
                            </tooltip>
                         </Label>
+<<<<<<< HEAD
                         <VBox layoutX="731.0" layoutY="447.0" prefHeight="75.0" prefWidth="69.0">
                            <children>
                               <CheckBox fx:id="PsiCubeDua" mnemonicParsing="false" prefHeight="17.0" prefWidth="80.0" text="Dual_D">
@@ -347,6 +415,8 @@
                               </CheckBox>
                            </children>
                         </VBox>
+=======
+>>>>>>> implemented kingoptions pulldown 
                      </children>
                   </AnchorPane>
                </content>
@@ -355,8 +425,12 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
+<<<<<<< HEAD
                         <TextArea layoutX="23.0" layoutY="406.0" prefHeight="116.0" prefWidth="360.0" promptText="'abc' : 'def'," />
                         <TextArea layoutX="432.0" layoutY="406.0" prefHeight="116.0" prefWidth="360.0" promptText="'abc' : 'def'," />
+=======
+                        <TextArea fx:id="OptKingOptions" layoutX="20.0" layoutY="414.0" prefHeight="116.0" prefWidth="360.0" promptText="'abc' : 'def'," />
+>>>>>>> implemented kingoptions pulldown 
                         <TextField layoutX="42.0" layoutY="81.0" promptText="1, 3, 0.95" />
                         <TextField layoutX="229.0" layoutY="81.0" promptText="1, 2, 3, 110" />
                         <TextField layoutX="414.0" layoutY="81.0" promptText="1, 2, 3, 4" />
@@ -378,8 +452,12 @@
                         </HBox>
                         <Label layoutX="21.0" layoutY="85.0" text="1" />
                         <Label layoutX="21.0" layoutY="127.0" text="2" />
+<<<<<<< HEAD
                         <ComboBox layoutX="631.0" layoutY="370.0" prefWidth="150.0" promptText="Optking Options" />
                         <ComboBox layoutX="226.0" layoutY="370.0" prefWidth="150.0" promptText="Global Options" />
+=======
+                        <ComboBox fx:id="AddKingOpt" layoutX="221.0" layoutY="371.0" onAction="#AddKingOptions" prefWidth="150.0" promptText="Optking Options" />
+>>>>>>> implemented kingoptions pulldown 
                         <TextField layoutX="40.0" layoutY="213.0" prefHeight="25.0" prefWidth="191.0" promptText="1.3, 1.5. 1.7. 1.9, 2.1, 2.3, 2.5, .." />
                         <TextField layoutX="301.0" layoutY="213.0" prefHeight="25.0" prefWidth="191.0" promptText="100, 104, 110, 120, .." />
                         <TextField layoutX="561.0" layoutY="213.0" prefHeight="25.0" prefWidth="191.0" promptText="0, 20, 40, 60, .." />
@@ -435,12 +513,21 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
+<<<<<<< HEAD
                         <TextField fx:id="PMwfn" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="340.0" promptText="/home/user/path-to-multiwfn" />
                         <Label layoutX="25.0" layoutY="14.0" text="Path to MultiWfn" />
                         <Label layoutX="25.0" layoutY="88.0" text="Path to Molden2Aim" />
                         <TextField fx:id="PM2aim" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="337.0" promptText="/home/user/path-to-molden2aim" />
                         <TextField fx:id="Baspth" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" promptText="/home/user/PSI4/mybasisf" />
                         <Label layoutX="25.0" layoutY="151.0" text="Path to directory of custom basis sets" />
+=======
+                        <TextField fx:id="PMwfn" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="340.0" />
+                        <Label layoutX="25.0" layoutY="14.0" text="Path to MultiWfn" />
+                        <Label layoutX="25.0" layoutY="88.0" text="Path to Molden2Aim" />
+                        <TextField fx:id="PM2aim" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="337.0" />
+                        <TextField fx:id="ShShell" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" promptText="#!/bin/bash" />
+                        <Label layoutX="25.0" layoutY="151.0" text="Shebang to shell (Linux)" />
+>>>>>>> implemented kingoptions pulldown 
                         <TextArea layoutX="437.0" layoutY="36.0" prefHeight="71.0" prefWidth="323.0" promptText="To  render  orbital/density  snapshots, add VMDPATH and ImageMagick  path to bashrc profile." />
                         <Label layoutX="437.0" layoutY="14.0" text="VMD" />
                      </children></AnchorPane>
