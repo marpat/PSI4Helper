@@ -160,12 +160,13 @@ public class Psi extends FXMLDocumentController {
             String resprop,
             String psi_irc,
             String jmol_path,
-            String psi_jmolloc) throws IOException 
+            String psi_jmolloc,
+            String extension) throws IOException 
 // </editor-fold>
     
     {
 // <editor-fold defaultstate="collapsed" desc="Variables">
-        String file_ext = "inp";
+        String file_ext = extension;
         String input;
         String skeleton;
         String geo;  // geometry section which include coordinates and keywords

@@ -356,7 +356,7 @@
                </font>
             </Tooltip>
          </tooltip></TextField>
-        <TextField fx:id="Filename" layoutX="23.0" layoutY="82.0" prefHeight="25.0" prefWidth="231.0" promptText="*.inp">
+        <TextField fx:id="Filename" layoutX="23.0" layoutY="82.0" prefHeight="27.0" prefWidth="210.0">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
@@ -368,7 +368,7 @@
             </Tooltip>
          </tooltip>
         </TextField>
-        <TextField fx:id="Suffix" layoutX="272.0" layoutY="82.0" prefHeight="25.0" prefWidth="78.0" text="_">
+        <TextField fx:id="Suffix" layoutX="244.0" layoutY="82.0" prefHeight="27.0" prefWidth="81.0" text="_">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
@@ -380,7 +380,7 @@
             </Tooltip>
          </tooltip>
         </TextField>
-        <TextField fx:id="MolName" layoutX="367.0" layoutY="82.0" prefHeight="25.0" prefWidth="124.0" promptText="mol">
+        <TextField fx:id="MolName" layoutX="395.0" layoutY="82.0" prefHeight="27.0" prefWidth="103.0" promptText="mol">
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
@@ -426,8 +426,8 @@
         <Separator layoutY="697.0" prefHeight="3.0" prefWidth="820.0" />
         <Label layoutX="119.0" layoutY="24.0" prefHeight="17.0" prefWidth="90.0" text="Set directory" />
         <Label layoutX="31.0" layoutY="57.0" prefHeight="17.0" prefWidth="103.0" text="Filename" />
-        <Label layoutX="279.0" layoutY="57.0" prefHeight="17.0" prefWidth="48.0" text="Suffix" />
-        <Label layoutX="376.0" layoutY="57.0" prefHeight="17.0" prefWidth="69.0" text="Mol name" />
+        <Label layoutX="261.0" layoutY="57.0" prefHeight="17.0" prefWidth="48.0" text="Suffix" />
+        <Label layoutX="412.0" layoutY="57.0" prefHeight="17.0" prefWidth="69.0" text="Mol name" />
         <Label layoutX="513.0" layoutY="57.0" text="Mem">
          <tooltip>
             <Tooltip text="Set size of required RAM in Gb">
@@ -477,5 +477,7 @@
               </Button>
          </children>
       </HBox>
+      <TextField fx:id="Extension" layoutX="334.0" layoutY="83.0" prefHeight="25.0" prefWidth="52.0" promptText=".inp" />
+      <Label layoutX="335.0" layoutY="57.0" text="Extension" />
     </children>
 </AnchorPane>

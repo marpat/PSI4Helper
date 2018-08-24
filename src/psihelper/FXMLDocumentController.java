@@ -223,6 +223,8 @@ public class FXMLDocumentController implements Initializable {
     private CheckBox PsiMol2;
     @FXML
     private CheckBox PsiJmol;
+    @FXML
+    private TextField Extension;
 
 // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="My Global variables">
@@ -290,6 +292,7 @@ public class FXMLDocumentController implements Initializable {
     String user_home;
     String psi_jmolloc;
     String jmol_path;
+    String extension;
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
@@ -333,6 +336,7 @@ public class FXMLDocumentController implements Initializable {
             "NONE", "POLARIZABILITY", "ROTATION", "OSCILATOR_STRENGTH", "ROA"
     );
 
+
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="myMethod getMatchingString">
     List<String> getMatchingStrings(List<String> list,
@@ -373,6 +377,7 @@ public class FXMLDocumentController implements Initializable {
                     mwfn_path = props.getProperty("Multiwfn");
                     m2aim_path = props.getProperty("Molden2Aim");
                     ushell = props.getProperty("Shell#");
+                    extension = props.getProperty("extension");
 
                     InpDir.setText(inp_dir);
                     Filename.setText(file_name);
@@ -383,6 +388,7 @@ public class FXMLDocumentController implements Initializable {
                     PMwfn.setText(mwfn_path);
                     PM2aim.setText(mwfn_path);
                     ShShell.setText(ushell);
+                    Extension.setText(extension);
                 } finally {
                     is.close();
                 }
@@ -399,6 +405,7 @@ public class FXMLDocumentController implements Initializable {
             PMwfn.setText("Set path to Mwfn");
             PM2aim.setText("Set path to M2aim");
             ShShell.setText("Set proper shebang");
+            Extension.setText("inp");
         }
     }
 
@@ -414,6 +421,7 @@ public class FXMLDocumentController implements Initializable {
             props.setProperty("Multiwfn", "" + PMwfn.getText());
             props.setProperty("Molden2Aim", "" + PM2aim.getText());
             props.setProperty("Shell#", "" + ShShell.getText());
+            props.setProperty("extension", "" + Extension.getText());
 
 //            String path = PsiHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 //            String decodedPath = URLDecoder.decode(path, "UTF-8");
@@ -683,6 +691,7 @@ public class FXMLDocumentController implements Initializable {
     private void SaveLayoutAction(ActionEvent event) {
         file_name = Filename.getText();
         inp_dir = InpDir.getText();
+        extension = Extension.getText().length() > 0 ? Extension.getText() : "inp";
         if ("_".equals(Suffix.getText())) {
             suff = "";
         } else {
@@ -1387,10 +1396,6 @@ public class FXMLDocumentController implements Initializable {
         mwfn_path = PMwfn.getText();
 
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="To AreaOut">
-        String ToOutArea = " Input file " + file_name + suff + ".inp was created.\n";
-        String file_ext = "inp";
-// </editor-fold>
 
 
 // Check for .macro folder / create it
@@ -1402,7 +1407,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1447,7 +1452,7 @@ public class FXMLDocumentController implements Initializable {
         String message;
         if (psi_conf
                 == true) {
-            message = "\nPSI4 input file " + file_name + suff + ".inp was created in directory: \n" + inp_dir;
+            message = "\nPSI4 input file " + file_name + suff + "." + extension +" was created in directory: \n" + inp_dir;
             new Alert(Alert.AlertType.INFORMATION, message).showAndWait();
             //PsiGeom.;
         } else {
