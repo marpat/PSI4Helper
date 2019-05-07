@@ -46,6 +46,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -280,6 +281,7 @@ public class FXMLDocumentController implements Initializable {
     String inp_dir;
     String mwfn_path = null;
     String write47;
+    String psi_47out;
     String writewfx;
     String writemol2;
     String m2aim_path;
@@ -297,7 +299,11 @@ public class FXMLDocumentController implements Initializable {
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
     // Boxes with ObservableArrayList objects
-    Separator separator = new Separator(Orientation.HORIZONTAL);
+    
+   //A section of pull-down menus and items
+    // To add an item, insert it here and also lower down in PsiBas section
+    
+    Separator separatorH = new Separator(Orientation.HORIZONTAL);
 
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
             "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition", "HCN-HNC IRC examples at psi4/samples/opt-irc-2"
@@ -338,6 +344,7 @@ public class FXMLDocumentController implements Initializable {
 
 
     // </editor-fold>
+   
     // <editor-fold defaultstate="collapsed" desc="myMethod getMatchingString">
     List<String> getMatchingStrings(List<String> list,
             String regex) {
@@ -1239,9 +1246,11 @@ public class FXMLDocumentController implements Initializable {
         }
         if (Psi47.isSelected()) {
             write47 = "YES";
-            psi_puream = "'PUREAM': 'true'";
+            //psi_puream = "'PUREAM': 'true'";
+            psi_47out = "m = NBOWriter(wfn)\nm.write('" + file_name + suff + ".47')";
         } else {
             write47 = null;
+            psi_47out = "";
         }
         if (PsiWfx.isSelected()) {
             writewfx = "YES";
@@ -1283,7 +1292,7 @@ public class FXMLDocumentController implements Initializable {
         }
         if (PsiJmol.isSelected()) {
             psi_jmolloc = "YES";
-            jmol_path = user_home + "\\.jmol/macros/";
+            jmol_path = user_home + System.getProperty("file.separator")+ ".jmol"+System.getProperty("file.separator")+"macros";
         } else {
             psi_jmolloc = "NO";
             jmol_path = "./cubes";
@@ -1407,7 +1416,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_47out, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1438,13 +1447,18 @@ public class FXMLDocumentController implements Initializable {
             return;
         }
 //        if (!"YES".equals(psi_sapt) && PsiGeom.getText().contains("--") && !psi_method.contains("SAPT")) {
-//            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n").showAndWait();
+//            new Alert(Alert.AlertType.WARNING, "For molecular interactions, choose one of the SAPT methods.\n");
+//         return;
+//        }
+//        if (PsiSapt.isSelected() && !"SAPT-typical".equals(AddOptions.getValue())) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING, "Select method and choose from *More Options menu below.\nOK to save the file.\n", ButtonType.OK);
+//            Optional<ButtonType> result = alert.showAndWait();
+//            if (result.get() == ButtonType.YES){
+//            return;             
+//            // ... user chose YES
+//                }
 //            return;
 //        }
-        if (PsiSapt.isSelected() && !"SAPT-typical".equals(AddOptions.getValue())) {
-            new Alert(Alert.AlertType.WARNING, "Use 'SAPT-typical' choice from *More Options menu.\n").showAndWait();
-            return;
-        }
 // </editor-fold>      
 
 // Confirmation message
@@ -1452,7 +1466,7 @@ public class FXMLDocumentController implements Initializable {
         String message;
         if (psi_conf
                 == true) {
-            message = "\nPSI4 input file " + file_name + suff + "." + extension +" was created in directory: \n" + inp_dir;
+            message = "\nPSI4 input file " + file_name + suff + "." + extension +" \nwas created in directory: \n" + inp_dir;
             new Alert(Alert.AlertType.INFORMATION, message).showAndWait();
             //PsiGeom.;
         } else {

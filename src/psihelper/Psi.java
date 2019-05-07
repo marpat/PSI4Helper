@@ -100,6 +100,9 @@ public class Psi extends FXMLDocumentController {
      * @param opt_freq
      * @param resprop
      * @param psi_irc
+     * @param jmol_path
+     * @param psi_jmolloc
+     * @param extension
      * @return
      * @throws java.io.IOException
      */
@@ -138,6 +141,7 @@ public class Psi extends FXMLDocumentController {
             String psi_prmos,
             String psi_prbasis,
             String psi_moldenout,
+            String psi_47out,
             String psi_fchkout,
             String psi_gdma,
             String psi_xyz,
@@ -255,7 +259,7 @@ public class Psi extends FXMLDocumentController {
                 addrunopt, opt_freq, resprop);
 
         Outputs outp = new Outputs();
-        resout = outp.outputs(file_name, inp_dir, psi_moldenout, psi_fchkout, psi_gdma,
+        resout = outp.outputs(file_name, inp_dir, psi_moldenout, psi_47out, psi_fchkout, psi_gdma,
                 psi_xyz, molname, suff, num_cube, CubeProp, psi_prop, psi_local,
                 psi_ther,writemol2, jmol_path, psi_jmolloc);
 
@@ -280,7 +284,8 @@ public class Psi extends FXMLDocumentController {
         mwfnsh = "#!/bin/bash\n"
                 + "VERSION=1.0\n\n"
                 + "# Usage:\n"
-                + "# multiwfn.sh, expects hard-coded values for [f, comp_dir, mwfn_dir]\n\n"
+                + "# run as > bash sh47.sh, expects hard-coded values for [f, comp_dir, mwfn_dir]\n"
+                + "# These values are coming from Psi4Helper option 'wfx'\n\n"
                 + "function version_page {\n"
                 + "echo \"$(basename \"$0\")\" \"version:\" \"$VERSION\"\n"
                 + "}\n"
@@ -290,7 +295,7 @@ public class Psi extends FXMLDocumentController {
                 + "f='" + file_name + suff + "'\n\n"
                 + "mwfn() {\n"
                 + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
-                + "      echo 'Multiwfn was found at $mwfn_dir'\n"
+                + "      echo 'Multiwfn was found at' $mwfn_dir '\n"
                 + "      echo ''\n"
                 + "   else\n"
                 + "      echo 'Multiwfn was not found'\n"
@@ -323,7 +328,8 @@ public class Psi extends FXMLDocumentController {
         sh47 = "#!/bin/bash\n"
                 + "VERSION=1.0\n\n"
                 + "# Usage:\n"
-                + "# bash sh47.sh. Expects hard-coded values for [f, comp_dir, mwfn_dir]\n\n"
+                + "# bash sh47.sh. Expects hard-coded values for [f, comp_dir, mwfn_dir]\n"
+                + "# These values are coming from Psi4Helper option 'nbo.47'\n\n"
                 + "function version_page {\n"
                 + "echo \"$(basename \"$0\")\" \"version:\" \"$VERSION\"\n"
                 + "}\n"
@@ -333,7 +339,7 @@ public class Psi extends FXMLDocumentController {
                 + "f='" + file_name + suff + "'\n\n"
                 + "mwfn() {\n"
                 + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
-                + "      echo 'Multiwfn was found at $mwfn_dir'\n"
+                + "      echo 'Multiwfn was found at' $mwfn_dir'\n"
                 + "      echo ''\n"
                 + "   else\n"
                 + "      echo 'Multiwfn was not found'\n"
@@ -361,7 +367,8 @@ public class Psi extends FXMLDocumentController {
                 + "# copy wfx file back to original directory\n"
                 + "rm ${mwfn_dir}/${f}.molden\n"
                 + "mv ${mwfn_dir}/${f}_mwfn.47 ${comp_dir}/${f}_mwfn.47\n"
-                + "echo \'DONE. Files were moved to $comp_dir\'";
+                + "echo \'Disregard the error message\'\n"
+                + "echo \'DONE. Files were moved to\' $comp_dir\'";
 // </editor-fold>
 
 
@@ -395,7 +402,7 @@ public class Psi extends FXMLDocumentController {
         if (W47) {
             try {
                 // write bash file in the same directory
-                FileWriter fstreamWrite = new FileWriter(inp_dir + "/sh47.sh");
+                FileWriter fstreamWrite = new FileWriter(inp_dir + "/mwfn47.sh");
                 BufferedWriter out = new BufferedWriter(fstreamWrite);
                 out.write(sh47);
                 out.close();

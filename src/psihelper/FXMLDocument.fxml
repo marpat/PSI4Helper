@@ -154,7 +154,7 @@
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden" />
                               <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" textFill="#007cc4">
                                  <tooltip>
-                                    <Tooltip text="Uses molden output.">
+                                    <Tooltip text="Write GENNBO .47 file.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -297,7 +297,13 @@
                         </HBox>
                         <VBox layoutX="524.0" layoutY="69.0" prefHeight="45.0" prefWidth="100.0">
                            <children>
-                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT" />
+                              <CheckBox fx:id="PsiSapt" mnemonicParsing="false" prefHeight="17.0" prefWidth="92.0" text="SAPT">
+                                 <tooltip>
+                                    <Tooltip text="Check the box and choose Method and parameters from *More Options below." />
+                                 </tooltip>
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font></CheckBox>
                            </children>
                         </VBox>
                         <Label layoutX="614.0" layoutY="508.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">

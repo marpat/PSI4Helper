@@ -69,6 +69,7 @@ public class Outputs extends FXMLDocumentController {
             String file_name,
             String inp_dir,
             String psi_moldenout,
+            String psi_47out,
             String psi_fchkout,
             String psi_gdma,
             String psi_xyz,
@@ -344,6 +345,7 @@ public class Outputs extends FXMLDocumentController {
 
         outputsall = psi_ther + "\n"
                 + psi_moldenout + "\n"
+                + psi_47out + "\n"
                 + psi_fchkout + "\n"
                 + psi_gdma + "\n"
                 + cubes + "\n"
