@@ -281,29 +281,28 @@ public class Psi extends FXMLDocumentController {
         }
 
 // <editor-fold defaultstate="collapsed" desc="mwfn sh">
+// bash script for AIMALL wfx file conversion.
         mwfnsh = "#!/bin/bash\n"
                 + "VERSION=1.0\n\n"
                 + "# Usage:\n"
-                + "# run as > bash sh47.sh, expects hard-coded values for [f, comp_dir, mwfn_dir]\n"
-                + "# These values are coming from Psi4Helper option 'wfx'\n\n"
+                + "# >source 2aimwfx.sh. Expects hard-coded values for [f, comp_dir, mwfn_dir]\n"
+                + "# These values are coming from Psi4Helper option '.wfx'\n\n"
                 + "function version_page {\n"
-                + "echo \"$(basename \"$0\")\" \"version:\" \"$VERSION\"\n"
+                + "echo \"script version:\" \"$VERSION\"\n"
                 + "}\n"
                 + "version_page\n\n"
                 + "comp_dir='" + inp_dir + "'\n"
                 + "mwfn_dir='" + mwfn_path + "'\n" //'/home/mp/Computation/Multiwfn_3.5_bin_Linux'
                 + "f='" + file_name + suff + "'\n\n"
-                + "mwfn() {\n"
-                + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
-                + "      echo 'Multiwfn was found at' $mwfn_dir '\n"
-                + "      echo ''\n"
-                + "   else\n"
-                + "      echo 'Multiwfn was not found'\n"
-                + "      echo ''\n"
-                + "      EXIT\n"
-                + "   fi\n"
-                + "     }\n"
-                + "mwfn\n"
+                + "if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
+                + "    echo \"Multiwfn was found at \" \"$mwfn_dir\"\n"
+                + "    echo ''\n"
+                + "else\n"
+                + "    echo \"Multiwfn was not found at \" \"$mwfn_dir\"\n"
+                + "    echo \'Exiting the script.\'\n"
+                + "    echo ''\n"
+                + "    return 1\n"
+                + "fi\n"
                 + "# write customized file for Multiwfn inputs\n"
                 + "cat >${mwfn_dir}/wfx1.txt <<EOL\n"
                 + "100\n"
@@ -311,43 +310,46 @@ public class Psi extends FXMLDocumentController {
                 + "4\n"
                 + "${f}_mwfn.wfx\n"
                 + "EOL\n\n"
-                + "echo 'Instructions for the Multiwfn run are:'\n"
+                + "echo \'Instructions for the Multiwfn run are:\'\n"
                 + "cat ${mwfn_dir}/wfx1.txt\n\n"
                 + "cd $comp_dir\n\n"
                 + "# copy molden file to Multiwfn directory\n"
                 + "cp ${comp_dir}/${f}.molden ${mwfn_dir}/${f}.molden\n\n"
-                + "# Run the binary and create wfx file\n"
+                + "# Run the binary and create .47 file\n"
+                + "echo ''\n"
                 + "echo \'running Multiwfn:\'\n"
                 + "cd $mwfn_dir\n"
                 + "/bin/bash -c \'exec Multiwfn \'$f\'.molden < wfx1.txt > test.out\'\n\n"
                 + "# copy wfx file back to original directory\n"
                 + "rm ${mwfn_dir}/${f}.molden\n"
                 + "mv ${mwfn_dir}/${f}_mwfn.wfx ${comp_dir}/${f}_mwfn.wfx\n"
-                + "echo \'DONE. Files were moved to $comp_dir\'";
-
+                + "cd $comp_dir\n"
+                + "echo ''\n"
+                + "echo \'Disregard the error message: forrtl\'\n"
+                + "echo \'-----> DONE. Files were moved to\' $comp_dir";
+        
+// .47 output conversion
         sh47 = "#!/bin/bash\n"
                 + "VERSION=1.0\n\n"
                 + "# Usage:\n"
-                + "# bash sh47.sh. Expects hard-coded values for [f, comp_dir, mwfn_dir]\n"
-                + "# These values are coming from Psi4Helper option 'nbo.47'\n\n"
+                + "# >source 2mwfn47.sh. Expects hard-coded values for [f, comp_dir, mwfn_dir]\n"
+                + "# These values are coming from Psi4Helper option 'NBO .47'\n\n"
                 + "function version_page {\n"
-                + "echo \"$(basename \"$0\")\" \"version:\" \"$VERSION\"\n"
+                + "echo \"script version:\" \"$VERSION\"\n"
                 + "}\n"
                 + "version_page\n\n"
                 + "comp_dir='" + inp_dir + "'\n"
                 + "mwfn_dir='" + mwfn_path + "'\n" //'/home/mp/Computation/Multiwfn_3.5_bin_Linux'
                 + "f='" + file_name + suff + "'\n\n"
-                + "mwfn() {\n"
-                + "   if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
-                + "      echo 'Multiwfn was found at' $mwfn_dir'\n"
-                + "      echo ''\n"
-                + "   else\n"
-                + "      echo 'Multiwfn was not found'\n"
-                + "      echo ''\n"
-                + "      EXIT\n"
-                + "   fi\n"
-                + "     }\n"
-                + "mwfn\n"
+                + "if hash $mwfn_dir/multiwfn 2>/dev/null; then\n"
+                + "    echo \"Multiwfn was found at \" \"$mwfn_dir\"\n"
+                + "    echo ''\n"
+                + "else\n"
+                + "    echo \"Multiwfn was not found at \" \"$mwfn_dir\"\n"
+                + "    echo \'Exiting the script.\'\n"
+                + "    echo ''\n"
+                + "    return 1\n"
+                + "fi\n"
                 + "# write customized file for Multiwfn inputs\n"
                 + "cat >${mwfn_dir}/wfx2.txt <<EOL\n"
                 + "100\n"
@@ -355,20 +357,23 @@ public class Psi extends FXMLDocumentController {
                 + "8\n"
                 + "${f}_mwfn.47\n"
                 + "EOL\n\n"
-                + "echo 'Instructions for the Multiwfn run are:'\n"
+                + "echo \'Instructions for the Multiwfn run are:\'\n"
                 + "cat ${mwfn_dir}/wfx2.txt\n\n"
                 + "cd $comp_dir\n\n"
                 + "# copy molden file to Multiwfn directory\n"
                 + "cp ${comp_dir}/${f}.molden ${mwfn_dir}/${f}.molden\n\n"
                 + "# Run the binary and create .47 file\n"
+                + "echo ''\n"
                 + "echo \'running Multiwfn:\'\n"
                 + "cd $mwfn_dir\n"
                 + "/bin/bash -c \'exec Multiwfn \'$f\'.molden < wfx2.txt > test.out\'\n\n"
                 + "# copy wfx file back to original directory\n"
                 + "rm ${mwfn_dir}/${f}.molden\n"
                 + "mv ${mwfn_dir}/${f}_mwfn.47 ${comp_dir}/${f}_mwfn.47\n"
-                + "echo \'Disregard the error message\'\n"
-                + "echo \'DONE. Files were moved to\' $comp_dir\'";
+                + "cd $comp_dir\n"
+                + "echo ''\n"
+                + "echo \'Disregard the error message: forrtl\'\n"
+                + "echo \'-----> DONE. Files were moved to\' $comp_dir";
 // </editor-fold>
 
 
@@ -389,7 +394,7 @@ public class Psi extends FXMLDocumentController {
             try {
                 // write bash file in the same directory
                 FileWriter fstreamWrite = new FileWriter(inp_dir
-                        + "/multiwfn.sh");
+                        + "/2aimwfx.sh");
                 BufferedWriter out = new BufferedWriter(fstreamWrite);
                 out.write(mwfnsh);
                 out.close();
@@ -402,7 +407,7 @@ public class Psi extends FXMLDocumentController {
         if (W47) {
             try {
                 // write bash file in the same directory
-                FileWriter fstreamWrite = new FileWriter(inp_dir + "/mwfn47.sh");
+                FileWriter fstreamWrite = new FileWriter(inp_dir + "/2mwfn47.sh");
                 BufferedWriter out = new BufferedWriter(fstreamWrite);
                 out.write(sh47);
                 out.close();

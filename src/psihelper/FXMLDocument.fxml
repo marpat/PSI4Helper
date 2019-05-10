@@ -102,7 +102,10 @@
                         <VBox layoutX="286.0" layoutY="228.0" prefHeight="135.0" prefWidth="107.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiFreeze" mnemonicParsing="false" text="Freeze Core" />
-                              <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM" />
+                              <CheckBox fx:id="PsiPuream" mnemonicParsing="false" text="PUREAM">
+                                 <tooltip>
+                                    <Tooltip text="Use spherical or cartesian basis set." />
+                                 </tooltip></CheckBox>
                               <CheckBox fx:id="NatOrb" mnemonicParsing="false" text="Nat_Orbitals">
                                  <tooltip>
                                     <Tooltip text="Write natural Orbital in Molden">
@@ -123,7 +126,7 @@
                            <children>
                               <CheckBox fx:id="PsiNocom" mnemonicParsing="false" text="no_com">
                                  <tooltip>
-                                    <Tooltip text="No recentering">
+                                    <Tooltip text="No re-centering.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -131,7 +134,10 @@
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="Psinoorient" mnemonicParsing="false" text="no_reorient">
                                  <tooltip>
-                                    <Tooltip text="Do not move coordinates." />
+                                    <Tooltip text="Do not move coordinates.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font></Tooltip>
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="PsiCp" mnemonicParsing="false" text="BSSE_cp">
                                  <tooltip>
@@ -162,7 +168,7 @@
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="PsiWfx" mnemonicParsing="false" text=".wfx" textFill="#007cc4">
                                  <tooltip>
-                                    <Tooltip text="Uses molden output.">
+                                    <Tooltip text="Uses .molden and Multiwfn conversion.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -206,7 +212,14 @@
                                     <Tooltip text="Alpha, beta, total, and spin density cubes will be created." />
                                  </tooltip>
                               </CheckBox>
-                              <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb" />
+                              <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb">
+                                 <tooltip>
+                                    <Tooltip text="Generate orbital cube files.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip></CheckBox>
                            </children>
                         </VBox>
                         <VBox layoutX="720.0" layoutY="455.0" prefHeight="70.0" prefWidth="84.0" spacing="8.0">
@@ -215,7 +228,10 @@
                               <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
                               <CheckBox fx:id="PsiJmol" mnemonicParsing="false" text="JmolLoc" textFill="#0a7cf2">
                                  <tooltip>
-                                    <Tooltip text="Create local cube .macro files" />
+                                    <Tooltip text="Create local cube .macro files">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font></Tooltip>
                                  </tooltip>
                               </CheckBox>
                            </children>
@@ -339,12 +355,12 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextField fx:id="PMwfn" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="340.0" />
+                        <TextField fx:id="PMwfn" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="340.0" promptText="/home/user/path-to-multiwfn" />
                         <Label layoutX="25.0" layoutY="14.0" text="Path to MultiWfn" />
                         <Label layoutX="25.0" layoutY="88.0" text="Path to Molden2Aim" />
                         <TextField fx:id="PM2aim" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="337.0" />
-                        <TextField fx:id="ShShell" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" promptText="#!/bin/bash" />
-                        <Label layoutX="25.0" layoutY="151.0" text="Shebang to shell (Linux)" />
+                        <TextField fx:id="ShShell" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" />
+                        <Label layoutX="25.0" layoutY="151.0" text="Reserved" />
                         <TextArea layoutX="437.0" layoutY="36.0" prefHeight="71.0" prefWidth="323.0" promptText="To  render  orbital/density  snapshots, add VMDPATH and ImageMagick  path to bashrc profile." />
                         <Label layoutX="437.0" layoutY="14.0" text="VMD" />
                      </children></AnchorPane>
