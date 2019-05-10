@@ -84,7 +84,7 @@ public class Options extends FXMLDocumentController {
         if (addoptions.length() == 0) {
             set_main = "";
         } else {
-            addoptions = addoptions.replaceAll(",", "\n");
+            addoptions = addoptions.replaceAll("',", "\n");
             set_main = addoptions; //opt.SetOptions.getText();
         }
         if (resprop.contains("ROTATION") || resprop.contains("OSCILATOR_STRENGTH")) {

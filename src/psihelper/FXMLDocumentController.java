@@ -175,7 +175,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckBox PsiCubeElf;
     @FXML
-    private TextField ShShell;
+    private TextField Baspth;
     @FXML
     private CheckBox PsiPyapi;
     @FXML
@@ -237,6 +237,7 @@ public class FXMLDocumentController implements Initializable {
     String psi_charge;
     String psi_multi;
     String memory;
+    String mybas ="";
     String cores;
     String psi_molcomment;
     String psi_geom;
@@ -285,7 +286,7 @@ public class FXMLDocumentController implements Initializable {
     String writewfx;
     String writemol2;
     String m2aim_path;
-    String ushell;
+    String mybaspth;
     String psi_cp;
     String psi_ther;
     String set_univ = "";
@@ -315,7 +316,7 @@ public class FXMLDocumentController implements Initializable {
             "RHF", "ROHF", "UHF", "CUHF", "RKS", "UKS", "TWOCON", "MCSCF", "GENERAL"
     );
     ObservableList<String> basisbox = FXCollections.observableArrayList(
-            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ", "def2-TZVP", "jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_CUSTOM", "mybas"
+            "STO-3G", "3-21G", "6-31G(d)", "6-31+G(d)", "6-311++G(d,p)", "cc-pVDZ", "cc-pVTZ", "cc-pVQZ", "def2-TZVP", "jun-cc-pVDZ", "aug-cc-pVDZ", "aug-cc-pVTZ", "cc-pCVTZ", "_ANOTHER", "mybas.gbs"
     );
     ObservableList<String> methodbox = FXCollections.observableArrayList(
             "HF", "DFT", "MP2", "CC2", "CCSD", "CCSD(T)", "MP4", "FNO-MP4", "OMP2", "SAPT0", "SAPT(dft)", "SAPT2", "SAPT2+(3)", "SAPT2+(3)dMP2", "F-SAPT", "SAPT-CT"
@@ -327,7 +328,7 @@ public class FXMLDocumentController implements Initializable {
             "DF", "DIRECT", "PK", "OUT_OF_CORE", "FAST_DF", "CD", "INDEPENDENT"
     );
     ObservableList<String> addoptbox = FXCollections.observableArrayList(
-            "CLEAR", "custom basis set", "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "df_scf_guess false", "SAPT-A", "SAPT(dft)", "SAPTx-CT", "fisapt_do_plot true"
+            "CLEAR", "another basis set", "my basis set", "geom_maxiter 25", "geom_maxiter 50", "geom_maxiter 100", "mp2_type conv", "mp_type df", "mcscf_type conv", "e_convergence 8", "d_convergence 10", "r_convergence 10", "g_convergence tight", "g_convergence verytight", "full_hess_every 1", "full_hess_every 5", "irc_direction back", "df_scf_guess false", "SAPT-A", "SAPT(dft)", "SAPTx-CT", "fisapt_do_plot true"
     );
     ObservableList<String> solventbox = FXCollections.observableArrayList(
             "None", "water", "dmso", "acetonitrile", "thf", "dcm", "benzene"
@@ -383,7 +384,7 @@ public class FXMLDocumentController implements Initializable {
                     psi_multi = props.getProperty("psi_multi");
                     mwfn_path = props.getProperty("Multiwfn");
                     m2aim_path = props.getProperty("Molden2Aim");
-                    ushell = props.getProperty("Shell#");
+                    mybaspth = props.getProperty("mybaspth");
                     extension = props.getProperty("extension");
 
                     InpDir.setText(inp_dir);
@@ -394,7 +395,7 @@ public class FXMLDocumentController implements Initializable {
                     PsiMulti.setText(psi_multi);
                     PMwfn.setText(mwfn_path);
                     PM2aim.setText(mwfn_path);
-                    ShShell.setText(ushell);
+                    Baspth.setText(mybaspth);
                     Extension.setText(extension);
                 } finally {
                     is.close();
@@ -403,15 +404,15 @@ public class FXMLDocumentController implements Initializable {
                 // Appropriate error handling here.
             }
         } else {
-            InpDir.setText("Set input file directory");
-            Filename.setText("Enter filename");
+            InpDir.setText(System.getProperty("user.home"));
+            Filename.setText("test");
             Memory.setText("2");
             Cores.setText("1");
             PsiCharge.setText("0");
             PsiMulti.setText("1");
             PMwfn.setText("Set path to Mwfn");
             PM2aim.setText("Set path to M2aim");
-            ShShell.setText("Set proper shebang");
+            Baspth.setText("Set directory of your custom basis sets");
             Extension.setText("inp");
         }
     }
@@ -427,7 +428,7 @@ public class FXMLDocumentController implements Initializable {
             props.setProperty("psi_multi", "" + PsiMulti.getText());
             props.setProperty("Multiwfn", "" + PMwfn.getText());
             props.setProperty("Molden2Aim", "" + PM2aim.getText());
-            props.setProperty("Shell#", "" + ShShell.getText());
+            props.setProperty("mybaspth", "" + Baspth.getText());
             props.setProperty("extension", "" + Extension.getText());
 
 //            String path = PsiHelper.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -569,8 +570,12 @@ public class FXMLDocumentController implements Initializable {
                 addoptions = SetOptions.getText() + "";
                 SetOptions.setText("");
                 break;
-            case "custom basis set":
-                addoptions = SetOptions.getText() + "'basis' : 'select _CUSTOM from Basis set and type_basis_set here',\n";
+            case "another basis set":
+                addoptions = SetOptions.getText() + "# Select _ANOTHER from the `Basis set` menu and type in one of the PSI4 basis sets.  Remove `e.g.,`\n'basis' : 'e.g., 6-311+G(2df,2p)',\n";
+                SetOptions.setText(addoptions);
+                break;
+            case "my basis set":
+                addoptions = SetOptions.getText() + "# Select `mybas.gbs` from the `Basis set` menu and enter filename\n# of your .gbs file without extension. Remove `e.g.,`.\n'basis' : 'e.g., mybs',\n";
                 SetOptions.setText(addoptions);
                 break;
             case "geom_maxiter 25":
@@ -719,69 +724,66 @@ public class FXMLDocumentController implements Initializable {
         switch (PsiBas.getValue()) {
             case "Basis Set":
                 psi_bas = "'basis' : 'STO-3G'";
-                link3 = "";
+                mybas = "";
                 break;
             case "STO-3G":
                 psi_bas = "'basis' : 'STO-3G'";
-                link3 = "";
+                mybas = "";
                 break;
             case "3-21G":
                 psi_bas = "'basis' : '3-21G'";
-                link3 = "";
+                mybas = "";
                 break;
             case "6-31G(d)":
                 psi_bas = "'basis' : '6-31G(d)'";
-                link3 = "";
+                mybas = "";
                 break;
             case "6-31+G(d)":
                 psi_bas = "'basis' : '6-31+G(d)'";
-                link3 = "";
+                mybas = "";
                 break;
             case "6-311++G(d,p)":
                 psi_bas = "'basis' : '6-311++G(d,p)'";
-                link3 = "";
+                mybas = "";
                 break;
             case "cc-pVDZ":
                 psi_bas = "'basis' : 'cc-pVDZ'";
-                link3 = "";
+                mybas = "";
                 break;
             case "cc-pVTZ":
                 psi_bas = "'basis' : 'cc-pVTZ'";
-                link3 = "";
+                mybas = "";
                 break;
             case "cc-pVQZ":
                 psi_bas = "'basis' : 'cc-pVQZ'";
-                link3 = "";
+                mybas = "";
                 break;
             case "def2-TZVP":
                 psi_bas = "'basis' : 'def2-TZVP'";
-                link3 = "";
+                mybas = "";
                 break;
             case "jun-cc-pVDZ":
                 psi_bas = "'basis' : 'jun-cc-pVDZ'";
-                link3 = "";
+                mybas = "";
                 break;
             case "aug-cc-pVDZ":
                 psi_bas = "'basis' : 'aug-cc-pVDZ'";
-                link3 = "";
+                mybas = "";
                 break;
             case "aug-cc-pVTZ":
                 psi_bas = "'basis' : 'aug-cc-pVTZ'";
-                link3 = "";
+                mybas = "";
                 break;
             case "cc-pCVTZ":
                 psi_bas = "'basis' : 'cc-pCVTZ'";
-                link3 = "";
+                mybas = "";
                 break;
-            case "_CUSTOM":
-                psi_bas = "'# basis' : 'enter from *More Options box and re-run'";
+            case "_ANOTHER":
+                psi_bas = "'# Select `another basis set`' : 'from `*More Options` menu and save the .inp file again.'";
                 break;
-            case "mybas"://TODO use my_bas and find where it goes
-                psi_bas = "mybas {\n"
-                        + "    assign aug-cc-pvdz\n"
-                        + "    assign f cc-pvdz\n"
-                        + "}";
-                link3 = "";
+            case "mybas.gbs":
+                psi_bas = "'# Select `my basis set`' : 'from `*More Options` menu and save the .inp file again.'";
+                mybas = "import os\n\nos.environ['PSIPATH'] += os.pathsep + os.pathsep.join(['" + mybaspth + "'])\n";
                 break;
         };
 //// </editor-fold>        
@@ -1416,7 +1418,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_47out, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, mybas, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_47out, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }

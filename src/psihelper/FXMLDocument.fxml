@@ -359,8 +359,8 @@
                         <Label layoutX="25.0" layoutY="14.0" text="Path to MultiWfn" />
                         <Label layoutX="25.0" layoutY="88.0" text="Path to Molden2Aim" />
                         <TextField fx:id="PM2aim" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="337.0" />
-                        <TextField fx:id="ShShell" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" />
-                        <Label layoutX="25.0" layoutY="151.0" text="Reserved" />
+                        <TextField fx:id="Baspth" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" promptText="/home/user/PSI4/mybasisf" />
+                        <Label layoutX="25.0" layoutY="151.0" text="Path to directory of custom basis sets" />
                         <TextArea layoutX="437.0" layoutY="36.0" prefHeight="71.0" prefWidth="323.0" promptText="To  render  orbital/density  snapshots, add VMDPATH and ImageMagick  path to bashrc profile." />
                         <Label layoutX="437.0" layoutY="14.0" text="VMD" />
                      </children></AnchorPane>

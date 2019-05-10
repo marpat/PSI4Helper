@@ -115,6 +115,7 @@ public class Psi extends FXMLDocumentController {
             String suff,
             String inp_dir,
             String memory,
+            String mybas,
             String cores,
             String molname,
             String psi_method,
@@ -235,12 +236,14 @@ public class Psi extends FXMLDocumentController {
         
        // if no molname entered use 'mol'
         molname = molname.length() > 0 ? molname : "mol";
+        mybas = mybas.length() > 0 ? mybas : "";
         
         // Very top section of PSI4 input file (START HERE ###)
         skeleton = "#! " + psi_molcomment + "\n\n"
                 + "memory " + memory + " GB\n"
                 + proc
                 + "import numpy as np" + "\n"
+                + mybas
                 + "\n";
         
         // Call and return geometry and options
