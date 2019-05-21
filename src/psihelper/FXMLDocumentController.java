@@ -1248,8 +1248,14 @@ public class FXMLDocumentController implements Initializable {
         }
         if (Psi47.isSelected()) {
             write47 = "YES";
-            //psi_puream = "'PUREAM': 'true'";
-            psi_47out = "m = NBOWriter(wfn)\nm.write('" + file_name + suff + ".47')";
+            psi_47out = "# Let's make sure that new output won't be appended to an older .47 file.\n"
+                    + "try:\n"
+                    + "    os.remove('" + file_name + suff + ".47')\n"
+                    + "except OSError as e:\n"
+                    + "    print (\"Warning: %s - %s.\" % (e.filename, e.strerror))\n"
+                    + "    print('Continuing ...')\n\n"
+                    + "m = NBOWriter(wfn)\n"
+                    + "m.write('" + file_name + suff + ".47')";
         } else {
             write47 = null;
             psi_47out = "";

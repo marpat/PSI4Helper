@@ -52,6 +52,7 @@ public class Geo extends FXMLDocumentController {
             String charge,
             String multi,
             String psi_geom,
+            String write47,
             String ingeo1,
             String ingeo2,
             String psi_point,
@@ -62,7 +63,7 @@ public class Geo extends FXMLDocumentController {
          *
          * the whole geometry section in {...} All inherited variables:
          * file_name, suff, inp_dir, memory, cores, molname, psi_method,
-         * psi_bas, psi_funct, opt_type, set_options, psi_molcomment,
+         * psi_bas, write47, psi_funct, opt_type, set_options, psi_molcomment,
          * psi_charge, psi_multi, psi_geom, psi_pubchem, psi_run, set_main,
          * set_alone, link2, ingeo1, ingeo2, psi_point
          */
@@ -82,6 +83,10 @@ public class Geo extends FXMLDocumentController {
            ingeo1 = "\nno_com\n";
            ingeo2 = "\nno_reorient\n";
            psi_point = "c1";
+        }
+        if ("YES".equals(write47)){
+           ingeo1 = "\nno_com\n";
+           ingeo2 = "\nno_reorient\n";
         }
         
         if (ingeo1.length() > 1) {

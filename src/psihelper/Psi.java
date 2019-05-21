@@ -243,11 +243,12 @@ public class Psi extends FXMLDocumentController {
                 + "memory " + memory + " GB\n"
                 + proc
                 + "import numpy as np" + "\n"
+                + "import os\n"
                 + mybas
                 + "\n";
         
         // Call and return geometry and options
-        geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, ingeo1,
+        geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, write47, ingeo1,
                 ingeo2, psi_point, psi_solvent, psi_sapt);
 
         // General Options section. Create an object first.

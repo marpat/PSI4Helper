@@ -92,7 +92,9 @@ public class Outputs extends FXMLDocumentController {
         String cubeorb;
         String psiprop = "";
         String psiloc = "";
+        String dip47 = "";
         String moloc;
+        String dipole47;
         String dipget;
         String eneget;
         String movecube;
@@ -242,17 +244,55 @@ public class Outputs extends FXMLDocumentController {
                 + "print_out('Boys Localized C_occ.')\n"
                 + "B_C_occ.print_out()\n";
 
+        // Get dipole integrals and append them to file .47
+        dipole47 = "# Get x,y,z-matrices of dipole integrals and append them to file .47\n"
+                + "mints = psi4.core.MintsHelper(wfn.basisset())\n"
+                + "nbf = mints.nbf()\n"
+                + "f=open('dip.dat','ab') # temporary file; will be deleted\n"
+                + "for i in range(3):\n"
+                + "    D = np.asmatrix(mints.ao_dipole()[i])\n"
+                + "    D[np.abs(D) < 1e-7] = 0\n"
+                + "    Di = D * -0.52917725 # Bohr radius in Ao\n"
+                + "    np.savetxt(f,Di, fmt='%6.7E')\n"
+                + "f.close()\n\n"
+                + "# Parse matrices and format them by five columns\n"
+                + "data = np.loadtxt('dip.dat')\n"
+                + "dipX = np.array(data[0:nbf, :]).flatten()\n"
+                + "dipY = np.array(data[nbf:2*nbf, :]).flatten()\n"
+                + "dipZ = np.array(data[2*nbf:2*nbf+nbf+1, :]).flatten()\n"
+                + "listdip = [dipX, dipY, dipZ]\n"
+                + "with open('dipR.dat',\"w\") as f:\n"
+                + "    FOR = []\n" 
+                + "    f.write(\" $DIPOLE\\n\")\n"
+                + "    for j in range(3):\n"
+                + "        for i in range(0, len(listdip[j].reshape(-1)), 5):\n"
+                + "            # print(listdip[j][i:i + 5])  # DEBUG point\n"
+                + "            FOR.append(listdip[j][i:i + 5])\n"
+                + "    FORfmt = [[\"{: 6.6E}\".format(v) for v in r] for r in FOR]\n"
+                + "    f.write(\"\\n\".join(\"  \".join(map(str, x)) for x in (FORfmt)))\n"
+                + "    f.write(\"\\n $END\\n\")\n"
+                + "f.close()\n\n"
+                + "# Append the text file to the main blocks of .47\n"
+                + "with open('" + file_name + suff + ".47', 'a') as outfile:\n"
+                + "    with open('dipR.dat') as infile:\n"
+                + "        outfile.write(infile.read())\n"
+                + "outfile.close()\n"
+                + "os.remove('dipR.dat')\n"
+                + "print('Dipole matrices generated and appended to file .47.')\n"
+                + "# Dipole processing ends-------\n"
+                + "\n\n";
+
         // Calculate and print total dipole
         dipget = "\n"
-                + "dipX = get_variable(\"CURRENT DIPOLE X\")\n"
-                + "dipY = get_variable(\"CURRENT DIPOLE Y\")\n"
-                + "dipZ = get_variable(\"CURRENT DIPOLE Z\")\n"
+                + "dipX = variable(\"CURRENT DIPOLE X\")\n"
+                + "dipY = variable(\"CURRENT DIPOLE Y\")\n"
+                + "dipZ = variable(\"CURRENT DIPOLE Z\")\n"
                 + "\n"
                 + "dipT = np.sqrt(np.square(dipX) + np.square(dipY) + np.square(dipZ))\n"
                 + "print(\"\\nTotal dipole: {0:.2f} D\\n\".format(dipT))";
 
         eneget = "\n"
-                + "eneT = get_variable(\"CURRENT ENERGY\")\n"
+                + "eneT = variable(\"CURRENT ENERGY\")\n"
                 + "print(\"\\nCurrent Energy: {0:.7f} a.u.\\n\".format(eneT))";
 
         //OpenBabel (writemol2 ==YES)
@@ -342,6 +382,12 @@ public class Outputs extends FXMLDocumentController {
         } else {
             psiloc = "";
         }
+        
+        if (psi_47out.length() > 0) {
+            dip47 = dipole47;
+        } else {
+            dip47 = "";
+        }
 
         outputsall = psi_ther + "\n"
                 + psi_moldenout + "\n"
@@ -351,6 +397,7 @@ public class Outputs extends FXMLDocumentController {
                 + cubes + "\n"
                 + psiprop + "\n"
                 + psiloc + "\n"
+                + dip47 + "\n"
                 + xyzout + "\n\n"
                 + movecube + "\n"
                 + jmol + "\n"

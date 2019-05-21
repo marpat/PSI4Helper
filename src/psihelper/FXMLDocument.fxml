@@ -160,7 +160,7 @@
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden" />
                               <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" textFill="#007cc4">
                                  <tooltip>
-                                    <Tooltip text="Write GENNBO .47 file.">
+                                    <Tooltip text="Write GENNBO .47 file. May need PUREAM=1.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -358,7 +358,7 @@
                         <TextField fx:id="PMwfn" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="340.0" promptText="/home/user/path-to-multiwfn" />
                         <Label layoutX="25.0" layoutY="14.0" text="Path to MultiWfn" />
                         <Label layoutX="25.0" layoutY="88.0" text="Path to Molden2Aim" />
-                        <TextField fx:id="PM2aim" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="337.0" />
+                        <TextField fx:id="PM2aim" layoutX="25.0" layoutY="105.0" prefHeight="25.0" prefWidth="337.0" promptText="/home/user/path-to-molden2aim" />
                         <TextField fx:id="Baspth" layoutX="25.0" layoutY="174.0" prefHeight="25.0" prefWidth="336.0" promptText="/home/user/PSI4/mybasisf" />
                         <Label layoutX="25.0" layoutY="151.0" text="Path to directory of custom basis sets" />
                         <TextArea layoutX="437.0" layoutY="36.0" prefHeight="71.0" prefWidth="323.0" promptText="To  render  orbital/density  snapshots, add VMDPATH and ImageMagick  path to bashrc profile." />
