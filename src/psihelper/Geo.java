@@ -72,8 +72,8 @@ public class Geo extends FXMLDocumentController {
         String molxyz = "";
         String geoall;
         String readxyz = "";
-        String nocom = "";
-        String noorient = "";
+        String nocom;
+        String noorient;
         String symm = "";
         String set_symm = "";
 
@@ -92,8 +92,14 @@ public class Geo extends FXMLDocumentController {
         if (ingeo1.length() > 1) {
             nocom = "True";
         }
+        else {
+            nocom = "False";
+        }
         if (ingeo2.length() > 1) {
             noorient = "True";
+        }
+        else {
+            noorient = "False";
         }
         if (psi_solvent.length() > 0 && psi_point.length() <1){
             psi_point = "c1";
@@ -108,11 +114,42 @@ public class Geo extends FXMLDocumentController {
         if (psi_geom.contains(".xyz")) {
             molxyz = "has xyz extension";
             readxyz = "# Reading in .xyz file\n"
-                    + "   qmol = qcbd.Molecule.init_with_xyz(" + "./" + molname + ".xyz, no_com=" + nocom + ", no_reorient=" + noorient + ")\n"
-                    + "   " + molname + " = geometry(qmol.create_psi4_string_from_molecule())\n"
-                    + "   " + molname + ".update_geometry()\n\n"
-                    + "   set_molecular_charge(" + charge + ")\n"
-                    + "   set_multiplicity(" + multi + ")\n"
+                    + "with open('" + "./" + molname + ".xyz', 'r') as myfile:\n"
+                    + "  fin = myfile.read()\n\n"
+                    + "fixcom = not "+ nocom +"\n"
+                    + "fixorient = not "+ noorient +"\n"
+                    + "qmol = qcdb.Molecule.from_string(fin, dtype='xyz+', fix_com = fixcom, fix_orientation = fixorient)\n"
+                    + "" + molname + " = geometry(qmol.create_psi4_string_from_molecule())\n"
+                    + "" + molname + ".update_geometry()\n\n"
+                    + "" + molname + ".set_molecular_charge(" + charge + ")\n"
+                    + "" + molname + ".set_multiplicity(" + multi + ")\n"
+                    + set_symm;
+
+        }
+        
+                if (psi_geom.contains(".mol2")) {        
+            molxyz = "has mol2 extension";
+            readxyz = "\nimport subprocess, sys, os, time\n"
+                    + "\n# Make sure that OpenBabel is installed in /usr/local/bin/ or it is in the PATH.\n"
+                    + "try:\n"
+                    + "    cmd = 'obabel -imol2 " + molname + ".mol2 -oxyz -O " + molname + "_inp.xyz -j -c\'\n"
+                    + "    p = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)\n"
+                    + "    print(\"Sybyl .mol2 file was read in.\")\n\n"
+                    + "except Exception as e:\n"
+                    + "    print(\"Type error when creating xyz file: \" + str(e))\n"
+                    + "    pass\n\n" 
+                    + "# Reading in .mol2 file using Babel\n"
+                    + "sleep(5)\n"
+                    + "print(\"Conversion to .xyz format was done, continuing ...\")"
+                    + "with open('" + "./" + molname + "_inp.xyz', 'r') as myfile:\n"
+                    + "  fin = myfile.read()\n\n"
+                    + "fixcom = not "+ nocom +"\n"
+                    + "fixorient = not "+ noorient +"\n"
+                    + "qmol = qcdb.Molecule.from_string(fin, dtype='xyz+', fix_com = fixcom, fix_orientation = fixorient)\n"
+                    + "" + molname + " = geometry(qmol.create_psi4_string_from_molecule())\n"
+                    + "" + molname + ".update_geometry()\n\n"
+                    + "" + molname + ".set_molecular_charge(" + charge + ")\n"
+                    + "" + molname + ".set_multiplicity(" + multi + ")\n"
                     + set_symm;
 
         }

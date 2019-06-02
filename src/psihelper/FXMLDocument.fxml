@@ -17,7 +17,7 @@
                <content>
                   <AnchorPane prefHeight="550.0" prefWidth="819.0">
                      <children>
-                        <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="120.0" prefWidth="375.0" promptText="Cartesian xyz or Z-matrix" />
+                        <TextArea fx:id="PsiGeom" layoutX="20.0" layoutY="94.0" prefHeight="120.0" prefWidth="375.0" promptText="Cartesian xyz like&#13;&#10; C   0.000000    0.000000    0.000000&#13;&#10; N   0.000000    0.000000    1.470000&#13;&#10; ....&#13;&#10; or Z-matrix " />
                         <TextField fx:id="PsiDescription" layoutX="22.0" layoutY="39.0" prefHeight="25.0" prefWidth="373.0">
                            <tooltip>
                               <Tooltip text="Description of the system and run (free text).">
@@ -72,7 +72,7 @@
                            </tooltip>
                         </TextField>
                         <Label layoutX="30.0" layoutY="14.0" text="Description" />
-                        <Label layoutX="421.0" layoutY="14.0" text="Type .xyz filename, molecule name, or PubChem ID" />
+                        <Label layoutX="421.0" layoutY="14.0" text="Type .xyz or .mol2 filename, molecule name, or PubChem ID" />
                         <Label layoutX="27.0" layoutY="73.0" text="System geometry" />
                         <Label layoutX="415.0" layoutY="235.0" text="Type or choose from *More Options ('set global')" />
                         <Label layoutX="639.0" layoutY="376.0" prefHeight="17.0" prefWidth="143.0" text="Range for CubeOrbitals">
@@ -160,7 +160,7 @@
                               <CheckBox fx:id="Moldenout" mnemonicParsing="false" text="Molden" />
                               <CheckBox fx:id="Psi47" mnemonicParsing="false" text="NBO .47" textFill="#007cc4">
                                  <tooltip>
-                                    <Tooltip text="Write GENNBO .47 file. May need PUREAM=1.">
+                                    <Tooltip text="Write GENNBO .47 file. May require PUREAM=1.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -176,7 +176,7 @@
                                  </tooltip></CheckBox>
                               <CheckBox fx:id="PsiMol2" mnemonicParsing="false" text=".mol2" textFill="#007cc4">
                                  <tooltip>
-                                    <Tooltip text="Requires Open Babel.">
+                                    <Tooltip text="Requires Open Babel in the PATH.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -185,7 +185,7 @@
                               </CheckBox>
                               <CheckBox fx:id="Properties" mnemonicParsing="false" text="OeProp">
                                  <tooltip>
-                                    <Tooltip text="Series of one-electron properties.">
+                                    <Tooltip text="A series of one-electron properties.">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -193,7 +193,7 @@
                                  </tooltip></CheckBox>
                            </children>
                         </VBox>
-                        <VBox layoutX="501.0" layoutY="402.0" prefHeight="127.0" prefWidth="124.0" spacing="8.0">
+                        <VBox layoutX="495.0" layoutY="402.0" prefHeight="127.0" prefWidth="124.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="Xyzout" mnemonicParsing="false" text="XYZ out" />
                               <CheckBox fx:id="Fchkout" mnemonicParsing="false" text="fchk out" />
@@ -205,11 +205,14 @@
                               <ChoiceBox fx:id="PsiProperties" prefHeight="25.0" prefWidth="105.0" />
                            </children>
                         </VBox>
-                        <VBox layoutX="660.0" layoutY="455.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
+                        <VBox layoutX="622.0" layoutY="447.0" prefHeight="56.0" prefWidth="59.0" spacing="8.0">
                            <children>
                               <CheckBox fx:id="PsiCubeDen" mnemonicParsing="false" text="Den">
                                  <tooltip>
-                                    <Tooltip text="Alpha, beta, total, and spin density cubes will be created." />
+                                    <Tooltip text="Alpha, beta, total, and spin density cubes will be created.">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font></Tooltip>
                                  </tooltip>
                               </CheckBox>
                               <CheckBox fx:id="PsiCubeOrb" mnemonicParsing="false" text="Orb">
@@ -222,13 +225,13 @@
                                  </tooltip></CheckBox>
                            </children>
                         </VBox>
-                        <VBox layoutX="720.0" layoutY="455.0" prefHeight="70.0" prefWidth="84.0" spacing="8.0">
+                        <VBox layoutX="676.0" layoutY="446.0" prefHeight="81.0" prefWidth="69.0" spacing="8.0">
                            <children>
-                              <CheckBox fx:id="PsiCubeEsp" mnemonicParsing="false" text="ESP" />
-                              <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" text="ELF" />
-                              <CheckBox fx:id="PsiJmol" mnemonicParsing="false" text="JmolLoc" textFill="#0a7cf2">
+                              <CheckBox fx:id="PsiCubeEsp" mnemonicParsing="false" prefHeight="17.0" prefWidth="48.0" text="ESP" />
+                              <CheckBox fx:id="PsiCubeElf" mnemonicParsing="false" prefHeight="17.0" prefWidth="44.0" text="ELF" />
+                              <CheckBox fx:id="PsiJmol" mnemonicParsing="false" prefHeight="17.0" prefWidth="73.0" text="JmolLoc" textFill="#0a7cf2">
                                  <tooltip>
-                                    <Tooltip text="Create local cube .macro files">
+                                    <Tooltip text="Move .macro files to local .jmol/macro directory.">
                                        <font>
                                           <Font size="13.0" />
                                        </font></Tooltip>
@@ -322,7 +325,7 @@
                                  </font></CheckBox>
                            </children>
                         </VBox>
-                        <Label layoutX="614.0" layoutY="508.0" prefHeight="17.0" prefWidth="96.0" text="ResProperties">
+                        <Label layoutX="604.0" layoutY="508.0" prefHeight="17.0" prefWidth="59.0" text="ResProp">
                            <tooltip>
                               <Tooltip text="Response Properties (CC CCSD).">
                                  <font>
@@ -331,6 +334,19 @@
                               </Tooltip>
                            </tooltip>
                         </Label>
+                        <VBox layoutX="731.0" layoutY="447.0" prefHeight="75.0" prefWidth="69.0">
+                           <children>
+                              <CheckBox fx:id="PsiCubeDua" mnemonicParsing="false" prefHeight="17.0" prefWidth="80.0" text="Dual_D">
+                                 <tooltip>
+                                    <Tooltip text="Dual Descriptor N_HOMO-M_LUMO">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Tooltip>
+                                 </tooltip>
+                              </CheckBox>
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
                </content>

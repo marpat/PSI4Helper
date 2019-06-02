@@ -175,6 +175,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckBox PsiCubeElf;
     @FXML
+    private CheckBox PsiCubeDua;
+    @FXML
     private TextField Baspth;
     @FXML
     private CheckBox PsiPyapi;
@@ -240,7 +242,7 @@ public class FXMLDocumentController implements Initializable {
     String mybas ="";
     String cores;
     String psi_molcomment;
-    String psi_geom;
+    String psi_geom = "";
     String molname;
     String psi_method;
     String psi_bas;
@@ -307,7 +309,7 @@ public class FXMLDocumentController implements Initializable {
     Separator separatorH = new Separator(Orientation.HORIZONTAL);
 
     ObservableList<String> examplesbox = FXCollections.observableArrayList(
-            "H-F", "Methylamine", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition", "HCN-HNC IRC examples at psi4/samples/opt-irc-2"
+            "H-F", "Methylamine", "Acrolein_XYZ", "Formamide_XYZ", "Formamide_zmat", "Formamide_zmatfull", "Form_zmat_plane", "NMF_zmat_plane", "cis_Difluoroethene", "trans_Difluoroethene", "Water dimer in Psi4 Examples (SAPT5)", "Formamide-water dimer", "Water PSI4 examples", "PSI4 SAPT for ethene*ethine", "TS of HN3*acetylene cycloaddition", "HCN-HNC IRC examples at psi4/samples/opt-irc-2"
     );
     ObservableList<String> addrunbox = FXCollections.observableArrayList(
             "CLEAR", "dertype 2", "dertype 1", "dertype energy", "BSSE_all"
@@ -1134,13 +1136,18 @@ public class FXMLDocumentController implements Initializable {
 // <editor-fold defaultstate="collapsed" desc="geometry PubChem">    
         if (PubChem.getText().length() == 0) {
             psi_geom = PsiGeom.getText();
-        } else if (!psi_geom.contains(".xyz")) {
+           } 
+        else if (!psi_geom.contains(".xyz") || !psi_geom.contains(".mol2")) {
             psi_geom = "pubchem: " + PubChem.getText();
             molname = PubChem.getText();
             MolName.setText(molname);
-        }
+           }
+        else {
+        System.err.println("Something is wrong.");
+        psi_geom = "Enter structure coordinates.";             } 
+        
         molname = MolName.getText();
-
+        // Continues on line 1318
 // </editor-fold>
 
 
@@ -1300,7 +1307,7 @@ public class FXMLDocumentController implements Initializable {
         }
         if (PsiJmol.isSelected()) {
             psi_jmolloc = "YES";
-            jmol_path = user_home + System.getProperty("file.separator")+ ".jmol"+System.getProperty("file.separator")+"macros";
+            jmol_path = user_home + System.getProperty("file.separator")+ ".jmol"+System.getProperty("file.separator")+"macros"+System.getProperty("file.separator");
         } else {
             psi_jmolloc = "NO";
             jmol_path = "./cubes";
@@ -1308,7 +1315,7 @@ public class FXMLDocumentController implements Initializable {
 // </editor-fold>
 
 // <editor-fold defaultstate="collapsed" desc="Set default variables">
-        if (psi_geom.contains(".xyz")) {
+        if (psi_geom.contains(".xyz") || psi_geom.contains(".mol2")) {
             String[] tokens = psi_geom.split("\\.(?=[^\\.]+$)");
             MolName.setText(tokens[0]);
             molname = MolName.getText();
@@ -1400,6 +1407,10 @@ public class FXMLDocumentController implements Initializable {
         }
         if (PsiCubeElf.isSelected()) {
             CubeProp = CubeProp + "'elf'";
+            psi_xyz = "YES";
+        }
+        if (PsiCubeDua.isSelected()) {
+            CubeProp = CubeProp + "'DUAL_DESCRIPTOR'";
             psi_xyz = "YES";
         }
         if (!PsiCubeOrb.isSelected()) {

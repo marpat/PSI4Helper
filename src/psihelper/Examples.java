@@ -48,6 +48,7 @@ public class Examples {
         String form3;
         String nmf;
         String waterpsi;
+        String acrolein;
         String eneine_sapt;
         String HCOHH2O;
         String waterdim;
@@ -74,6 +75,16 @@ public class Examples {
                 + "F   1   1.33   2  120.0  3  180.0\n"
                 + "F   2   1.33   1  120.0  3    0.0\n"
                 + "H   2   1.08   1  120.0  3  180.0";
+        
+        acrolein = "trans-acrolein at B3LYP/6-31+G(d)";
+        String Acrolein_XYZ =  "O   -1.719363326575   -0.110696954039    0.000168663477\n"
+                + "C    0.641320584024   -0.435269931168   -0.000015197324\n"
+                + "C   -0.597353683847    0.364143703921   -0.000005020303\n"
+                + "C    1.845927306179    0.153950135729   -0.000164026876\n"
+                + "H    0.522725264684   -1.516826836606    0.000097651755\n"
+                + "H   -0.450268535070    1.466488030678   -0.000100951248\n"
+                + "H    2.769699514532   -0.417647791526   -0.000182084863\n"
+                + "H    1.942740913692    1.238657499540   -0.000297659688";
 
         menh2_com = "Methylamine...RHF/3-21G//Pople-Gordon geometry";
         String Methylamine = 
@@ -255,6 +266,11 @@ public class Examples {
                 molret = tDifluoroethene;
                 comments = tdifethene_com;
                 molnm = "t-C2H2F2";
+                break;
+            case "Acrolein_XYZ":
+                molret = Acrolein_XYZ;
+                comments = acrolein;
+                molnm = "tacrolein";
                 break;
             case "Methylamine":
                 molret = Methylamine;
