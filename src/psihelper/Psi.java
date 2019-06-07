@@ -260,9 +260,11 @@ public class Psi extends FXMLDocumentController {
                 psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,
                 psi_sapt, set_univ, resprop, psi_irc);
 
+        // If optking to be used
+        
         Optking king = new Optking();
         optking = king.optking(psi_pyapi, king_options);
-       
+        
         Results calls = new Results();
         run = calls.results(psi_call, psi_method, psi_funct, psi_cp,
                 addrunopt, opt_freq, resprop);
