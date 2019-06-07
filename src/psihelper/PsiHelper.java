@@ -23,6 +23,7 @@ public class PsiHelper extends Application {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("Psihelper.css").toExternalForm());
+        // icon change here
         stage.getIcons().add(new Image("img/resources/psi4icoY.png"));
         stage.setTitle("PSI4 Helper");
         stage.setScene(scene);
