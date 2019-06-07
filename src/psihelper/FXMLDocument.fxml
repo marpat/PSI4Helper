@@ -410,6 +410,11 @@
                         <TextField layoutX="642.0" layoutY="81.0" prefHeight="25.0" prefWidth="52.0" promptText="2 xyz" />
                         <TextField layoutX="642.0" layoutY="123.0" prefHeight="25.0" prefWidth="52.0" promptText="3 y" />
                         <CheckBox layoutX="210.0" layoutY="185.0" mnemonicParsing="false" />
+                        <CheckBox fx:id="UseConstrains" layoutX="22.0" layoutY="17.0" mnemonicParsing="false" text="Use constrains ?" textFill="#fc0101">
+                           <tooltip>
+                              <Tooltip text="Check the box if the run has constrains" />
+                           </tooltip>
+                        </CheckBox>
                      </children>
                   </AnchorPane>
               </content>

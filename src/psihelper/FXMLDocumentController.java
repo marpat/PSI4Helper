@@ -173,6 +173,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private CheckBox PsiCubeDen;
     @FXML
+    private CheckBox UseConstrains;
+    @FXML
     private CheckBox PsiCubeOrb;
     @FXML
     private CheckBox PsiCubeEsp;
@@ -303,6 +305,7 @@ public class FXMLDocumentController implements Initializable {
     String psi_jmolloc;
     String jmol_path;
     String extension;
+    String useconstrains;
     // </editor-fold>   
 
     // <editor-fold defaultstate="collapsed" desc="Combo boxes">
@@ -1490,7 +1493,12 @@ public class FXMLDocumentController implements Initializable {
 
 // <editor-fold defaultstate="collapsed" desc="Other variables">
         mwfn_path = PMwfn.getText();
-
+        
+        if (UseConstrains.isSelected()) {
+            useconstrains = "YES";
+        } else {
+            useconstrains = "NO";
+        }
 // </editor-fold>
 
 
@@ -1503,7 +1511,7 @@ public class FXMLDocumentController implements Initializable {
 // Create an object first.
         Psi psi_main = new Psi();
         try {
-            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, mybas, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_47out, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension, king_options);
+            psi_conf = psi_main.Inputa(psi_pyapi, file_name, suff, inp_dir, memory, mybas, cores, molname, psi_method, psi_funct, psi_point, opt_type, psi_molcomment, psi_charge, psi_multi, psi_geom, psi_pubchem, psi_call, set_alone, link2, ingeo1, ingeo2, psi_freeze, psi_bas, psi_ref, psi_scftype, psi_puream, psi_natorb, psi_print, psi_prmos, psi_prbasis, psi_moldenout, psi_47out, psi_fchkout, psi_gdma, psi_xyz, addoptions, addrunopt, num_cube, CubeProp, psi_prop, psi_solvent, psi_local, mwfn_path, write47, writewfx, writemol2, psi_sapt, psi_cp, psi_ther, set_univ, opt_freq, resprop, psi_irc, jmol_path, psi_jmolloc, extension, king_options, useconstrains);
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
