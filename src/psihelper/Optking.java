@@ -1,6 +1,7 @@
 /*
  * Optking.java, part of the PsiHelper project
  * http://chemgplus.blogspot.com/
+ * Implementation of PSI4 optking options
  */
 package psihelper;
 
