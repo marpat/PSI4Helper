@@ -250,7 +250,7 @@ public class Psi extends FXMLDocumentController {
                 + mybas
                 + "\n";
         
-        // Call and return geometry and options
+// Geo Call and return geometry and options
         geo = Geo.Geosection(molname, psi_charge, psi_multi, psi_geom, write47, ingeo1,
                 ingeo2, psi_point, psi_solvent, psi_sapt);
 
@@ -261,7 +261,7 @@ public class Psi extends FXMLDocumentController {
                 psi_prbasis, opt_type, set_alone, addoptions, psi_solvent,
                 psi_sapt, set_univ, resprop, psi_irc);
 
-        // If optking to be used
+// Optking call to be used
 
         
         if (useconstrains.contains("YES")) {
@@ -271,10 +271,12 @@ public class Psi extends FXMLDocumentController {
             optking ="";
         }
         
+// Results call
         Results calls = new Results();
         run = calls.results(psi_call, psi_method, psi_funct, psi_cp,
                 addrunopt, opt_freq, resprop);
 
+// Outputs call
         Outputs outp = new Outputs();
         resout = outp.outputs(file_name, inp_dir, psi_moldenout, psi_47out, psi_fchkout, psi_gdma,
                 psi_xyz, molname, suff, num_cube, CubeProp, psi_prop, psi_local,

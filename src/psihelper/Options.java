@@ -136,6 +136,7 @@ public class Options extends FXMLDocumentController {
 
 // <editor-fold defaultstate="collapsed" desc="Checkboxes 2 [set_main]">
 // </editor-fold>
+// Options
         optionpart = psi_bas + ",\n"
                 + psi_ref + ",\n"
                 + psi_scftype + ",\n"

@@ -390,7 +390,7 @@ public class Outputs extends FXMLDocumentController {
         } else {
             dip47 = "";
         }
-
+// Outputs 
         outputsall = psi_ther + "\n"
                 + psi_moldenout + "\n"
                 + psi_47out + "\n"
